@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -21,6 +24,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        Optional<User> userOptional = UserRepository.findByEmail(request.getEmail());
+
+        if(userOptional.isPresent()){
+
+        }
         var user = User.builder()
                 .first_name(request.getFirst_name())
                 .last_name(request.getLast_name())

@@ -24,10 +24,10 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        Optional<User> userOptional = UserRepository.findByEmail(request.getEmail());
+        Optional<User> userOptional = repository.findByEmail(request.getEmail());
 
         if(userOptional.isPresent()){
-
+            throw new UsernameNotFoundException("Email already in use");
         }
         var user = User.builder()
                 .first_name(request.getFirst_name())

@@ -1,6 +1,9 @@
 package com.humam.security.auth;
 
 import com.humam.security.config.JwtService;
+import com.humam.security.token.Token;
+import com.humam.security.token.TokenRepository;
+import com.humam.security.token.TokenType;
 import com.humam.security.user.Role;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
@@ -22,6 +25,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
         Optional<User> userOptional = repository.findByEmail(request.getEmail());
@@ -37,14 +41,28 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
 
-        repository.save(user);
+        var savedUser = repository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
+
+        savedUserToken(savedUser, jwtToken);
+
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
 
+    }
+
+    private void savedUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
     }
 
     public AuthenticationResponse auth(AuthenticateRequest request) {
@@ -58,7 +76,7 @@ public class AuthenticationService {
             var user = repository.findByEmail(request.getEmail())
                     .orElseThrow();
             var jwtToken = jwtService.generateToken(user);
-
+            savedUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

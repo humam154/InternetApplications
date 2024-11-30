@@ -25,6 +25,7 @@ public class LogoutService implements LogoutHandler {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
+
         jwt = authHeader.substring(7);
 
         var token = tokenRepository.findByToken(jwt);

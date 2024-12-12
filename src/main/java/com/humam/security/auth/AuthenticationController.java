@@ -1,3 +1,4 @@
+
 package com.humam.security.auth;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ public class AuthenticationController {
             @RequestBody RegisterRequest request
     )
     {
-        return ResponseEntity.ok(service.register(request));
+        if(request.getPassword().length() > 8) {
+            return ResponseEntity.ok(service.register(request));
+        }
+        return ResponseEntity.unprocessableEntity().build();
     }
 
     @PostMapping("/authenticate")

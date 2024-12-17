@@ -21,13 +21,13 @@ public class RegisterRequest {
     private String last_name;
 
     @NotBlank(message = "email required")
-    @Email(message = "invalid email")
+    @Email(message = "invalid email format")
     private String email;
 
     @NotBlank(message = "password required")
     @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{9,}$",
-            message = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be more than 8 characters long"
+            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            message = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and at least 8 characters long"
     )
     private String password;
 }

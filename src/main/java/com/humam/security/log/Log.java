@@ -1,6 +1,6 @@
 package com.humam.security.log;
 
-import com.humam.security.file.File;
+import com.humam.security.file.FileData;
 import com.humam.security.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +24,7 @@ public class Log {
 
     @ManyToOne
     @JoinColumn(name = "file_id", nullable = false)
-    private File file;
+    private FileData file;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

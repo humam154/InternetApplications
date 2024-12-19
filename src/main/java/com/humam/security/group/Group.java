@@ -1,7 +1,7 @@
 package com.humam.security.group;
 
 import com.humam.security.user.User;
-import com.humam.security.file.File;
+import com.humam.security.file.FileData;
 import com.humam.security.invite.Invite;
 import com.humam.security.groupmember.GroupMember;
 import jakarta.persistence.*;
@@ -29,7 +29,7 @@ public class Group {
     private User createdBy;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files;
+    private List<FileData> files;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMember> groupMembers;

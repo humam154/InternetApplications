@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FileRepository extends JpaRepository<File, Integer> {
-    List<File> findByGroupId(Integer groupId);
-    List<File> findByCreatedById(Integer userId);
+public interface FileRepository extends JpaRepository<FileData, Integer> {
+    List<FileData> findByGroupId(Integer groupId);
+    List<FileData> findByCreatedById(Integer userId);
 }

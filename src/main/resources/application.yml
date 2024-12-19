@@ -13,7 +13,14 @@ spring:
               format_sql: true
         database: mysql
         database-platform: org.hibernate.dialect.MySQL8Dialect
-
+    servlet:
+        multipart:
+            file-size-threshold:
+                2KB
+            max-file-size:
+                50MB
+            max-request-size:
+                65MB
 server:
     error:
         include-message: always

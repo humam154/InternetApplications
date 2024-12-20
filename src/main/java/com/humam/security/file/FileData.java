@@ -34,4 +34,9 @@ public class FileData {
     // default value = false
     @Column(nullable = false)
     private Boolean accepted = false;
+
+
+    // default value = false
+    @Column(nullable = false)
+    private Boolean in_use = false;
 }

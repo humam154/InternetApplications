@@ -15,14 +15,11 @@ public class FileCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "in_use", nullable = false)
-    private Boolean inUse;
-
     @ManyToOne
     @JoinColumn(name = "checked_by", nullable = false)
     private com.humam.security.user.User checkedBy;
 
     @ManyToOne
     @JoinColumn(name = "file_id", nullable = false)
-    private FileData file;
+    private FileData fileId;
 }

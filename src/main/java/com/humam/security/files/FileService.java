@@ -54,6 +54,7 @@ public class FileService {
             .createdBy(user)
             .group(group)
             .accepted(false)
+            .in_use(false)
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
@@ -71,6 +72,8 @@ public class FileService {
         Path filePath = Path.of(existingFile.getFilePath());
         Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
+        // when a user updates a file, it's unlocked (discussion needed)
+        existingFile.setIn_use(false);
         repository.save(existingFile);
         return "File updated successfully: " + existingFile.getName();
     }
@@ -78,6 +81,10 @@ public class FileService {
     public Resource downloadFile(Integer id) throws IOException {
         FileData fileData = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("File not found"));
+
+        // when a user downloads a file, it's locked (discussion needed)
+        fileData.setIn_use(true);
+        repository.save(fileData);
 
         Path filePath = Paths.get(fileData.getFilePath()).toAbsolutePath();
         Resource resource = new UrlResource(filePath.toUri());

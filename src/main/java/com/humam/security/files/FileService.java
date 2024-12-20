@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +57,22 @@ public class FileService {
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
+    }
+
+    public String updateFile(Integer fileId, MultipartFile multipartFile) throws IOException {
+        
+        FileData existingFile = repository.findById(fileId)
+                .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
+
+        if (multipartFile.isEmpty()) {
+            throw new IllegalArgumentException("File is empty");
+        }
+
+        Path filePath = Path.of(existingFile.getFilePath());
+        Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        repository.save(existingFile);
+        return "File updated successfully: " + existingFile.getName();
     }
 
     public Resource downloadFile(Integer id) throws IOException {

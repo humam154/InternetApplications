@@ -1,7 +1,5 @@
 package com.humam.security.files;
 
-import java.io.IOException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/v1/files")
@@ -36,9 +38,21 @@ public class FileController {
         }
     }
 
+    @GetMapping("/download")
+    public ResponseEntity<Resource> handleFileDownload(@RequestParam("fileId") Integer fileId) {
+        try {
+            Resource file = fileService.downloadFile(fileId);
+
+            return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
 }
-

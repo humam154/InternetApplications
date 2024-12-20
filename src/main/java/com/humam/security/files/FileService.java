@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,7 +43,7 @@ public class FileService {
 
         Path targetPath = Paths.get(folderPath).normalize();
         Files.createDirectories(targetPath);
-        
+
         Path filePath = targetPath.resolve(file.getOriginalFilename());
         file.transferTo(filePath.toFile());
 
@@ -58,5 +55,19 @@ public class FileService {
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
+    }
+
+    public Resource downloadFile(Integer id) throws IOException {
+        FileData fileData = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("File not found"));
+
+        Path filePath = Paths.get(fileData.getFile()).toAbsolutePath();
+        Resource resource = new UrlResource(filePath.toUri());
+
+        if (resource.exists() && resource.isReadable()) {
+            return resource;
+        } else {
+            throw new StorageException("Could not read file: " + filePath.toString());
+        }
     }
 }

@@ -49,9 +49,10 @@ public class FileService {
 
         FileData fileData = repository.save(FileData.builder()
             .name(file.getOriginalFilename())
-            .file(filePath.toString())
+            .filePath(filePath.toString())
             .createdBy(user)
             .group(group)
+            .accepted(false)
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
@@ -61,7 +62,7 @@ public class FileService {
         FileData fileData = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("File not found"));
 
-        Path filePath = Paths.get(fileData.getFile()).toAbsolutePath();
+        Path filePath = Paths.get(fileData.getFilePath()).toAbsolutePath();
         Resource resource = new UrlResource(filePath.toUri());
 
         if (resource.exists() && resource.isReadable()) {

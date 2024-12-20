@@ -17,12 +17,11 @@ public class FileData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 55)
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Lob
-    @Column(nullable = false)
-    private String file;
+    @Column(nullable = false, length = 512)
+    private String filePath;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
@@ -31,4 +30,8 @@ public class FileData {
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
+
+    // default value = false
+    @Column(nullable = false)
+    private Boolean accepted = false;
 }

@@ -41,6 +41,8 @@ public class FileService {
             throw new StorageException("Failed to store empty file.");
         }
 
+
+        token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token).get().getUser();
 
         Group group = groupRepository.findById(groupId)
@@ -70,6 +72,7 @@ public class FileService {
         FileData existingFile = repository.findById(fileId)
                 .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
         
+        token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token).get().getUser();
 
         FileCheck fileCheck = fileCheckRepository.save(FileCheck.builder()
@@ -117,6 +120,10 @@ public class FileService {
     public Resource downloadFile(Integer id) throws IOException {
         FileData fileData = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("File not found"));
+
+        if(fileData.getIn_use()){
+            throw new StorageException("File already in use");
+        }
 
         // when a user downloads a file, it's locked (discussion needed)
         fileData.setIn_use(true);

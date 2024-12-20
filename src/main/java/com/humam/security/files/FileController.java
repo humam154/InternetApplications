@@ -30,7 +30,6 @@ public class FileController {
     public ResponseEntity<String> handleFileUpload(
         @RequestHeader("Authorization") String token,
         @RequestParam("file") MultipartFile file,
-        @RequestParam("userId") Integer userId,
         @RequestParam("groupId") Integer groupId
     ) {
         try {
@@ -50,6 +49,24 @@ public class FileController {
         String message = fileService.updateFile(id, file, token);
         return ResponseEntity.ok(message);
     }
+
+
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<String> acceptFile(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Integer id
+    ) throws IOException {
+        String message = fileService.acceptFile(id);
+        return ResponseEntity.ok(message);
+    }
+
+
+    @PutMapping("/reject/{id}")
+    public ResponseEntity<String> rejectFile(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Integer id
+    ) throws IOException {
+        String message = fileService.rejectFile(id);
         return ResponseEntity.ok(message);
     }
 

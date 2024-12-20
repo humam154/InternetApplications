@@ -66,7 +66,7 @@ public class FileService {
 
     public String updateFile(Integer fileId, MultipartFile multipartFile, String token) throws IOException {
        
-        
+
         FileData existingFile = repository.findById(fileId)
                 .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
         
@@ -88,6 +88,30 @@ public class FileService {
         existingFile.setIn_use(false);
         repository.save(existingFile);
         return "File updated successfully: " + existingFile.getName();
+    }
+
+    public String acceptFile(Integer fileId){
+        FileData fileData = repository.findById(fileId)
+        .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
+
+        fileData.setAccepted(true);
+
+        return "Accepted file successfully!";
+    }
+
+    public String rejectFile(Integer fileId){
+        FileData fileData = repository.findById(fileId)
+        .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
+
+        repository.delete(fileData);
+
+        return "Rejected file and deleted successfully!";
+    }
+
+    // a switch to update file status, useful for buttons
+    public void changeFileStatus(FileData file){
+        file.setIn_use(!file.getIn_use());
+        repository.save(file);
     }
 
     public Resource downloadFile(Integer id) throws IOException {

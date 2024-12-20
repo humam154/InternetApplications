@@ -10,10 +10,13 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.humam.security.file.FileCheck;
+import com.humam.security.file.FileCheckRepository;
 import com.humam.security.file.FileData;
 import com.humam.security.file.FileRepository;
 import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
+import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 
@@ -26,18 +29,19 @@ import org.springframework.core.io.UrlResource;
 public class FileService {
 
     private final FileRepository repository;
+    private final FileCheckRepository fileCheckRepository;
+    private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
 
-    public String uploadFile(MultipartFile file, Integer userId, Integer groupId) throws IOException {
+    public String uploadFile(MultipartFile file, String token, Integer groupId) throws IOException {
         String folderPath = System.getProperty("user.dir") + "/public" + File.separator;
 
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
         }
 
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = tokenRepository.findByToken(token).get().getUser();
 
         Group group = groupRepository.findById(groupId)
             .orElseThrow(() -> new IllegalArgumentException("Group not found"));
@@ -60,10 +64,18 @@ public class FileService {
         return "File uploaded successfully: " + fileData.getName();
     }
 
-    public String updateFile(Integer fileId, MultipartFile multipartFile) throws IOException {
+    public String updateFile(Integer fileId, MultipartFile multipartFile, String token) throws IOException {
+       
         
         FileData existingFile = repository.findById(fileId)
                 .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
+        
+        User user = tokenRepository.findByToken(token).get().getUser();
+
+        FileCheck fileCheck = fileCheckRepository.save(FileCheck.builder()
+        .checkedBy(user)
+        .fileId(existingFile)
+        .build());
 
         if (multipartFile.isEmpty()) {
             throw new IllegalArgumentException("File is empty");

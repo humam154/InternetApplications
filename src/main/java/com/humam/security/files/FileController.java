@@ -34,7 +34,7 @@ public class FileController {
         @RequestParam("groupId") Integer groupId
     ) {
         try {
-            String message = fileService.uploadFile(file, userId, groupId);
+            String message = fileService.uploadFile(file, token, groupId);
             return ResponseEntity.ok(message);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
@@ -47,7 +47,9 @@ public class FileController {
             @PathVariable Integer id,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        String message = fileService.updateFile(id, file);
+        String message = fileService.updateFile(id, file, token);
+        return ResponseEntity.ok(message);
+    }
         return ResponseEntity.ok(message);
     }
 

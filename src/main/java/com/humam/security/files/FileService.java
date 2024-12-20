@@ -20,6 +20,8 @@ import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +32,7 @@ public class FileService {
     private final GroupRepository groupRepository;
 
     public String uploadFile(MultipartFile file, Integer userId, Integer groupId) throws IOException {
-
-        String folderPath = System.getProperty("user.dir") + "/public" + File.separator + file.getOriginalFilename(); ;
+        String folderPath = System.getProperty("user.dir") + "/public" + File.separator;
 
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
@@ -43,8 +44,7 @@ public class FileService {
         Group group = groupRepository.findById(groupId)
             .orElseThrow(() -> new IllegalArgumentException("Group not found"));
 
-        Path projectDir = Paths.get("").toAbsolutePath();
-        Path targetPath = projectDir.resolve(folderPath).normalize();
+        Path targetPath = Paths.get(folderPath).normalize();
         Files.createDirectories(targetPath);
         
         Path filePath = targetPath.resolve(file.getOriginalFilename());

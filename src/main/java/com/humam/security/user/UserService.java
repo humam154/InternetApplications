@@ -30,4 +30,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
+
+    public void updateProfile(UpdateProfileRequest request, Principal connectedUser) {
+
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        user.setFirst_name(request.getFirst_name() != null ? request.getFirst_name() : user.getFirst_name());
+        user.setLast_name(request.getLast_name() != null ? request.getLast_name() : user.getLast_name());
+        user.setEmail(request.getEmail() != null ? request.getEmail() : user.getEmail());
+
+        userRepository.save(user);
+    }
 }

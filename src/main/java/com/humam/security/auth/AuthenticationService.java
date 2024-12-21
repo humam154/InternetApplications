@@ -37,7 +37,7 @@ public class AuthenticationService {
                 .last_name(request.getLast_name())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
 
         var savedUser = repository.save(user);
@@ -48,6 +48,9 @@ public class AuthenticationService {
 
 
         return AuthenticationResponse.builder()
+                .first_name(user.getFirst_name())
+                .last_name(user.getLast_name())
+                .email(user.getEmail())
                 .token(jwtToken)
                 .build();
 
@@ -67,7 +70,12 @@ public class AuthenticationService {
 
             revokeAllUserTokens(user);
             saveUserToken(user, jwtToken);
+
+
         return AuthenticationResponse.builder()
+                .first_name(user.getFirst_name())
+                .last_name(user.getLast_name())
+                .email(user.getEmail())
                 .token(jwtToken)
                 .build();
     }

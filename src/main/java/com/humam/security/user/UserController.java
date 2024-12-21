@@ -1,5 +1,6 @@
 package com.humam.security.user;
 
+import com.humam.security.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +15,22 @@ public class UserController {
     private final UserService service;
 
     @PatchMapping("/change")
-    public ResponseEntity<?> changePassword(
+    public ResponseEntity<Object> changePassword(
             @RequestBody ChangePasswordRequest request,
             Principal connectedUser
     )
     {
-        service.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
+        var response = service.changePassword(request, connectedUser);
+        return ResponseUtil.success("password changed", response);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateProfile(
+    public ResponseEntity<Object> updateProfile(
             @RequestBody UpdateProfileRequest request,
             Principal connectedUser
     )
     {
-        service.updateProfile(request, connectedUser);
-        return ResponseEntity.ok().build();
+        var response = service.updateProfile(request, connectedUser);
+        return ResponseUtil.success("profile updated", response);
     }
 }

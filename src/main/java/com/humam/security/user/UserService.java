@@ -1,5 +1,9 @@
 package com.humam.security.user;
 
+import com.humam.security.config.JwtService;
+import com.humam.security.token.Token;
+import com.humam.security.token.TokenRepository;
+import com.humam.security.token.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,9 +17,10 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final JwtService jwtService;
+    private final TokenRepository tokenRepository;
 
-
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
@@ -29,9 +34,20 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+
+        return ChangePasswordResponse.builder()
+                .first_name(user.getFirst_name())
+                .last_name(user.getLast_name())
+                .email(user.getEmail())
+                .token(jwtToken)
+                .build();
     }
 
-    public void updateProfile(UpdateProfileRequest request, Principal connectedUser) {
+    public UpdateProfileResponse updateProfile(UpdateProfileRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
@@ -40,5 +56,36 @@ public class UserService {
         user.setEmail(request.getEmail() != null ? request.getEmail() : user.getEmail());
 
         userRepository.save(user);
+
+        return UpdateProfileResponse.builder()
+                .first_name(user.getFirst_name())
+                .last_name(user.getLast_name())
+                .email(user.getEmail())
+                .build();
     }
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
+        if(validUserTokens.isEmpty()){
+            return;
+        }
+        validUserTokens.forEach(t -> {
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+
+        tokenRepository.saveAll(validUserTokens);
+    }
+
+    private void saveUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
 }

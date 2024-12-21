@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -29,22 +33,22 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(
         @RequestHeader("Authorization") String token,
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("groupId") Integer groupId
+        @Valid @ModelAttribute UploadRequest request
     ) {
         try {
-            String message = fileService.uploadFile(file, token, groupId);
+            String message = fileService.uploadFile(token, request);
             return ResponseEntity.ok(message);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
 
+
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateFile(
             @RequestHeader("Authorization") String token,
-            @PathVariable Integer id,
-            @RequestParam("file") MultipartFile file
+            @PathVariable @NotNull @Min(1) Integer id,
+            @RequestParam("file") @NotNull MultipartFile file
     ) throws IOException {
         String message = fileService.updateFile(id, file, token);
         return ResponseEntity.ok(message);
@@ -54,7 +58,7 @@ public class FileController {
     @PutMapping("/accept/{id}")
     public ResponseEntity<String> acceptFile(
             @RequestHeader("Authorization") String token,
-            @PathVariable Integer id
+            @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
         String message = fileService.acceptFile(id);
         return ResponseEntity.ok(message);

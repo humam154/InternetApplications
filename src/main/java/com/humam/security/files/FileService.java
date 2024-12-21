@@ -20,6 +20,7 @@ import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 
+import com.humam.security.files.UploadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -31,21 +32,21 @@ public class FileService {
     private final FileRepository repository;
     private final FileCheckRepository fileCheckRepository;
     private final TokenRepository tokenRepository;
-    private final UserRepository userRepository;
     private final GroupRepository groupRepository;
 
-    public String uploadFile(MultipartFile file, String token, Integer groupId) throws IOException {
+    public String uploadFile(String token, UploadRequest request) throws IOException {
         String folderPath = System.getProperty("user.dir") + "/public" + File.separator;
 
+        MultipartFile file = request.getFile();
+        
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
         }
 
-
         token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token).get().getUser();
 
-        Group group = groupRepository.findById(groupId)
+        Group group = groupRepository.findById(request.getGroupId())
             .orElseThrow(() -> new IllegalArgumentException("Group not found"));
 
         Path targetPath = Paths.get(folderPath).normalize();

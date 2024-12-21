@@ -1,11 +1,15 @@
 package com.humam.security.files;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +23,10 @@ import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
-import com.humam.security.user.UserRepository;
 
-import com.humam.security.files.UploadRequest;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
@@ -74,14 +78,6 @@ public class FileService {
 
         FileData existingFile = repository.findByIdForUpdate(fileId)
                 .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
-        
-        token = token.replaceFirst("^Bearer ", "");
-        User user = tokenRepository.findByToken(token).get().getUser();
-
-        FileCheck fileCheck = fileCheckRepository.save(FileCheck.builder()
-        .checkedBy(user)
-        .fileId(existingFile)
-        .build());
 
         if (multipartFile.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
@@ -145,5 +141,48 @@ public class FileService {
         } else {
             throw new StorageException("Could not read file: " + filePath.toString());
         }
+    }
+
+
+    @Transactional
+    public Resource processAndPrepareZip(List<Integer> fileIds, String token) throws IOException {
+        
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+
+        List<FileData> files = repository.findAllNotInUseByIds(fileIds);
+
+        if (files.size() != fileIds.size()) {
+            throw new IllegalArgumentException("Some files are currently in use.");
+        }
+
+        for(FileData file : files){
+            changeFileStatus(file);
+
+            fileCheckRepository.save(FileCheck.builder()
+            .checkedBy(user)
+            .fileId(file)
+            .build());
+
+        }
+
+        return createZipFromFiles(files);
+    }
+
+
+    private ByteArrayResource createZipFromFiles(List<FileData> files) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+            for (FileData file : files) {
+                Path filePath = Paths.get(file.getFilePath());
+                ZipEntry zipEntry = new ZipEntry(file.getName());
+                zipOutputStream.putNextEntry(zipEntry);
+                Files.copy(filePath, zipOutputStream);
+                zipOutputStream.closeEntry();
+            }
+        }
+        return new ByteArrayResource(byteArrayOutputStream.toByteArray());
     }
 }

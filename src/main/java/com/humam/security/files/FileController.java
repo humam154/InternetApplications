@@ -50,7 +50,7 @@ public class FileController {
             @PathVariable @NotNull @Min(1) Integer id,
             @RequestParam("file") @NotNull MultipartFile file
     ) throws IOException {
-        String message = fileService.updateFile(id, file, token);
+        String message = fileService.updateFile(id, file);
         return ResponseEntity.ok(message);
     }
 
@@ -74,10 +74,14 @@ public class FileController {
         return ResponseEntity.ok(message);
     }
 
+
     @GetMapping("/download")
-    public ResponseEntity<Resource> handleFileDownload(@RequestParam("fileId") Integer fileId) {
+    public ResponseEntity<Resource> handleFileDownload(
+        @RequestHeader("Authorization") String token,
+        @RequestParam("fileId") Integer fileId
+        ) {
         try {
-            Resource file = fileService.downloadFile(fileId);
+            Resource file = fileService.downloadFile(fileId, token);
 
             return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")

@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.humam.security.file.FileCheck;
@@ -67,10 +68,11 @@ public class FileService {
         return "File uploaded successfully: " + fileData.getName();
     }
 
-    public String updateFile(Integer fileId, MultipartFile multipartFile, String token) throws IOException {
+    @Transactional
+    public String updateFile(Integer fileId, MultipartFile multipartFile) throws IOException {
        
 
-        FileData existingFile = repository.findById(fileId)
+        FileData existingFile = repository.findByIdForUpdate(fileId)
                 .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
         
         token = token.replaceFirst("^Bearer ", "");
@@ -88,9 +90,7 @@ public class FileService {
         Path filePath = Path.of(existingFile.getFilePath());
         Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // when a user updates a file, it's unlocked (discussion needed)
-        existingFile.setIn_use(false);
-        repository.save(existingFile);
+        changeFileStatus(existingFile);
         return "File updated successfully: " + existingFile.getName();
     }
 
@@ -118,7 +118,9 @@ public class FileService {
         repository.save(file);
     }
 
-    public Resource downloadFile(Integer id) throws IOException {
+    @Transactional
+    public Resource downloadFile(Integer id, String token) throws IOException {
+
         FileData fileData = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("File not found"));
 
@@ -126,9 +128,14 @@ public class FileService {
             throw new StorageException("File already in use");
         }
 
-        // when a user downloads a file, it's locked (discussion needed)
-        fileData.setIn_use(true);
-        repository.save(fileData);
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token).get().getUser();
+
+        FileCheck fileCheck = fileCheckRepository.save(FileCheck.builder()
+        .checkedBy(user)
+        .fileId(fileData)
+        .build());
+        changeFileStatus(fileData);
 
         Path filePath = Paths.get(fileData.getFilePath()).toAbsolutePath();
         Resource resource = new UrlResource(filePath.toUri());

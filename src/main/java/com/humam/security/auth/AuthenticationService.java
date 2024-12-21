@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.humam.security.user.Role.*;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -37,7 +39,7 @@ public class AuthenticationService {
                 .last_name(request.getLast_name())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(USER)
                 .build();
 
         var savedUser = repository.save(user);

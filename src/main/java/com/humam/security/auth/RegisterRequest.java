@@ -31,6 +31,4 @@ public class RegisterRequest {
             message = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and at least 8 characters long"
     )
     private String password;
-
-    private Role role;
 }

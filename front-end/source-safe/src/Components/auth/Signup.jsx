@@ -8,6 +8,7 @@ const Signup = () => {
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirm_password, setCPassword] = useState('');
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
@@ -15,7 +16,12 @@ const Signup = () => {
         e.preventDefault();
         setError('');
 
-        const apiUrl = `http://localhost:8080/api/v1/auth/register`;
+        if (password !== confirm_password) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        const apiUrl = `${import.meta.env.VITE_API_URL}/auth/register`;
 
         try {
             const response = await fetch(apiUrl, {
@@ -26,9 +32,13 @@ const Signup = () => {
                 body: JSON.stringify({ first_name, last_name, email, password }),
             });
 
+            const responseData = await response.json();
+
             if (!response.ok) {
-                throw new Error('Login failed. Please check your credentials.');
+                const errorMessage = responseData.message ;
+                throw new Error(errorMessage);
             }
+
 
             const data = await response.json();
             console.log('Login successful:', data);
@@ -53,7 +63,7 @@ const Signup = () => {
                         className={styles.fname}
                         type="text" 
                         placeholder='First Name' 
-                        value={email} 
+                        value={first_name} 
                         onChange={(e) => setFirstName(e.target.value)} 
                         required 
                     />
@@ -61,7 +71,7 @@ const Signup = () => {
                         className={styles.lname}
                         type="text" 
                         placeholder='Last Name' 
-                        value={email} 
+                        value={last_name} 
                         onChange={(e) => setLastName(e.target.value)} 
                         required 
                     />
@@ -98,8 +108,8 @@ const Signup = () => {
                         id='password'
                         type= {showPassword ? "text" : "password"} 
                         placeholder='Confirm Password' 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
+                        value={confirm_password} 
+                        onChange={(e) => setCPassword(e.target.value)} 
                         required 
                         
                     />

@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
-        const apiUrl = `http://localhost:8080/api/v1/auth/authenticate`;
+        const apiUrl = `${import.meta.env.VITE_API_URL}/auth/authenticate`;
 
         try {
             const response = await fetch(apiUrl, {
@@ -23,9 +23,11 @@ const Login = () => {
                 },
                 body: JSON.stringify({ email, password }),
             });
+            const responseData = await response.json();
 
             if (!response.ok) {
-                throw new Error('Login failed. Please check your credentials.');
+                const errorMessage = responseData.message || 'Login failed. Please try again.';
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();

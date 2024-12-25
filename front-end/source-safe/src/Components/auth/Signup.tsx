@@ -12,7 +12,7 @@ const Signup = () => {
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:  React.FormEvent) => {
         e.preventDefault();
         setError('');
 
@@ -42,15 +42,17 @@ const Signup = () => {
 
             const data = await response.json();
             console.log('Login successful:', data);
-        } catch (err) {
+        } catch (err: any) {
             setError(err.message);
         }
     };
 
-    function focusInput() {
-        document.getElementById("password").focus();
-    } 
-
+    function focusInput(): void {
+        const passwordInput = document.getElementById("password") as HTMLInputElement;
+        if (passwordInput) {
+            passwordInput.focus();
+        }
+    }
     return (
         <div className={styles.container}>
             <div className={styles.header}>

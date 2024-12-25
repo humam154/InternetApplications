@@ -1,45 +1,33 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { loginUser } from '../../Services/authService';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+const Login: React.FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/auth/authenticate`;
-
         try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                const errorMessage = responseData.message || 'Login failed. Please try again.';
-                throw new Error(errorMessage);
-            }
-
-            const data = await response.json();
-            console.log('Login successful:', data);
-        } catch (err) {
+            const responseData = await loginUser(email, password);
+            console.log('Login successful:', responseData);
+        } catch (err: any) {
             setError(err.message);
         }
     };
 
-    function focusInput() {
-        document.getElementById("password").focus();
-    } 
+    function focusInput(): void {
+        const passwordInput = document.getElementById("password") as HTMLInputElement;
+        if (passwordInput) {
+            passwordInput.focus();
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -62,18 +50,19 @@ const Login = () => {
                     <div className={styles.icon}><MdPassword /></div>
                     <input 
                         id='password'
-                        type= {showPassword ? "text" : "password"} 
+                        type={showPassword ? "text" : "password"} 
                         placeholder='Password' 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
-                        
                     />
                     <button className={styles.showHide} type='button' onClick={() => {
-                        setShowPassword(!showPassword)
-                        focusInput() }
-                        }> {showPassword? <MdVisibility /> : <MdVisibilityOff />} </button>
-                </div>
+                        setShowPassword(!showPassword);
+                        focusInput();
+                    }}> 
+                        {showPassword ? <MdVisibility /> : <MdVisibilityOff />} 
+                    </button>
+                    </div>
                 {error && <div className={styles.error}>{error}</div>}
                 <div className={styles.submitContainer}>
                     <button type="submit" className={styles.submit}>Login</button>

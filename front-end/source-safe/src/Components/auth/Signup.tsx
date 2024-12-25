@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import styles from './Signup.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { registerUser } from '../../Services/authService';
 
 const Signup = () => {
     const [first_name, setFirstName] = useState('');
@@ -21,27 +22,8 @@ const Signup = () => {
             return;
         }
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/auth/register`;
-
         try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ first_name, last_name, email, password }),
-            });
-
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                const errorMessage = responseData.message ;
-                throw new Error(errorMessage);
-            }
-
-
-            const data = await response.json();
-            console.log('Login successful:', data);
+            const responseData = await registerUser(first_name, last_name, email, password); 
         } catch (err: any) {
             setError(err.message);
         }

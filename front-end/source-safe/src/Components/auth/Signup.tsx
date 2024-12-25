@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Signup.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+
 import { registerUser } from '../../Services/authService';
 
 const Signup = () => {

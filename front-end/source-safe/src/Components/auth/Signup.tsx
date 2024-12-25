@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Signup.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { registerUser } from '../../Services/authService';
@@ -13,6 +13,7 @@ const Signup = () => {
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
+    const navigate = useNavigate();
     const handleSubmit = async (e:  React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -24,6 +25,9 @@ const Signup = () => {
 
         try {
             const responseData = await registerUser(first_name, last_name, email, password); 
+            localStorage.setItem('email', JSON.stringify(email)); 
+            localStorage.setItem('token', JSON.stringify(responseData.token));
+            navigate('/confirmcode');
         } catch (err: any) {
             setError(err.message);
         }

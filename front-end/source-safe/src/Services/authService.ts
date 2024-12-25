@@ -39,3 +39,22 @@ export const registerUser = async (first_name: string, last_name: string, email:
         }
     }
 };
+
+export const confirmEmail = async (email: string, code: number) => {
+    try {
+        const response = await axios.post('/api/verify-code', { email ,code });
+        console.log('Verification successful:', response.data);
+
+      } catch (error: any) {
+        console.error('Verification failed:', error.response?.data || error.message);
+      }
+}
+
+export const resendCode =  async (email: string) => {
+    try {
+        const response = await axios.post('/api/resend-code', { email });
+
+      } catch (error: any) {
+        console.error('Verification failed:', error.response?.data || error.message);
+      }
+}

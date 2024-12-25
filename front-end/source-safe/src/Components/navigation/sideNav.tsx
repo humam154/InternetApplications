@@ -18,7 +18,7 @@ const Tile = ({ title, icon, open }: TileProps & { open: boolean }) => {
 }
 
 const SideNav = () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState<boolean>(true);
 
     const profile = { icon: <CgProfile />, title: "Profile" };
     const group = { icon: <MdGroup />, title: "Groups" };

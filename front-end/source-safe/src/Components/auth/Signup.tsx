@@ -6,13 +6,13 @@ import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'rea
 import { registerUser } from '../../Services/authService';
 
 const Signup = () => {
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirm_password, setCPassword] = useState('');
-    const [error, setError] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [first_name, setFirstName] = useState<string>('');
+    const [last_name, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirm_password, setCPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const handleSubmit = async (e:  React.FormEvent) => {

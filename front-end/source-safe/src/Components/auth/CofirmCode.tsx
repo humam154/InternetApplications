@@ -45,7 +45,7 @@ import { confirmEmail, resendCode } from '../../Services/authService';
     const navigate = useNavigate();
     const [values, setValues] = useState(fillValues(defaultValue));
     const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string>('');
     const email = localStorage.getItem('email') || '';
 
     const inputsRefs = useMemo(
@@ -54,7 +54,7 @@ import { confirmEmail, resendCode } from '../../Services/authService';
     );
 
     const handleCodeCompletion = async (code: string) => {
-        onCompleted(code); // Call the provided onCompleted callback if needed.
+        onCompleted(code); 
     
        try {
            const responseData = await confirmEmail(email, parseInt(code));
@@ -278,6 +278,7 @@ import { confirmEmail, resendCode } from '../../Services/authService';
             {...inputProps}
           />
         ))}
+          {error && <div className={styles.error}>{error}</div>}
         <div className={styles.resend}>
                     Already have an account? <a className={styles.resendtext} onClick={() => {
                         handleCodeResend;

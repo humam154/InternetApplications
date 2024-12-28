@@ -6,23 +6,30 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.put( "message" ,error.getDefaultMessage());
-        }
-        return ResponseEntity.badRequest().body(errors);
+    public ResponseEntity<GenericResponse<String>> handleValidationException(MethodArgumentNotValidException ex) {
+        
+        String errorMessage = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .findFirst()
+                .orElse("Validation failed");
+
+        return ResponseEntity.badRequest().body(GenericResponse.error(errorMessage));
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
+    public ResponseEntity<GenericResponse<String>> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(GenericResponse.error(ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<GenericResponse<String>> handleGenericException(Exception ex) {
+        return ResponseEntity.internalServerError()
+                .body(GenericResponse.error("An unexpected error occurred: " + ex.getMessage()));
     }
 }

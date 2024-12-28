@@ -26,13 +26,14 @@ Source Safe -  File Management System
     - `/reject/{id}`
     - `/download/{id}`
     - `/downloadmany`
-    - [ ] `/groupfiles/{id}`
-    - [ ] `/pendingfiles/{id}`
-    - [ ] `/filechecks/{id}`
-    - [ ] `/groupfilechecks/{id}`
-    - [ ] `/userfilechecks/{id}`
+    - [ ] `/groupfiles/{gid}`
+    - [ ] `/pendingfiles/{gid}`
+    - [ ] `/filechecks/{fid}`
+    - [ ] `/groupfilechecks/{gid}`
+    - [ ] `/userfilechecks`
 
 - [ ] `/groups`
+    - [ ] `/isOwner`
     - [ ] `/create`
     - [ ] `/delete`
     - [ ] `/addmember`

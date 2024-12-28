@@ -2,7 +2,7 @@ package com.humam.security.files;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -64,7 +64,7 @@ public class FileController {
         return ResponseEntity.ok(GenericResponse.success(message, "File accepted successfully"));
     }
 
-    @PutMapping("/reject/{id}")
+    @DeleteMapping("/reject/{id}")
     public ResponseEntity<GenericResponse<String>> rejectFile(
             @RequestHeader("Authorization") String token,
             @PathVariable @NotNull @Min(1) Integer id
@@ -73,12 +73,12 @@ public class FileController {
         return ResponseEntity.ok(GenericResponse.success(message, "File rejected successfully"));
     }
 
-    @GetMapping("/download")
+    @GetMapping("/download/{id}")
     public ResponseEntity<Resource> handleFileDownload(
             @RequestHeader("Authorization") String token,
-            @RequestParam("fileId") @NotNull @Min(1) Integer fileId
+            @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
-        Resource file = fileService.downloadFile(fileId, token);
+        Resource file = fileService.downloadFile(id, token);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")

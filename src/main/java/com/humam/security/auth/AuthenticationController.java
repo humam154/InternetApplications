@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humam.security.utils.ResponseUtil;
+import com.humam.security.utils.GenericResponse;
 
 import jakarta.validation.Valid;
 
@@ -20,12 +20,12 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(
+    public ResponseEntity<GenericResponse<AuthenticationResponse>> register(
         @Valid @RequestBody RegisterRequest request
     )
     {
         AuthenticationResponse response = service.register(request);
-        return ResponseUtil.success("Registration successful", response);
+        return ResponseEntity.ok(GenericResponse.success(response, "Registeration successful"));
     }
 
     @PostMapping("/authenticate")
@@ -34,6 +34,6 @@ public class AuthenticationController {
     )
     {
         AuthenticationResponse response = service.auth(request);
-        return ResponseUtil.success("Authentication successful", response);
+        return ResponseEntity.ok(GenericResponse.success(response, "Authentication successful"));
     }
 }

@@ -1,6 +1,7 @@
 package com.humam.security.files;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.humam.security.utils.GenericResponse;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
@@ -33,87 +37,64 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(
-        @RequestHeader("Authorization") String token,
-        @Valid @ModelAttribute UploadRequest request
-    ) {
-        try {
-            String message = fileService.uploadFile(token, request);
-            return ResponseEntity.ok(message);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<GenericResponse<String>> handleFileUpload(
+            @RequestHeader("Authorization") String token,
+            @Valid @ModelAttribute UploadRequest request
+    ) throws IOException {
+        String message = fileService.uploadFile(token, request);
+        return ResponseEntity.ok(GenericResponse.success(message, "File uploaded successfully"));
     }
 
-
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateFile(
+    public ResponseEntity<GenericResponse<String>> updateFile(
             @RequestHeader("Authorization") String token,
             @PathVariable @NotNull @Min(1) Integer id,
             @RequestParam("file") @NotNull MultipartFile file
     ) throws IOException {
         String message = fileService.updateFile(id, file);
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(GenericResponse.success(message, "File updated successfully"));
     }
 
-
     @PutMapping("/accept/{id}")
-    public ResponseEntity<String> acceptFile(
+    public ResponseEntity<GenericResponse<String>> acceptFile(
             @RequestHeader("Authorization") String token,
             @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
         String message = fileService.acceptFile(id);
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(GenericResponse.success(message, "File accepted successfully"));
     }
-
 
     @PutMapping("/reject/{id}")
-    public ResponseEntity<String> rejectFile(
+    public ResponseEntity<GenericResponse<String>> rejectFile(
             @RequestHeader("Authorization") String token,
-            @PathVariable Integer id
+            @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
         String message = fileService.rejectFile(id);
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(GenericResponse.success(message, "File rejected successfully"));
     }
-
 
     @GetMapping("/download")
     public ResponseEntity<Resource> handleFileDownload(
-        @RequestHeader("Authorization") String token,
-        @RequestParam("fileId") Integer fileId
-        ) {
-        try {
-            Resource file = fileService.downloadFile(fileId, token);
+            @RequestHeader("Authorization") String token,
+            @RequestParam("fileId") @NotNull @Min(1) Integer fileId
+    ) throws IOException {
+        Resource file = fileService.downloadFile(fileId, token);
 
-            return ResponseEntity.ok()
+        return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
     }
 
     @GetMapping("/downloadmany")
     public ResponseEntity<Resource> handleMultiFileDownload(
-        @RequestHeader("Authorization") String token,
-        @RequestParam("fileIds") List<Integer> fileIds
-    ) {
-        try {
-            Resource zipFile = fileService.processAndPrepareZip(fileIds, token);
-        
-            return ResponseEntity.ok()
+            @RequestHeader("Authorization") String token,
+            @RequestParam("fileIds") @NotNull List<@Min(1) Integer> fileIds
+    ) throws IOException {
+        Resource zipFile = fileService.processAndPrepareZip(fileIds, token);
+
+        return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"files.zip\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(zipFile);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
     }
 }

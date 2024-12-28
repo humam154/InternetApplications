@@ -1,0 +1,48 @@
+:global(*) {
+    box-sizing: border-box;
+}
+.container {
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+  .text {
+    font-size: 24px;
+    font-weight: bold;
+}
+ 
+.text2 {
+    font-weight:normal;
+}
+  .item {
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    margin: 5px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 0;
+    color: #fff;
+    box-shadow: 0 0 0 1px #ccc;
+    outline: 0;
+    transition: box-shadow 0.2s ease-out;
+  }
+  
+  .item:focus {
+    box-shadow: 0 0 0 2px #333;
+  }
+
+  .resendtext {
+    background: transparent;
+    padding: 0;
+  }
+
+  .resendtext:hover {
+    cursor: pointer;
+  }

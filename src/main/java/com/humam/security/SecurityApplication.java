@@ -2,7 +2,6 @@ package com.humam.security;
 
 import com.humam.security.auth.AuthenticationService;
 import com.humam.security.auth.RegisterRequest;
-import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;

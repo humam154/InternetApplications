@@ -1,5 +1,7 @@
 package com.humam.security.groupmember;
 
+import java.time.Instant;
+
 import com.humam.security.group.Group;
 import com.humam.security.user.User;
 import jakarta.persistence.*;
@@ -24,7 +26,7 @@ public class GroupMember {
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
-
-    @Column(nullable = false, length = 55)
-    private String role;
+    
+    @Column(name = "join_date",updatable = false)
+    private Instant joinDate;
 }

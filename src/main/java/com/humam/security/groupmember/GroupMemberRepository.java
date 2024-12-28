@@ -9,5 +9,4 @@ import java.util.List;
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Integer> {
     List<GroupMember> findByGroupId(Integer groupId);
     List<GroupMember> findByUserId(Integer userId);
-    List<GroupMember> findByRole(String role);
 }

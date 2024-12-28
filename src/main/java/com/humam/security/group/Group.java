@@ -7,6 +7,7 @@ import com.humam.security.groupmember.GroupMember;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -36,4 +37,8 @@ public class Group {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Invite> invites;
+
+
+    @Column(name = "creation_date", updatable = false, nullable = false)
+    private Instant creationDate;
 }

@@ -14,6 +14,13 @@ import java.util.Optional;
 @Repository
 public interface FileRepository extends JpaRepository<FileData, Integer> {
     List<FileData> findByGroupId(Integer groupId);
+
+    List<FileData> findByGroupIdAndAcceptedTrue(Integer groupId);
+    List<FileData> findByGroupIdAndAcceptedFalse(Integer groupId);
+
+    List<FileData> findByGroupIdAndInUseTrue(Integer groupId);
+    List<FileData> findByGroupIdAndInUseFalse(Integer groupId);
+
     List<FileData> findByCreatedById(Integer userId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -24,5 +31,5 @@ public interface FileRepository extends JpaRepository<FileData, Integer> {
 
     @Query("SELECT f FROM FileData f WHERE f.id IN :fileIds AND f.inUse = false")
     List<FileData> findAllNotInUseByIds(@Param("fileIds") List<Integer> fileIds);
-
+    
 }

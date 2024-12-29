@@ -29,7 +29,7 @@ public class GroupController {
         @RequestHeader("Authorization") String token,
         @RequestBody @Valid CreateGroupRequest request
     ) {
-        CreateGroupResponse response = groupSerivce.createGroup(token, request.getName());
+        CreateGroupResponse response = groupSerivce.createGroup(token, request.getName(), request.getDescription());
         return ResponseEntity.ok(GenericResponse.success(response, "Group Created Successfully!"));
     }
 

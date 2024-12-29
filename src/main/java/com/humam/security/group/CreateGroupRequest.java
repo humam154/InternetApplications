@@ -12,4 +12,7 @@ public class CreateGroupRequest {
 
     @NotEmpty(message = "Group name must not be empty")
     private String name;
+
+    @NotEmpty(message = "Group description must not be empty")
+    private String description;
 }

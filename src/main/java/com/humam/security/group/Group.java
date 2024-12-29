@@ -25,6 +25,9 @@ public class Group {
     @Column(nullable = false, length = 55)
     private String name;
 
+    @Column(nullable = false)
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;

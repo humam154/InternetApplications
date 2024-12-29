@@ -21,7 +21,7 @@ public class GroupSerivce {
     private final GroupRepository groupRepository;
     private final GroupMemberRepository groupMemberRepository;
 
-    private boolean isGroupOwner(String token, Integer gid) {
+    public boolean isGroupOwner(String token, Integer gid) {
         token = token.replaceFirst("^Bearer ", "");
         Integer userId = tokenRepository.findByToken(token)
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
@@ -32,7 +32,7 @@ public class GroupSerivce {
     }
     
     @Transactional
-    public CreateGroupResponse createGroup(String token, String name) {
+    public CreateGroupResponse createGroup(String token, String name, String description) {
         token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token)
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
@@ -41,6 +41,7 @@ public class GroupSerivce {
         Group group = groupRepository.save(Group.builder()
         .createdBy(user)
         .name(name)
+        .description(description)
         .creationDate(Instant.now())
         .build());
 
@@ -53,6 +54,7 @@ public class GroupSerivce {
         return CreateGroupResponse.builder()
         .gid(group.getId())
         .name(name)
+        .description(description)
         .owner(user.getFirst_name() + " " + user.getLast_name())
         .creation_time(group.getCreationDate())
         .build();

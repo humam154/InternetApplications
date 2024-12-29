@@ -22,7 +22,7 @@ public interface FileRepository extends JpaRepository<FileData, Integer> {
     
     Optional<FileData> findById(Integer id);
 
-    @Query("SELECT f FROM FileData f WHERE f.id IN :fileIds AND f.in_use = false")
+    @Query("SELECT f FROM FileData f WHERE f.id IN :fileIds AND f.inUse = false")
     List<FileData> findAllNotInUseByIds(@Param("fileIds") List<Integer> fileIds);
 
 }

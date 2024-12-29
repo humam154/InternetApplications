@@ -66,7 +66,7 @@ public class FileService {
             .createdBy(user)
             .group(group)
             .accepted(false)
-            .in_use(false)
+            .inUse(false)
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
@@ -110,7 +110,7 @@ public class FileService {
 
     // a switch to update file status, useful for buttons
     public void changeFileStatus(FileData file){
-        file.setIn_use(!file.getIn_use());
+        file.setInUse(!file.getInUse());
         repository.save(file);
     }
 
@@ -120,7 +120,7 @@ public class FileService {
         FileData fileData = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("File not found"));
 
-        if(fileData.getIn_use()){
+        if(fileData.getInUse()){
             throw new StorageException("File already in use");
         }
 

@@ -37,6 +37,6 @@ public class FileData {
 
 
     // default value = false
-    @Column(nullable = false)
-    private Boolean in_use = false;
+    @Column(nullable = false, name = "in_use")
+    private Boolean inUse = false;
 }

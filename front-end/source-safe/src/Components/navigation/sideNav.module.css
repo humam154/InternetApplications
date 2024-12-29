@@ -1,26 +1,18 @@
 .container_open {
-    margin: 0;
     width: 170px;
     height: 100vh;
     background: azure; 
     display: flex;
-    flex-direction: column; 
-    position: fixed; 
-    top: 0;
-    left: 0;
+    flex-direction: column;
     justify-content: start;
 }
 
 .container_close {
-    margin: 0;
     width: 100px; 
     height: 100vh; 
     background: azure; 
     display: flex;
-    flex-direction: column; 
-    position: fixed; 
-    top: 0;
-    left: 0; 
+    flex-direction: column;
 }
 
 .tile_container_open {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.humam.security.file.FileData;
 import com.humam.security.utils.GenericResponse;
 
 import jakarta.validation.Valid;
@@ -97,4 +98,15 @@ public class FileController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(zipFile);
     }
+
+    @GetMapping("/groupfiles/{gid}")
+    public ResponseEntity<GenericResponse<List<FileDataResponse>>> groupFiles(
+        @RequestHeader("Authorization") String token,
+        @PathVariable @NotNull @Min(1) Integer gid
+    ) {
+        List<FileDataResponse> groupFiles = fileService.groupFiles(token, gid);
+        return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
+    }
+    
+    
 }

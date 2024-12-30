@@ -21,7 +21,7 @@ import com.humam.security.file.FileData;
 import com.humam.security.file.FileRepository;
 import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
-import com.humam.security.group.GroupSerivce;
+import com.humam.security.group.GroupService;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 
@@ -39,7 +39,7 @@ public class FileService {
     private final FileCheckRepository fileCheckRepository;
     private final TokenRepository tokenRepository;
     private final GroupRepository groupRepository;
-    private final GroupSerivce groupSerivce;
+    private final GroupService groupService;
 
     public String uploadFile(String token, UploadRequest request) throws IOException {
         String folderPath = System.getProperty("user.dir") + "/public" + File.separator;
@@ -175,7 +175,7 @@ public class FileService {
 
     public List<FileDataResponse> groupFiles(String token, Integer gid) {
         List<FileData> files;
-        if(groupSerivce.isGroupOwner(token, gid)) {
+        if(groupService.isGroupOwner(token, gid)) {
             files = repository.findByGroupId(gid);
         }
          else {

@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "invites")
+@Table(name = "`invites`")
 public class Invite {
 
     @Id

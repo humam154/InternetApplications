@@ -3,7 +3,7 @@ package com.humam.security.invite;
 import org.springframework.stereotype.Service;
 import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
-import com.humam.security.group.GroupSerivce;
+import com.humam.security.group.GroupService;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
@@ -15,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 public class InviteService {
     private final InviteRepository inviteRepository;
     private final GroupRepository groupRepository;
-    private final GroupSerivce groupSerivce;
+    private final GroupService groupService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
 
     public InviteResponse invite(String token, Integer gid, Integer uid) {
-        if (!groupSerivce.isGroupOwner(token, gid)) {
+        if (!groupService.isGroupOwner(token, gid)) {
             throw new IllegalArgumentException("Only the group owner can send invites.");
         }
 

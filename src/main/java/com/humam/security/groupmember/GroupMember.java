@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "group_members")
+@Table(name = "`group_members`")
 public class GroupMember {
 
     @Id

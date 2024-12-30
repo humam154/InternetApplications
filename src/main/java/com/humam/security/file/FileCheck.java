@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "file_checks")
+@Table(name = "`file_checks`")
 public class FileCheck {
 
     @Id

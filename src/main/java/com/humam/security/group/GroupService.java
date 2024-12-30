@@ -3,6 +3,7 @@ package com.humam.security.group;
 import com.humam.security.user.User;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class GroupSerivce {
+public class GroupService {
 
     private final TokenRepository tokenRepository;
     private final GroupRepository groupRepository;
@@ -59,4 +60,22 @@ public class GroupSerivce {
         .creation_time(group.getCreationDate())
         .build();
     }
+
+    public boolean delete(Integer gid) {
+        Optional<Group> group = groupRepository.findById(gid);
+
+        if(group.isPresent()) {
+            int membersCount = groupRepository.numOfMembers(gid);
+
+            if(membersCount > 0) {
+                groupRepository.deleteById(gid);
+                return true;
+            } else {
+                throw new IllegalStateException("group has members");
+            }
+        } else {
+            throw new IllegalArgumentException("group not found");
+        }
+    }
+
 }

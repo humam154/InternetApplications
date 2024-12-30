@@ -37,7 +37,7 @@ Source Safe -  File Management System
 - `/groups`
     - [X] `/isOwner`
     - [X] `/create`
-    - [ ] `/delete`
+    - [x] `/delete/`
     - [ ] `/addmember`
     - [ ] `/removemember`
     - [ ] `/search?q=`

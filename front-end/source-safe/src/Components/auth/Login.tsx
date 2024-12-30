@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
@@ -11,6 +11,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    const navigate = useNavigate();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
@@ -18,6 +19,8 @@ const Login: React.FC = () => {
         try {
             const responseData = await loginUser(email, password);
             console.log('Login successful:', responseData);
+            localStorage.setItem('token', JSON.parse(JSON.stringify(responseData.data.token)));
+            navigate('/');
         } catch (err: any) {
             setError(err.message);
         }

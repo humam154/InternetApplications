@@ -3,8 +3,8 @@ import React from 'react';
 import styles from './GroupCard.module.css';
 
 interface GroupProps {
-  id: number;
-  isOwner: boolean;
+  gid: number;
+  is_owner: boolean;
   name: string;
   description: string;
   owner: string;
@@ -14,19 +14,20 @@ interface GroupProps {
 }
 
 const GroupCard = (props :GroupProps) => {
-    const {isOwner, name, description, owner, creation_date, members_count} = props
+    const {is_owner, name, description, owner, creation_date, members_count} = props;
+    const date = new Date(creation_date).toDateString();
   return (
     <div className={styles.container}>
         <div className={styles.content}>
             <h3>name: {name}</h3>
             <p>{description}</p>
-            <p>Owner: {isOwner? 'You' : owner}</p>
+            <p>Owner: {is_owner? 'You' : owner}</p>
         </div>
       
       <div className={styles.owner}>
-        {isOwner && <button className={styles.invite_button} >Invite someone</button>}
-        {isOwner && <p>Date Created: {creation_date}</p>}
-        {isOwner && <p>No. of Members: {members_count}</p>}
+        {is_owner && <button className={styles.invite_button} >Invite someone</button>}
+        {is_owner && <p>{date}</p>}
+        {is_owner && <p>No. of Members: {members_count}</p>}
         </div>
     </div>
   );

@@ -9,16 +9,16 @@ const GroupsPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+    const token = localStorage.getItem("token");
     if (!token) {
       setError("User is not authenticated");
       setLoading(false);
       return;
     }
-
+    console.log(`token is ${token}`);
     getGroups(token)
       .then((data) => {
-        setGroups(data);
+        setGroups(data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -33,7 +33,7 @@ const GroupsPage = () => {
   return (
     <GroupsList
       items={groups}
-      renderer={(group) => <GroupCard key={group.id} {...group} />}
+      renderer={(group) => <GroupCard key={group.gid} {...group} />}
     />
   );
 };

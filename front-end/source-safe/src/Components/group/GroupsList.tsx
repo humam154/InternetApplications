@@ -10,10 +10,11 @@ interface PropsType {
   
 
 const GroupsList = (props: PropsType) => {
+  
     return (
         <ul className={styles.list}>
-          {props.items.map((item) => {
-            return <li key={item.id}>{props.renderer(item)}</li>;
+          {Array.from(props.items).map((item) => {
+            return <li key={item.gid}>{props.renderer(item)}</li>;
           })}
         </ul>
       );

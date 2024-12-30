@@ -10,6 +10,7 @@ import com.humam.security.user.User;
 import java.util.List;
 
 
+
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Integer> {
     
@@ -18,8 +19,4 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
     
     @Query("SELECT CASE WHEN g.createdBy.id = :userId THEN true ELSE false END FROM Group g WHERE g.id = :groupId")
     boolean isGroupOwner(@Param("userId") Integer userId, @Param("groupId") Integer groupId);
-
-    @Query("SELECT COUNT(*) FROM Group")
-    int numOfMembers(Integer groupId);
-
 }

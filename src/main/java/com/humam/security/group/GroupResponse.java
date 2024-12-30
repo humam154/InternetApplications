@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateGroupResponse {
+public class GroupResponse {
     
     @JsonProperty("gid")
     private Integer gid;
@@ -21,12 +21,18 @@ public class CreateGroupResponse {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("is_owner")
+    private boolean isOwner;
+
     @JsonProperty("description")
     private String description;
     
     @JsonProperty("owner")
     private String owner;
 
-    @JsonProperty("creation_time")
-    private Instant creation_time;
+    @JsonProperty("creation_date")
+    private Instant creation_date;
+
+    @JsonProperty("members_count")
+    private Integer numMembers;
 }

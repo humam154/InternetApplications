@@ -10,6 +10,8 @@ import com.humam.security.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InviteService {
@@ -53,6 +55,22 @@ public class InviteService {
             .inviter(inviter.getFirst_name() + " " + inviter.getLast_name())
             .invitee(invitee.getFirst_name() + " " + invitee.getLast_name())
             .build();
+    }
+
+    public boolean acceptInvite(Integer id) {
+        var optionalInvite = inviteRepository.findById(id);
+
+        if(optionalInvite.isPresent()) {
+            var invite = optionalInvite.get();
+
+            invite.setAccepted(true);
+
+            inviteRepository.save(invite);
+
+            return true;
+        } else {
+            throw new IllegalArgumentException("Invalid invite ID");
+        }
     }
 }
 

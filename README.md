@@ -37,10 +37,10 @@ Source Safe -  File Management System
 - `/groups`
     - [X] `/isOwner`
     - [X] `/create`
-    - [x] `/delete/`
-    - [ ] `/addmember`
+    - [x] `/delete/ --> delete endpoint should be /{gid}`
+    - [ ] `/addmember --> invites must be implemented first`
     - [ ] `/removemember`
-    - [ ] `/search?q=`
+    - [x] `/search?q=`
 
 - `/invitations`
     - [X] `/invite`

@@ -33,7 +33,7 @@ public class GroupService {
     }
     
     @Transactional
-    public CreateGroupResponse createGroup(String token, String name, String description) {
+    public GroupResponse createGroup(String token, String name, String description) {
         token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token)
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
@@ -52,12 +52,12 @@ public class GroupService {
         .joinDate(Instant.now())
         .build());
 
-        return CreateGroupResponse.builder()
+        return GroupResponse.builder()
         .gid(group.getId())
         .name(name)
         .description(description)
         .owner(user.getFirst_name() + " " + user.getLast_name())
-        .creation_time(group.getCreationDate())
+        .creation_date(group.getCreationDate())
         .build();
     }
 

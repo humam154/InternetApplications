@@ -30,11 +30,11 @@ public class GroupController {
     }
     
     @PostMapping("/create")
-    public ResponseEntity<GenericResponse<CreateGroupResponse>> createGroup(
+    public ResponseEntity<GenericResponse<GroupResponse>> createGroup(
         @RequestHeader("Authorization") String token,
         @RequestBody @Valid CreateGroupRequest request
     ) {
-        CreateGroupResponse response = groupService.createGroup(token, request.getName(), request.getDescription());
+        GroupResponse response = groupService.createGroup(token, request.getName(), request.getDescription());
         return ResponseEntity.ok(GenericResponse.success(response, "Group Created Successfully!"));
     }
 

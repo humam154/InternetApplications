@@ -3,6 +3,7 @@ package com.humam.security.group;
 import com.humam.security.user.User;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -61,11 +62,12 @@ public class GroupService {
         .build();
     }
 
+    @Transactional
     public boolean delete(Integer gid) {
         Optional<Group> group = groupRepository.findById(gid);
 
         if(group.isPresent()) {
-            int membersCount = groupRepository.numOfMembers(gid);
+            int membersCount = groupMemberRepository.numOfMembers(gid);
 
             if(membersCount > 0) {
                 groupRepository.deleteById(gid);
@@ -78,4 +80,24 @@ public class GroupService {
         }
     }
 
+
+    @Transactional
+    public List<GroupResponse> groups(String token) {
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+        List<Group> groups = groupMemberRepository.findAllGroupsByUserId(user.getId());
+
+        return groups.stream().map(group -> GroupResponse.builder()
+            .gid(group.getId())
+            .name(group.getName())
+            .description(group.getDescription())
+            .isOwner(group.getCreatedBy().getId() == user.getId() ? true : false)
+            .owner(group.getCreatedBy().getFirst_name() + " " + group.getCreatedBy().getLast_name())
+            .numMembers(groupMemberRepository.numOfMembers(group.getId()))
+            .creation_date(group.getCreationDate())
+            .build()
+        ).toList();
+    }
 }

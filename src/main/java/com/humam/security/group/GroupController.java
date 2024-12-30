@@ -1,5 +1,7 @@
 package com.humam.security.group;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -58,4 +61,14 @@ public class GroupController {
         }
 
     }
+
+    @GetMapping("/")
+    public ResponseEntity<GenericResponse<List<GroupResponse>>> groups(
+        @RequestHeader("Authorization") String token
+        ) 
+        {
+            List<GroupResponse> groups = groupService.groups(token);
+        return ResponseEntity.ok(GenericResponse.success(groups, "Groups retireved successfully"));
+    }
+    
 }

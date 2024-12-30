@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,4 +90,19 @@ public class UserService {
         tokenRepository.save(token);
     }
 
+
+    public List<SearchUserResponse> searchUsers(String query) {
+
+        var users = userRepository.searchUsers(query);
+
+        return users.stream()
+                .map(user -> SearchUserResponse.builder()
+                        .first_name(user.getFirst_name())
+                        .last_name(user.getLast_name())
+                        .email(user.getEmail())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+    }
 }

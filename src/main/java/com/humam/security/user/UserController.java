@@ -2,10 +2,12 @@ package com.humam.security.user;
 
 import com.humam.security.utils.GenericResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -34,4 +36,19 @@ public class UserController {
         var response = service.updateProfile(request, connectedUser);
         return ResponseEntity.ok(GenericResponse.success(response, "Profile updated!"));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<GenericResponse<List<SearchUserResponse>>> search(
+            @RequestParam String query
+    ) {
+        List<SearchUserResponse> users;
+        try {
+            users = service.searchUsers(query);
+            return ResponseEntity.ok(GenericResponse.success(users, "success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(GenericResponse.error(e.getMessage()));
+        }
+    }
+
 }

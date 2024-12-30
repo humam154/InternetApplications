@@ -34,7 +34,7 @@ Source Safe -  File Management System
     - [ ] `/userfilechecks`
     - [ ] `/search?q=`
 
-- [ ] `/groups`
+- [X] `/groups`
     - [X] `/isOwner`
     - [X] `/create`
     - [X] `/delete/{gid}`

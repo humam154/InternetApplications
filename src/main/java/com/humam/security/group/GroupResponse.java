@@ -21,9 +21,13 @@ public class GroupResponse {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("is_owner")
     private boolean isOwner;
 
+    @JsonProperty("is_owner")
+    public boolean getIsOwner() {
+     return this.isOwner;
+    }
+    
     @JsonProperty("description")
     private String description;
     

@@ -3,6 +3,7 @@ package com.humam.security.group;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupResponse {
     
     @JsonProperty("gid")
@@ -27,7 +29,7 @@ public class GroupResponse {
     public boolean getIsOwner() {
      return this.isOwner;
     }
-    
+
     @JsonProperty("description")
     private String description;
     

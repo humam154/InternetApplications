@@ -175,18 +175,25 @@ public class FileService {
 
     public List<FileDataResponse> groupFiles(String token, Integer gid) {
         List<FileData> files;
-        if(groupService.isGroupOwner(token, gid)) {
+        boolean isGroupOwner = groupService.isGroupOwner(token, gid);
+        if(isGroupOwner) {
             files = repository.findByGroupId(gid);
         }
          else {
             files = repository.findByGroupIdAndAcceptedTrue(gid);
-         }
+        }
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
     
         return files.stream().map(file -> FileDataResponse.builder()
             .id(file.getId())
             .name(file.getName())
             .groupName(file.getGroup().getName())
             .createdByUser(file.getCreatedBy().getFirst_name() + " " + file.getCreatedBy().getLast_name())
+            .isOwner(file.getCreatedBy().getId() == user.getId() ? true : false)
+            .isGroupOwner(isGroupOwner)
             .accepted(file.getAccepted())
             .inUse(file.getInUse())
             .version(1)

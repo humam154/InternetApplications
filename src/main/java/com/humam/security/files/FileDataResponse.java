@@ -22,7 +22,21 @@ public class FileDataResponse {
 
     @JsonProperty("created_by")
     private String createdByUser;
+     
+    private boolean isOwner;
+    
+    @JsonProperty("is_owner")
+        public boolean getIsOwner() {
+         return this.isOwner;
+    }
 
+    private boolean isGroupOwner;
+    
+    @JsonProperty("is_group_owner")
+        public boolean getIsGroupOwner() {
+         return this.isGroupOwner;
+    }
+    
     private Boolean accepted;
 
     @JsonProperty("in_use")

@@ -11,13 +11,13 @@
   justify-content: center;
 }
 
-.Enter {
+.enter {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 70px;
   width: 160px;
-  padding: auto;
+  padding: 10px;
   border-radius: 30px;
   color: aliceblue;
   font-size: xx-large;
@@ -26,7 +26,7 @@
   will-change: filter;
   transition: filter 300ms;
 }
-.Enter:hover {
+.enter:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .arrow {

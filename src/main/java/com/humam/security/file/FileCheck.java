@@ -1,5 +1,9 @@
 package com.humam.security.file;
 
+import java.time.Instant;
+
+import com.humam.security.user.User;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,9 +21,12 @@ public class FileCheck {
 
     @ManyToOne
     @JoinColumn(name = "checked_by", nullable = false)
-    private com.humam.security.user.User checkedBy;
+    private User checkedBy;
 
     @ManyToOne
     @JoinColumn(name = "file_id", nullable = false)
     private FileData fileId;
+
+    @Column(name = "check_date", updatable = false, nullable = false)
+    private Instant checkDate;
 }

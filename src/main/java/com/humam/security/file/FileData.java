@@ -33,10 +33,12 @@ public class FileData {
 
     // default value = false
     @Column(nullable = false)
-    private Boolean accepted = false;
-
+    private Boolean accepted;
 
     // default value = false
     @Column(nullable = false, name = "in_use")
-    private Boolean inUse = false;
+    private Boolean inUse;
+
+    @Column(name = "version", nullable = false)
+    private Integer version;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { MdGroup, MdSettings, MdArrowBack, MdArrowForward } from "react-icons/md";
+import { MdGroups, MdSettings, MdArrowBack, MdArrowForward, MdInbox, MdOutbox } from "react-icons/md";
 import { Link } from "react-router-dom";
 import styles from "./sideNav.module.css";
 
@@ -8,12 +8,19 @@ interface TileProps {
   title: string;
   icon: React.ReactNode;
   path: string;
+  open: boolean;
+  isSelected: boolean;
+  onSelect: (title: string) => void;
 }
 
-const Tile = ({ title, icon, path, open }: TileProps & { open: boolean }) => {
+const Tile = ({ title, icon, path, open, isSelected, onSelect }: TileProps) => {
   return (
-    <Link to={path} className={styles.link}>
-      <div className={open ? styles.tile_container_open : styles.tile_container_close}>
+    <Link to={path} className={styles.link} onClick={() => onSelect(title)}>
+      <div
+        className={`${open ? styles.tile_container_open : styles.tile_container_close} ${
+          isSelected ? styles.selected_tile : styles.unselected_tile
+        }`}
+      >
         <div className={styles.tile_icon}>{icon}</div>
         {open && <div className={styles.tile_title}>{title}</div>}
       </div>
@@ -23,12 +30,19 @@ const Tile = ({ title, icon, path, open }: TileProps & { open: boolean }) => {
 
 const SideNav = () => {
   const [open, setOpen] = useState<boolean>(true);
+  const [selectedTile, setSelectedTile] = useState<string>("");
 
   const menuItems = [
     { icon: <CgProfile />, title: "Profile", path: "/profile" },
-    { icon: <MdGroup />, title: "Groups", path: "/groups" },
+    { icon: <MdGroups />, title: "Groups", path: "/groups" },
+    { icon: <MdInbox />, title: "Inbox", path: "/inbox" },
+    { icon: <MdOutbox />, title: "Outbox", path: "/outbox" },
     { icon: <MdSettings />, title: "Settings", path: "/settings" },
   ];
+
+  const handleTileSelect = (title: string) => {
+    setSelectedTile(title);
+  };
 
   return (
     <div className={open ? styles.container_open : styles.container_close}>
@@ -36,7 +50,13 @@ const SideNav = () => {
         {open ? <MdArrowBack /> : <MdArrowForward />}
       </button>
       {menuItems.map((item) => (
-        <Tile key={item.title} {...item} open={open} />
+        <Tile
+          key={item.title}
+          {...item}
+          open={open}
+          isSelected={selectedTile === item.title}
+          onSelect={handleTileSelect}
+        />
       ))}
     </div>
   );

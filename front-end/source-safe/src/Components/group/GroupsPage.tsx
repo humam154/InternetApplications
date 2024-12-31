@@ -15,7 +15,7 @@ const GroupsPage = () => {
       setLoading(false);
       return;
     }
-    console.log(`token is ${token}`);
+    //TODO fix this data.data because that looks ugly
     getGroups(token)
       .then((data) => {
         setGroups(data.data);

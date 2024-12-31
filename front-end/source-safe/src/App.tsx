@@ -33,6 +33,8 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route path="groups" element={<GroupsPage />} />
           <Route path="profile" element={<h1>Profile Page</h1>} />
+          <Route path="inbox" element={<h1>inbox Page</h1>} />
+          <Route path="outbox" element={<h1>outbox Page</h1>} />
           <Route path="settings" element={<Login />} />
         </Route>
       </Routes>

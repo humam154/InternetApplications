@@ -7,7 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -69,6 +71,7 @@ public class FileService {
             .group(group)
             .accepted(false)
             .inUse(false)
+            .version(0)
             .build());
 
         return "File uploaded successfully: " + fileData.getName();
@@ -87,7 +90,8 @@ public class FileService {
 
         Path filePath = Path.of(existingFile.getFilePath());
         Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
+        existingFile.setVersion(existingFile.getVersion()+1);
+        repository.save(existingFile);
         changeFileStatus(existingFile);
         return "File updated successfully: " + existingFile.getName();
     }
@@ -132,6 +136,7 @@ public class FileService {
         FileCheck fileCheck = fileCheckRepository.save(FileCheck.builder()
         .checkedBy(user)
         .fileId(fileData)
+        .checkDate(Instant.now())
         .build());
         changeFileStatus(fileData);
 
@@ -172,6 +177,17 @@ public class FileService {
 
         return createZipFromFiles(files);
     }
+    private Boolean isFileCheckedInByUser(User user, FileData file) {
+        FileCheck check = fileCheckRepository.findLastCheckByFile(file.getId())
+            .orElseThrow(() -> new NoSuchElementException("No check found for file with ID: " + file.getId()));
+    
+        if (check.getCheckedBy() == null) {
+            return false;
+        }
+    
+        return check.getCheckedBy().getId().equals(user.getId());
+    }
+    
 
     public List<FileDataResponse> groupFiles(String token, Integer gid) {
         List<FileData> files;
@@ -194,6 +210,7 @@ public class FileService {
             .createdByUser(file.getCreatedBy().getFirst_name() + " " + file.getCreatedBy().getLast_name())
             .isOwner(file.getCreatedBy().getId() == user.getId() ? true : false)
             .isGroupOwner(isGroupOwner)
+            .checkedInByCurrentUser(isFileCheckedInByUser(user, file))
             .accepted(file.getAccepted())
             .inUse(file.getInUse())
             .version(1)

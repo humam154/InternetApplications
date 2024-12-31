@@ -23,20 +23,22 @@ public class FileDataResponse {
     @JsonProperty("created_by")
     private String createdByUser;
      
-    private boolean isOwner;
+    private Boolean isOwner;
     
     @JsonProperty("is_owner")
-        public boolean getIsOwner() {
+        public Boolean getIsOwner() {
          return this.isOwner;
     }
 
-    private boolean isGroupOwner;
+    private Boolean isGroupOwner;
     
     @JsonProperty("is_group_owner")
-        public boolean getIsGroupOwner() {
+        public Boolean getIsGroupOwner() {
          return this.isGroupOwner;
     }
     
+    private Boolean checkedInByCurrentUser;
+
     private Boolean accepted;
 
     @JsonProperty("in_use")

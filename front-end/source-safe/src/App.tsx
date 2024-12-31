@@ -5,7 +5,7 @@ import { BiRightArrow } from 'react-icons/bi';
 import Layout from "./Components/Layout";
 import Login from "./Components/auth/Login";
 import Signup from "./Components/auth/Signup";
-import ConfirmCode from "./Components/auth/CofirmCode";
+import ConfirmCode from "./Components/auth/ConfirmCode";
 import GroupsPage from "./Components/group/GroupsPage";
 import styles from './App.module.css';
 

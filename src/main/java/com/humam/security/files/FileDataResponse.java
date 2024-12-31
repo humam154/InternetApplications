@@ -37,6 +37,7 @@ public class FileDataResponse {
          return this.isGroupOwner;
     }
     
+    @JsonProperty("checked_by_user")
     private Boolean checkedInByCurrentUser;
 
     private Boolean accepted;

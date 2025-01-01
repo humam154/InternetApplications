@@ -1,15 +1,15 @@
 import React from "react";
 
-import styles from './FilesList.module.css';
-import FileCard, { FileProps } from './FileCard';
+import styles from './InvitesList.module.css';
+import { InviteProps } from './InviteCard';
 
 interface PropsType {
-    items: FileProps[];
-    renderer: (item: FileProps) => React.ReactNode;
+    items: InviteProps[];
+    renderer: (item: InviteProps) => React.ReactNode;
 }
   
 
-const FilesList = (props: PropsType) => {
+const InvitesList = (props: PropsType) => {
   
     return (
         <ul className={styles.list}>
@@ -20,4 +20,4 @@ const FilesList = (props: PropsType) => {
       );
   };
 
-export default FilesList;
+export default InvitesList;

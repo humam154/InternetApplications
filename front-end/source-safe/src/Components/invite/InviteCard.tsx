@@ -28,10 +28,17 @@ const handleReject = (id: number) => {
   reject(token, id);
 };
 
+const handleRevoke = (id: number) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    console.log(`Rejected invite with id: ${id}`);
+};
+
 const InviteCard = (props: InviteProps) => {
   const { id, group_name, inviter, invitee } = props;
 
-  // Check the URL path
   const location = useLocation();
   const isOutbox = location.pathname.includes("outbox");
 
@@ -42,7 +49,11 @@ const InviteCard = (props: InviteProps) => {
         <p>{isOutbox ? `To: ${invitee}` : `From: ${inviter}`}</p>
       </div>
 
-      {!isOutbox && (
+      {isOutbox ?
+        <div className={styles.owner}>
+            <button className={`${styles.button} ${styles.revoke}`} onClick={() => handleRevoke(id)}>Revoke</button>
+        </div>
+      :(
         <div className={styles.owner}>
           <button className={`${styles.button} ${styles.accept}`} onClick={() => handleAccept(id)}>Accept</button>
           <button className={`${styles.button} ${styles.reject}`} onClick={() => handleReject(id)}>Reject</button>

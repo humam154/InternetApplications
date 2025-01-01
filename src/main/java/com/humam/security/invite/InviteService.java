@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
 import com.humam.security.group.GroupService;
+import com.humam.security.groupmember.GroupMember;
+import com.humam.security.groupmember.GroupMemberRepository;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
@@ -17,6 +19,7 @@ import java.util.List;
 public class InviteService {
     private final InviteRepository inviteRepository;
     private final GroupRepository groupRepository;
+    private final GroupMemberRepository groupMemberRepository;
     private final GroupService groupService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -47,7 +50,7 @@ public class InviteService {
             .group(group)
             .invitedBy(inviter)
             .inviteTo(invitee)
-            .accepted(false)
+            .status(InviteStatus.PENDING)
             .build());
 
         return InviteResponse.builder()
@@ -57,13 +60,44 @@ public class InviteService {
             .build();
     }
 
-    public boolean acceptInvite(Integer id) {
+    @Transactional
+    public boolean acceptInvite(String token, Integer id) throws Exception {
         var optionalInvite = inviteRepository.findById(id);
 
         if(optionalInvite.isPresent()) {
             var invite = optionalInvite.get();
 
-            invite.setAccepted(true);
+            invite.setStatus(InviteStatus.ACCEPTED);
+
+            inviteRepository.save(invite);
+
+            User invitee = tokenRepository.findByToken(token.replaceFirst("^Bearer ", ""))
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+
+            if(!invitee.equals(invite.getInviteTo())) {
+                throw new IllegalAccessException("You are not the invitee");
+            }
+            
+            groupMemberRepository.save(GroupMember.builder()
+                .group(invite.getGroup())
+                .user(invite.getInviteTo())
+                .joinDate(Instant.now())
+                .build());
+
+            return true;
+        } else {
+            throw new IllegalArgumentException("Invalid invite ID");
+        }
+    }
+
+    public boolean rejectInvite(Integer id) {
+        var optionalInvite = inviteRepository.findById(id);
+
+        if(optionalInvite.isPresent()) {
+            var invite = optionalInvite.get();
+
+            invite.setStatus(InviteStatus.REJECTED);
 
             inviteRepository.save(invite);
 

@@ -29,6 +29,7 @@ public class Invite {
     @JoinColumn(name = "invite_to", nullable = false)
     private User inviteTo;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean accepted = false;
+    private InviteStatus status; 
 }

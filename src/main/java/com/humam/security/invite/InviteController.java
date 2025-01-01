@@ -32,13 +32,14 @@ public class InviteController {
         return ResponseEntity.ok(GenericResponse.success(response, "Invitation sent!"));
     }
 
-    @GetMapping("/accept")
+    @PostMapping("/accept/{id}")
     public ResponseEntity<GenericResponse<Object>> accept(
+        @RequestHeader("Authorization") String token,
         @PathVariable @NotNull @Min(1) Integer id
     )
     {
         try {
-            var isAccepted = (Object) inviteService.acceptInvite(id);
+            var isAccepted = (Object) inviteService.acceptInvite(token, id);
             return ResponseEntity.ok(GenericResponse.success(isAccepted, "Accepted"));
         }
         catch (IllegalArgumentException exception){
@@ -48,4 +49,23 @@ public class InviteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
         }
     }
+
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<GenericResponse<Object>> reject(
+        @PathVariable @NotNull @Min(1) Integer id
+    )
+    {
+        try {
+            var isAccepted = (Object) inviteService.rejectInvite(id);
+            return ResponseEntity.ok(GenericResponse.success(isAccepted, "Rejected"));
+        }
+        catch (IllegalArgumentException exception){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GenericResponse.error(exception.getMessage()));
+        }
+        catch (Exception exception){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
+        }
+    }
+
+    @GetMapping("/inbox")
 }

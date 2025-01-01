@@ -33,11 +33,11 @@ const SideNav = () => {
   const [selectedTile, setSelectedTile] = useState<string>("");
 
   const menuItems = [
-    { icon: <CgProfile />, title: "Profile", path: "/profile" },
-    { icon: <MdGroups />, title: "Groups", path: "/groups" },
-    { icon: <MdInbox />, title: "Inbox", path: "/inbox" },
-    { icon: <MdOutbox />, title: "Outbox", path: "/outbox" },
-    { icon: <MdSettings />, title: "Settings", path: "/settings" },
+    { icon: <CgProfile />, title: "Profile", path: "/home/profile" },
+    { icon: <MdGroups />, title: "Groups", path: "/home/groups" },
+    { icon: <MdInbox />, title: "Inbox", path: "/home/inbox" },
+    { icon: <MdOutbox />, title: "Outbox", path: "/home/outbox" },
+    { icon: <MdSettings />, title: "Settings", path: "/home/settings" },
   ];
 
   const handleTileSelect = (title: string) => {

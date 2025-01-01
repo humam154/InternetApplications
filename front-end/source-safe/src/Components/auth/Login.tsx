@@ -20,7 +20,7 @@ const Login: React.FC = () => {
             const responseData = await loginUser(email, password);
             console.log('Login successful:', responseData);
             localStorage.setItem('token', JSON.parse(JSON.stringify(responseData.data.token)));
-            navigate('/');
+            navigate('/home');
         } catch (err: any) {
             setError(err.message);
         }

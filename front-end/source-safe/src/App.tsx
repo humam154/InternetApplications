@@ -32,9 +32,8 @@ const App = () => {
         <Route path="/" element={<Enter />} />
         
         <Route path="/home" element={<Layout />}>
-          <Route path="groups" element={<GroupsPage />}>
-            <Route path=":gid" element={<GroupPage />} />
-          </Route>
+          <Route path="groups" element={<GroupsPage />} />
+          <Route path="groups/:gid" element={<GroupPage />} />
           <Route path="profile" element={<h1>Profile Page</h1>} />
           <Route path="inbox" element={<h1>inbox Page</h1>} />
           <Route path="outbox" element={<h1>outbox Page</h1>} />

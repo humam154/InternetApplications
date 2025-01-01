@@ -1,12 +1,11 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
     position: relative;
-    background: #fff;
   }
   
   .content {
@@ -29,10 +28,18 @@
     background-color: #ff4d4d;
     color: white;
   }
-  
+
+  .delete:hover {
+    background-color: #e24343;
+  }
+
   .accept {
     background-color: #4caf50;
     color: white;
+  }
+
+  .accept:hover {
+    background-color: #409443;
   }
   
   .reject {
@@ -40,6 +47,10 @@
     color: white;
   }
   
+  .reject:hover {
+    background-color: #d69a46;
+  }
+
   .menubutton {
     background: none;
     border: none;
@@ -70,11 +81,16 @@
     padding: 5px 10px;
     cursor: pointer;
     text-align: left;
+    color: #474545;
     border-radius: 4px;
     transition: background 0.2s;
   }
   
   .menuButton:hover {
     background: #f0f0f0;
+  }
+
+  .menuButton:disabled {
+    background: #afafaf;
   }
   

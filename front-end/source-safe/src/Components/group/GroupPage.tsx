@@ -29,7 +29,7 @@ const GroupPage = () => {
             setLoading(false);
           })
           .catch((err) => {
-            setError("Failed to fetch groups");
+            setError("Failed to fetch files");
             setLoading(false);
           });
       }, []);
@@ -38,19 +38,21 @@ const GroupPage = () => {
       if (error) return <p>{error}</p>;
     
     
-    return <div className={styles.container}>
-        <div className={styles.banner}>
-            <Link to="/groups">
-                <MdArrowBack />
-            </Link>
-        </div>
+    return (
+      <div className={styles.container}>
+          <div className={styles.banner}>
+              <Link to="/home/groups">
+                  <MdArrowBack />
+              </Link>
+          </div>
 
-        <FilesList
-            items={files}
-            renderer={(file) => <FileCard key={file.id} {...file} />}
-        />
+          <FilesList
+              items={files}
+              renderer={(file) => <FileCard key={file.id} {...file} />}
+          />
 
-    </div>
+      </div>
+    );
 }
 
 export default GroupPage;

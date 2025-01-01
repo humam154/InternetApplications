@@ -11,7 +11,7 @@ export const getFiles = async (token: string, gid: any) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching groups:", error);
+    console.error("Error fetching files:", error);
     throw error;
   }
 };

@@ -9,6 +9,7 @@ import ConfirmCode from "./Components/auth/ConfirmCode";
 import GroupsPage from "./Components/group/GroupsPage";
 import GroupPage from "./Components/group/GroupPage";
 import styles from './App.module.css';
+import InvitesPage from "./Components/invite/InvitesPage";
 
 function Enter() {
   return (
@@ -35,8 +36,8 @@ const App = () => {
           <Route path="groups" element={<GroupsPage />} />
           <Route path="groups/:gid" element={<GroupPage />} />
           <Route path="profile" element={<h1>Profile Page</h1>} />
-          <Route path="inbox" element={<h1>inbox Page</h1>} />
-          <Route path="outbox" element={<h1>outbox Page</h1>} />
+          <Route path="inbox" element={<InvitesPage />} />
+          <Route path="outbox" element={<InvitesPage />} />
           <Route path="settings" element={<Login />} />
         </Route>
       </Routes>

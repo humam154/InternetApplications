@@ -70,10 +70,6 @@ public class InviteService {
         if(optionalInvite.isPresent()) {
             var invite = optionalInvite.get();
 
-            invite.setStatus(InviteStatus.ACCEPTED);
-
-            inviteRepository.save(invite);
-
             User invitee = tokenRepository.findByToken(token.replaceFirst("^Bearer ", ""))
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
             .getUser();
@@ -81,6 +77,10 @@ public class InviteService {
             if(!invitee.equals(invite.getInviteTo())) {
                 throw new IllegalAccessException("You are not the invitee");
             }
+
+            invite.setStatus(InviteStatus.ACCEPTED);
+
+            inviteRepository.save(invite);
             
             groupMemberRepository.save(GroupMember.builder()
                 .group(invite.getGroup())

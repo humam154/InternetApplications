@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -178,14 +179,16 @@ public class FileService {
         return createZipFromFiles(files);
     }
     private Boolean isFileCheckedInByUser(User user, FileData file) {
-        FileCheck check = fileCheckRepository.findLastCheckByFile(file.getId())
-            .orElseThrow(() -> new NoSuchElementException("No check found for file with ID: " + file.getId()));
+        Optional<FileCheck> check = fileCheckRepository.findLastCheckByFile(file.getId());
     
-        if (check.getCheckedBy() == null) {
+        if(!check.isPresent()) {
+            return false;
+        }
+        if (check.get().getCheckedBy() == null) {
             return false;
         }
     
-        return check.getCheckedBy().getId().equals(user.getId());
+        return check.get().getCheckedBy().getId().equals(user.getId());
     }
     
 

@@ -1,6 +1,8 @@
 package com.humam.security.invite;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.humam.security.group.Group;
 import com.humam.security.group.GroupRepository;
 import com.humam.security.group.GroupService;
@@ -12,6 +14,7 @@ import com.humam.security.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -106,5 +109,39 @@ public class InviteService {
             throw new IllegalArgumentException("Invalid invite ID");
         }
     }
-}
 
+    public List<InviteResponse> inbox(String token) {
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+
+        List<Invite> invites = inviteRepository.findByInvitedToAndStatus(user.getId(), InviteStatus.PENDING);
+
+        return invites.stream().map(invite -> InviteResponse.builder()
+            .id(invite.getId())
+            .group_name(invite.getGroup().getName())
+            .inviter(invite.getInvitedBy().getFirst_name() + " " + invite.getInvitedBy().getLast_name())
+            .invitee(invite.getInviteTo().getFirst_name() + " " + invite.getInviteTo().getLast_name())
+            .build()
+        ).toList();
+    }
+
+
+    public List<InviteResponse> outbox(String token) {
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+
+        List<Invite> invites = inviteRepository.findByInvitedByAndStatus(user.getId(), InviteStatus.PENDING);
+
+        return invites.stream().map(invite -> InviteResponse.builder()
+            .id(invite.getId())
+            .group_name(invite.getGroup().getName())
+            .inviter(invite.getInvitedBy().getFirst_name() + " " + invite.getInvitedBy().getLast_name())
+            .invitee(invite.getInviteTo().getFirst_name() + " " + invite.getInviteTo().getLast_name())
+            .build()
+        ).toList();
+    }
+}

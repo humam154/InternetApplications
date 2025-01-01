@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class InviteResponse {
 
+    @JsonProperty("id")
+    private Integer id;
+
     @JsonProperty("group_name")
     private String group_name;
     

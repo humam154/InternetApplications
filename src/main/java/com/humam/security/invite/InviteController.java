@@ -2,6 +2,9 @@ package com.humam.security.invite;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +13,7 @@ import com.humam.security.utils.GenericResponse;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 
-
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v1/invitations")
 @RequiredArgsConstructor
@@ -68,4 +68,28 @@ public class InviteController {
     }
 
     @GetMapping("/inbox")
+    public ResponseEntity<GenericResponse<List<InviteResponse>>> inbox(
+        @RequestHeader("Authorization") String token
+    )
+    {
+        List<InviteResponse> invites = inviteService.inbox(token);
+
+        if(invites.isEmpty()) {
+            return ResponseEntity.ok(GenericResponse.empty("Wow, such empty! You do not have pending invitations."));   
+        }
+        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retireved successfully"));
+    }
+
+    @GetMapping("/outbox")
+    public ResponseEntity<GenericResponse<List<InviteResponse>>> outbox(
+        @RequestHeader("Authorization") String token
+    )
+    {
+        List<InviteResponse> invites = inviteService.outbox(token);
+
+        if(invites.isEmpty()) {
+            return ResponseEntity.ok(GenericResponse.empty("Wow, such empty! You do not have pending invitations."));   
+        }
+        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retireved successfully"));
+    }
 }

@@ -69,7 +69,7 @@ public class FileService {
             .filePath(filePath.toString())
             .createdBy(user)
             .group(group)
-            .accepted(false)
+            .accepted(group.getCreatedBy().equals(user))
             .inUse(false)
             .version(0)
             .build());
@@ -218,6 +218,28 @@ public class FileService {
         ).toList();
     }
     
+    public List<FileDataResponse> pendingFiles(String token, Integer gid) {
+        List<FileData> files;
+        boolean isGroupOwner = groupService.isGroupOwner(token, gid);
+        if(isGroupOwner) {
+            files = repository.findByGroupIdAndAcceptedFalse(gid);
+        }
+         else {
+            throw new IllegalStateException("You are not the group owner");
+        }
+
+        return files.stream().map(file -> FileDataResponse.builder()
+            .id(file.getId())
+            .name(file.getName())
+            .groupName(file.getGroup().getName())
+            .createdByUser(file.getCreatedBy().getFirst_name() + " " + file.getCreatedBy().getLast_name())
+            .isGroupOwner(isGroupOwner)
+            .accepted(file.getAccepted())
+            .inUse(file.getInUse())
+            .version(1)
+            .build()
+        ).toList();
+    }
 
     private ByteArrayResource createZipFromFiles(List<FileData> files) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

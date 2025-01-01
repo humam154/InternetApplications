@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
@@ -108,5 +107,13 @@ public class FileController {
         return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
     }
     
+    @GetMapping("/pending/{gid}")
+    public ResponseEntity<GenericResponse<List<FileDataResponse>>> pendingFiles(
+        @RequestHeader("Authorization") String token,
+        @PathVariable @NotNull @Min(1) Integer gid
+    ) {
+        List<FileDataResponse> groupFiles = fileService.groupFiles(token, gid);
+        return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
+    }
     
 }

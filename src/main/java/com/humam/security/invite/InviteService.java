@@ -54,6 +54,7 @@ public class InviteService {
             .invitedBy(inviter)
             .inviteTo(invitee)
             .status(InviteStatus.PENDING)
+            .inviteDate(Instant.now())
             .build());
 
         return InviteResponse.builder()
@@ -123,6 +124,7 @@ public class InviteService {
             .group_name(invite.getGroup().getName())
             .inviter(invite.getInvitedBy().getFirst_name() + " " + invite.getInvitedBy().getLast_name())
             .invitee(invite.getInviteTo().getFirst_name() + " " + invite.getInviteTo().getLast_name())
+            .inviteDate(invite.getInviteDate())
             .build()
         ).toList();
     }
@@ -141,6 +143,7 @@ public class InviteService {
             .group_name(invite.getGroup().getName())
             .inviter(invite.getInvitedBy().getFirst_name() + " " + invite.getInvitedBy().getLast_name())
             .invitee(invite.getInviteTo().getFirst_name() + " " + invite.getInviteTo().getLast_name())
+            .inviteDate(invite.getInviteDate())
             .build()
         ).toList();
     }

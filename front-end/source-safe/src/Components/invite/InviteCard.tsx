@@ -8,6 +8,7 @@ interface InviteProps {
   group_name: string;
   inviter: string;
   invitee: string;
+  invite_date: Date;
 }
 
 const handleAccept = (id: number) => {
@@ -37,7 +38,8 @@ const handleRevoke = (id: number) => {
 };
 
 const InviteCard = (props: InviteProps) => {
-  const { id, group_name, inviter, invitee } = props;
+  const { id, group_name, inviter, invitee, invite_date } = props;
+  const date = new Date(invite_date).toDateString();
 
   const location = useLocation();
   const isOutbox = location.pathname.includes("outbox");
@@ -47,6 +49,7 @@ const InviteCard = (props: InviteProps) => {
       <div className={styles.content}>
         <p>Group Name: {group_name}</p>
         <p>{isOutbox ? `To: ${invitee}` : `From: ${inviter}`}</p>
+        <p>On: {date}</p>
       </div>
 
       {isOutbox ?

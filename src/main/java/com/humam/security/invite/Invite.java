@@ -1,5 +1,7 @@
 package com.humam.security.invite;
 
+import java.time.Instant;
+
 import com.humam.security.group.Group;
 import com.humam.security.user.User;
 import jakarta.persistence.*;
@@ -32,4 +34,7 @@ public class Invite {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private InviteStatus status; 
+
+    @Column(name = "invite_date", updatable = false, nullable = false)
+    private Instant inviteDate;
 }

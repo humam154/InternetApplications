@@ -1,5 +1,7 @@
 package com.humam.security.invite;
 
+import java.time.Instant;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +27,7 @@ public class InviteResponse {
     @JsonProperty("invitee")
     private String invitee;
     
+    @JsonProperty("invite_date")
+    private Instant inviteDate;
 
 }

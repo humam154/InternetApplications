@@ -17,8 +17,9 @@ interface GroupProps {
 const GroupCard = (props :GroupProps) => {
     const {gid, is_owner, name, description, owner, creation_date, members_count} = props;
     const date = new Date(creation_date).toDateString();
+    
   return (
-    <Link to={`/home/groups/${gid}`}>
+    <Link to={`/home/groups/${gid}`} state={{ group_name: name }}>
       <div className={styles.container}>
           <div className={styles.content}>
               <h3>name: {name}</h3>

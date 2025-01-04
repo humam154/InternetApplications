@@ -67,6 +67,24 @@ public class InviteController {
         }
     }
 
+    @PostMapping("/revoke/{id}")
+    public ResponseEntity<GenericResponse<Object>> revoke(
+        @RequestHeader("Authorization") String token,
+        @PathVariable @NotNull @Min(1) Integer id
+    )
+    {
+        try {
+            var isAccepted = (Object) inviteService.revokeInvite(token ,id);
+            return ResponseEntity.ok(GenericResponse.success(isAccepted, "Rejected"));
+        }
+        catch (IllegalArgumentException exception){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GenericResponse.error(exception.getMessage()));
+        }
+        catch (Exception exception){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
+        }
+    }
+
     @GetMapping("/inbox")
     public ResponseEntity<GenericResponse<List<InviteResponse>>> inbox(
         @RequestHeader("Authorization") String token

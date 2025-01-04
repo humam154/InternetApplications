@@ -111,6 +111,29 @@ public class InviteService {
         }
     }
 
+    public boolean revokeInvite(String token, Integer id) {
+
+        User inviter = tokenRepository.findByToken(token.replaceFirst("^Bearer ", ""))
+            .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
+            .getUser();
+
+        var optionalInvite = inviteRepository.findById(id);
+
+        if(optionalInvite.isPresent()) {
+            var invite = optionalInvite.get();
+
+            if(!invite.getInvitedBy().equals(inviter)) {
+                throw new IllegalArgumentException("Invalid inviter token");
+            }
+
+            inviteRepository.delete(invite);
+
+            return true;
+        } else {
+            throw new IllegalArgumentException("Invalid invite ID");
+        }
+    }
+
     public List<InviteResponse> inbox(String token) {
         token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token)

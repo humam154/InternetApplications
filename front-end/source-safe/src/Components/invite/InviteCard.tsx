@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './InviteCard.module.css';
-import { accept, reject } from '../../Services/invitationService';
+import { accept, reject, revoke } from '../../Services/invitationService';
 
 interface InviteProps {
   id: number;
@@ -34,7 +34,8 @@ const handleRevoke = (id: number) => {
     if (!token) {
       return;
     }
-    console.log(`Rejected invite with id: ${id}`);
+    console.log(`Revoked invite with id: ${id}`);
+    revoke(token, id);
 };
 
 const InviteCard = (props: InviteProps) => {

@@ -65,3 +65,41 @@ export const reject = async (token: string, id: number) => {
   }
 };
   
+export const revoke = async (token: string, id: number) => {
+  try {
+    const response = await axios.post(
+        `${apiUrl}/revoke/${id}`, 
+        {},    
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    return response.data;
+  } catch (error) {
+    console.error("Error revoking invitation:", error);
+    throw error;
+  }
+};
+
+
+export const invite = async (token: string, gid: number, uid: number) => {
+  try {
+    const response = await axios.post(
+        `${apiUrl}/invite`, 
+        {
+          "gid": gid,
+          "uid": uid
+        },    
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    return response.data;
+  } catch (error) {
+    console.error("Error rejecting invitation:", error);
+    throw error;
+  }
+};
+  

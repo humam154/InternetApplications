@@ -45,7 +45,7 @@ Source Safe -  File Management System
     - [X] `/invite`
     - [X] `/accept/{id}`
     - [X] `/reject/{id}`
-    - [ ] `/revoke`
+    - [X] `/revoke/{id}`
     - [X] `/inbox`
     - [X] `/outbox`
     - [ ] `/search?q=`

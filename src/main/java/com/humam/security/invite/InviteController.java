@@ -56,8 +56,8 @@ public class InviteController {
     )
     {
         try {
-            var isAccepted = (Object) inviteService.rejectInvite(id);
-            return ResponseEntity.ok(GenericResponse.success(isAccepted, "Rejected"));
+            var isRejected = (Object) inviteService.rejectInvite(id);
+            return ResponseEntity.ok(GenericResponse.success(isRejected, "Rejected"));
         }
         catch (IllegalArgumentException exception){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GenericResponse.error(exception.getMessage()));
@@ -74,8 +74,8 @@ public class InviteController {
     )
     {
         try {
-            var isAccepted = (Object) inviteService.revokeInvite(token ,id);
-            return ResponseEntity.ok(GenericResponse.success(isAccepted, "Rejected"));
+            var isRevoked = (Object) inviteService.revokeInvite(token ,id);
+            return ResponseEntity.ok(GenericResponse.success(isRevoked, "Revoked"));
         }
         catch (IllegalArgumentException exception){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GenericResponse.error(exception.getMessage()));

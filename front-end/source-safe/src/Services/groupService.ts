@@ -15,3 +15,20 @@ export const getGroups = async (token: string) => {
     throw error;
   }
 };
+
+//TODO look into body datatype
+export const createGroup = async (token: string, data: any) => {
+  try {
+    const response = await axios.post(`${apiUrl}/create`, 
+    {},  
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching groups:", error);
+    throw error;
+  }
+};

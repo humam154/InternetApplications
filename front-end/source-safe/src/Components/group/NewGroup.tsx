@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
-import { createGroup } from "../../Services/groupService";
-
+import { createGroup, CreateGroupData } from "../../Services/groupService";
 
 const NewGroup = () => {
     const [name, setName] = useState<string>('');
@@ -13,7 +12,7 @@ const NewGroup = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const data = {
+            const data: CreateGroupData ={
                 name: name,
                 description: description
             }

@@ -16,11 +16,15 @@ export const getGroups = async (token: string) => {
   }
 };
 
-//TODO look into body datatype
-export const createGroup = async (token: string, data: any) => {
+export interface CreateGroupData {
+  name: string;
+  description: string;
+}
+
+export const createGroup = async (token: string, data: CreateGroupData) => {
   try {
     const response = await axios.post(`${apiUrl}/create`, 
-    {},  
+    data,  
     {
       headers: {
         Authorization: `Bearer ${token}`,

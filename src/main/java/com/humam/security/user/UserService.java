@@ -97,6 +97,7 @@ public class UserService {
 
         return users.stream()
                 .map(user -> SearchUserResponse.builder()
+                        .id(user.getId())
                         .first_name(user.getFirst_name())
                         .last_name(user.getLast_name())
                         .email(user.getEmail())

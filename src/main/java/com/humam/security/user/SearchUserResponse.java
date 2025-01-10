@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SearchUserResponse {
 
+    private Integer id;
+
     @JsonProperty("first_name")
     private String first_name;
 

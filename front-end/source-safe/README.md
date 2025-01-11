@@ -27,3 +27,37 @@ You will see the following screen on `http://localhost:5173/` :
 
 This is the greeting screen of the application, it will be modified later.
 
+### What should be done
+
+- `/user`
+    - [ ] `/change`
+    - [ ] `/update`
+
+- `/files`
+    - [ ] `/upload`
+    - [ ] `/update/{id}`
+    - [ ] `/accept/{id}`
+    - [ ] `/reject/{id}`
+    - [ ] `/download/{id}`
+    - [ ] `/downloadmany`
+    - [X] `/groupfiles/{gid}` 
+    - [ ] `/pending/{gid}`
+    - [ ] `/filechecks/{fid}`
+    - [ ] `/groupfilechecks/{gid}`
+    - [ ] `/userfilechecks`
+    - [ ] `/search?q=`
+
+- [X] `/groups`
+    - [X] `/create`
+    - [ ] `/delete/{gid}`
+    - [ ] `/removemember`
+    - [ ] `/search?q=`
+
+- `/invitations`
+    - [X] `/invite`
+    - [X] `/accept/{id}`
+    - [X] `/reject/{id}`
+    - [X] `/revoke/{id}`
+    - [X] `/inbox`
+    - [X] `/outbox`
+    - [ ] `/search?q=`

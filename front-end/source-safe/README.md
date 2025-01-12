@@ -35,13 +35,13 @@ This is the greeting screen of the application, it will be modified later.
 
 - `/files`
     - [X] `/upload`
-    - [ ] `/update/{id}`
+    - [X] `/update/{id}`
     - [ ] `/accept/{id}`
     - [ ] `/reject/{id}`
     - [X] `/download/{id}`
     - [ ] `/downloadmany`
     - [X] `/groupfiles/{gid}?filter=` 
-    - ~~[X] `/pending/{gid}`~~
+    - [X] ~~`/pending/{gid}`~~
     - [ ] `/filechecks/{fid}`
     - [ ] `/groupfilechecks/{gid}`
     - [ ] `/userfilechecks`

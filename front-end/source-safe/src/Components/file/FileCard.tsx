@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './FileCard.module.css';
 import { CiMenuKebab } from 'react-icons/ci';
-import { downloadFile } from '../../Services/fileService';
+import { downloadFile, updateFile, updateFileData } from '../../Services/fileService';
 
 interface FileProps {
   id: number;
@@ -23,6 +23,36 @@ const FileCard = (props: FileProps) => {
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
+
+  const handleFileUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const token = localStorage.getItem("token");
+  
+        if (!token) {
+          //TODO deal with this case, maybe redirect to login page
+          alert("Your session has ended, please log in again!");
+          return;
+        }
+  
+        const file = e.target.files?.[0];
+  
+        if (id && file) {
+          const data: updateFileData = {
+            file: file,
+            fileId: id.toString(),
+          };
+  
+          try {
+            await updateFile(token, data);
+            alert("File updated successfully!");
+          } catch (error) {
+            console.error("Error uploading file:", error);
+            alert("An error occurred while uploading the file.");
+          }
+        } else {
+          alert("Please select a file to upload.");
+        }
+  };
+
   const handleFileDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const token = localStorage.getItem("token");
 
@@ -61,9 +91,16 @@ const FileCard = (props: FileProps) => {
       <button className={styles.menubutton} onClick={toggleMenu}>
         <CiMenuKebab />
       </button>
-
+      
       {menuOpen && (
         <div className={styles.menu}>
+          <button className={styles.menuButton} disabled={in_use ? checked_by_user ? false : true : true} onClick={() => {
+              const input = document.getElementById('fileUpload') as HTMLInputElement;
+              if(input) {
+                input.click();
+              }
+            }}>Update</button>
+          <input type="file" id="fileUpload" style={{ display: 'none' }} onChange={handleFileUpdate} />
           <button className={styles.menuButton} disabled={in_use} onClick={handleFileDownload}>Download</button>
         </div>
       )}

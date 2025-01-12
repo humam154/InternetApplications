@@ -42,6 +42,28 @@ export const uploadFile = async (token: string, data: uploadFileData) => {
     throw error;
   }
 };
+
+export interface updateFileData {
+  file: File,
+  fileId: string
+}
+
+export const updateFile = async (token: string, data: updateFileData) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', data.file);
+    const response = await axios.put(`${apiUrl}/update/${data.fileId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating file:", error);
+    throw error;
+  }
+};
+
 export const downloadFile = async (token: string, fileId: number) => {
   try {
     const response = await axios.get(`${apiUrl}/download/${fileId}`, {

@@ -115,3 +115,17 @@ export const acceptFile = async (token: string, fileId: number)  => {
     throw error;
   }
 };
+
+export const rejectFile = async (token: string, fileId: number)  => {
+  try {
+    const response = await axios.delete(`${apiUrl}/reject/${fileId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating file:", error);
+    throw error;
+  }
+};

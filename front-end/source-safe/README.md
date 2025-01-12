@@ -36,8 +36,8 @@ This is the greeting screen of the application, it will be modified later.
 - `/files`
     - [X] `/upload`
     - [X] `/update/{id}`
-    - [ ] `/accept/{id}`
-    - [ ] `/reject/{id}`
+    - [X] `/accept/{id}`
+    - [X] `/reject/{id}`
     - [X] `/download/{id}`
     - [ ] `/downloadmany`
     - [X] `/groupfiles/{gid}?filter=` 

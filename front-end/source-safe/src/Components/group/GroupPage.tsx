@@ -7,8 +7,15 @@ import FileCard, { FileProps } from '../file/FileCard';
 import FilesList from '../file/FilesList';
 import { getFiles, uploadFile, uploadFileData } from '../../Services/fileService';
 
+export enum Filter {
+  NONE = '',
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  IN_USE = 'in_use'
+}
 
 const GroupPage = () => {
+    const [filter, setFilter] = useState<Filter>(Filter.NONE);
     const [files, setFiles] = useState<FileProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -17,57 +24,62 @@ const GroupPage = () => {
     const location = useLocation();
     const state = location.state;
     const { group_name } = state;
+    const { is_owner } = state;
 
-      useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("User is not authenticated");
-          setLoading(false);
-          return;
+    const fetchFiles = async (token: string) => {
+      try {
+        const data = await getFiles(token, gid, filter);
+        setFiles(data.data);
+      } catch (err) {
+        setError("Failed to fetch files");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("User is not authenticated");
+        setLoading(false);
+        return;
+      }
+      fetchFiles(token);
+    }, [filter]);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        //TODO deal with this case, maybe redirect to login page
+        alert("Your session has ended, please log in again!");
+        return;
+      }
+
+      const file = e.target.files?.[0];
+
+      if (gid && file) {
+        const data: uploadFileData = {
+          file: file,
+          groupId: gid,
+        };
+
+        try {
+          await uploadFile(token, data);
+          alert("File uploaded successfully!");
+          fetchFiles(token);
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          alert("An error occurred while uploading the file.");
         }
-        getFiles(token, gid)
-          .then((data) => {
-            setFiles(data.data);
-            setLoading(false);
-          })
-          .catch((err) => {
-            setError("Failed to fetch files");
-            setLoading(false);
-          });
-      }, []);
-    
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>{error}</p>;
-    
-      const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const token = localStorage.getItem("token");
-      
-        if (!token) {
-          //TODO deal with this case, maybe redirect to login page
-          alert("your session has ended, please log in again!");
-          throw ("User is not authenticated!");
-        }
-      
-        const file = e.target.files?.[0];
-      
-        if (gid && file) {
-          const data: uploadFileData = {
-            file: file,
-            groupId: gid,
-          };
-      
-          try {
-            await uploadFile(token, data);
-            alert("File uploaded successfully!");
-          } catch (error) {
-            console.error("Error uploading file:", error);
-            alert("An error occurred while uploading the file.");
-          }
-        } else {
-          alert("Please select a file to upload.");
-        }
-      };
-    
+      } else {
+        alert("Please select a file to upload.");
+      }
+    };
+
     return (
       <div className={styles.container}>
           <div className={styles.banner}>
@@ -81,16 +93,24 @@ const GroupPage = () => {
                 if(input) {
                   input.click();
                 }
-                }}> <MdUpload /></button>
+              }}> <MdUpload /></button>
               <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileUpload} />
-              
+          </div>
+
+          <div className={styles.filterButtons}>
+            {is_owner && (
+              <>
+                <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE}>All</button>
+                <button onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING}>Pending</button>
+                <button onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED}>Accepted</button>
+              </>
+            )}
           </div>
 
           <FilesList
               items={files}
               renderer={(file) => <FileCard key={file.id} {...file} />}
           />
-
       </div>
     );
 }

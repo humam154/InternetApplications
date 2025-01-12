@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './FileCard.module.css';
 import { CiMenuKebab } from 'react-icons/ci';
+import { downloadFile } from '../../Services/fileService';
 
 interface FileProps {
   id: number;
@@ -21,6 +22,25 @@ const FileCard = (props: FileProps) => {
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
+  };
+  const handleFileDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const token = localStorage.getItem("token");
+
+    console.log('sldsbclknkcdnk')
+    if (!token) {
+      //TODO deal with this case, maybe redirect to login page
+      alert("Your session has ended, please log in again!");
+      return;
+    }
+
+      try {
+        console.log('sldsbclknkcdnk')
+        await downloadFile(token, id);
+        alert("File downloaded successfully!");
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert("An error occurred while uploading the file.");
+      }
   };
 
   return (
@@ -44,8 +64,7 @@ const FileCard = (props: FileProps) => {
 
       {menuOpen && (
         <div className={styles.menu}>
-          <button className={styles.menuButton} disabled={!checked_by_user}>Update</button>
-          <button className={styles.menuButton} disabled={in_use}>Download</button>
+          <button className={styles.menuButton} disabled={in_use} onClick={handleFileDownload}>Download</button>
         </div>
       )}
     </div>

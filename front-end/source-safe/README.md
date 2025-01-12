@@ -38,10 +38,10 @@ This is the greeting screen of the application, it will be modified later.
     - [ ] `/update/{id}`
     - [ ] `/accept/{id}`
     - [ ] `/reject/{id}`
-    - [ ] `/download/{id}`
+    - [X] `/download/{id}`
     - [ ] `/downloadmany`
-    - [X] `/groupfiles/{gid}` 
-    - [ ] `/pending/{gid}`
+    - [X] `/groupfiles/{gid}?filter=` 
+    - ~~[X] `/pending/{gid}`~~
     - [ ] `/filechecks/{fid}`
     - [ ] `/groupfilechecks/{gid}`
     - [ ] `/userfilechecks`

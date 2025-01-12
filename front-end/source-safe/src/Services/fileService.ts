@@ -101,3 +101,17 @@ export const downloadFile = async (token: string, fileId: number) => {
     throw error;
   }
 };
+
+export const acceptFile = async (token: string, fileId: number)  => {
+  try {
+    const response = await axios.put(`${apiUrl}/accept/${fileId}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating file:", error);
+    throw error;
+  }
+};

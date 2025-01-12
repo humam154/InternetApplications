@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './FileCard.module.css';
 import { CiMenuKebab } from 'react-icons/ci';
-import { downloadFile, updateFile, updateFileData } from '../../Services/fileService';
+import { acceptFile, downloadFile, updateFile, updateFileData } from '../../Services/fileService';
 
 interface FileProps {
   id: number;
@@ -73,6 +73,24 @@ const FileCard = (props: FileProps) => {
       }
   };
 
+  const handleFileAccept = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      //TODO deal with this case, maybe redirect to login page
+      alert("Your session has ended, please log in again!");
+      return;
+    }
+
+    try {
+      await acceptFile(token, id);
+      alert("File updated successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert(error);
+    }
+};
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -84,14 +102,14 @@ const FileCard = (props: FileProps) => {
 
       <div className={styles.owner}>
         {is_group_owner && accepted && <button className={`${styles.button} ${styles.delete}`}>Delete</button>}
-        {is_group_owner && !accepted && <button className={`${styles.button} ${styles.accept}`}>Accept</button>}
+        {is_group_owner && !accepted && <button className={`${styles.button} ${styles.accept}`} onClick={handleFileAccept}>Accept</button>}
         {is_group_owner && !accepted && <button className={`${styles.button} ${styles.reject}`}>Reject</button>}
       </div>
 
       <button className={styles.menubutton} onClick={toggleMenu}>
         <CiMenuKebab />
       </button>
-      
+
       {menuOpen && (
         <div className={styles.menu}>
           <button className={styles.menuButton} disabled={in_use ? checked_by_user ? false : true : true} onClick={() => {

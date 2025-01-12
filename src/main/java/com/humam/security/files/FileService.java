@@ -126,6 +126,7 @@ private String getFileExtension(String fileName) {
         .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
 
         fileData.setAccepted(true);
+        repository.save(fileData);
 
         return "Accepted file successfully!";
     }
@@ -223,6 +224,8 @@ private String getFileExtension(String fileName) {
         if (isGroupOwner) {
             if ("pending".equalsIgnoreCase(filter)) { // query parameter = 'pending'
                 files = repository.findByGroupIdAndAcceptedFalse(gid);
+            } else if ("accepted".equalsIgnoreCase(filter)) { // query parameter = 'accepted'
+            files = repository.findByGroupIdAndAcceptedTrue(gid);
             } else { // no query parameter
                 files = repository.findByGroupId(gid);
             }

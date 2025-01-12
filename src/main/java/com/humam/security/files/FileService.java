@@ -79,23 +79,47 @@ public class FileService {
     }
 
     @Transactional
-    public String updateFile(Integer fileId, MultipartFile multipartFile) throws IOException {
-       
+public String updateFile(Integer fileId, MultipartFile multipartFile) throws IOException {
 
-        FileData existingFile = repository.findByIdForUpdate(fileId)
-                .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
 
-        if (multipartFile.isEmpty()) {
-            throw new IllegalArgumentException("File is empty");
-        }
+    FileData existingFile = repository.findByIdForUpdate(fileId)
+            .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
 
-        Path filePath = Path.of(existingFile.getFilePath());
-        Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        existingFile.setVersion(existingFile.getVersion()+1);
-        repository.save(existingFile);
-        changeFileStatus(existingFile);
-        return "File updated successfully: " + existingFile.getName();
+    if (multipartFile.isEmpty()) {
+        throw new IllegalArgumentException("File is empty");
     }
+
+    Path existingFilePath = Path.of(existingFile.getFilePath());
+
+    // keep name of old version file
+    String oldFileName = existingFile.getName();
+    // keep file extension of old file
+    String oldFileExtension = getFileExtension(oldFileName);
+
+    // prevent upload of an unrelated file (different extension)
+    String newFileExtension = getFileExtension(multipartFile.getOriginalFilename());
+    if(!newFileExtension.equals(oldFileExtension)) {
+        throw new IllegalArgumentException("File extension is different");
+    }
+    // rename the old file (append version)
+    String newFileName = oldFileName.replace("." + oldFileExtension, "") + "_v" + existingFile.getVersion() + "." + oldFileExtension;
+    Path renamedOldFilePath = existingFilePath.getParent().resolve(newFileName);
+    Files.move(existingFilePath, renamedOldFilePath, StandardCopyOption.REPLACE_EXISTING);
+
+    // rename new file to old name (without version)
+    Files.copy(multipartFile.getInputStream(), existingFilePath, StandardCopyOption.REPLACE_EXISTING);
+
+    // update version
+    existingFile.setVersion(existingFile.getVersion() + 1);
+    repository.save(existingFile);
+    changeFileStatus(existingFile);
+    return "File updated successfully: " + existingFile.getName();
+}
+
+private String getFileExtension(String fileName) {
+    int lastIndexOfDot = fileName.lastIndexOf('.');
+    return (lastIndexOfDot == -1) ? "" : fileName.substring(lastIndexOfDot + 1);
+}
 
     public String acceptFile(Integer fileId){
         FileData fileData = repository.findById(fileId)

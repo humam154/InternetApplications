@@ -112,7 +112,7 @@ public class FileController {
         @RequestHeader("Authorization") String token,
         @PathVariable @NotNull @Min(1) Integer gid
     ) {
-        List<FileDataResponse> groupFiles = fileService.groupFiles(token, gid);
+        List<FileDataResponse> groupFiles = fileService.pendingFiles(token, gid);
         return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
     }
     

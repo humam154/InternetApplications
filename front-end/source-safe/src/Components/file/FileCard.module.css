@@ -91,6 +91,11 @@
   }
 
   .menuButton:disabled {
-    background: #afafaf;
+    color: #afafaf;
+  }
+
+  .menuButton:disabled:hover {
+    background: none;
+    cursor:auto;
   }
   

@@ -5,19 +5,8 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styles from './GroupPage.module.css';
 import FileCard, { FileProps } from '../file/FileCard';
 import FilesList from '../file/FilesList';
-import { getFiles } from '../../Services/fileService';
+import { getFiles, uploadFile, uploadFileData } from '../../Services/fileService';
 
-const handleFileUpload = async (e: any) => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    //TODO deal with this case, maybe redirect to login page
-    alert("your session has ended, please log in again!");
-    throw ("User is not authenticated!");
-  }
-
-  const file = e.target.files[0];
-
-};
 
 const GroupPage = () => {
     const [files, setFiles] = useState<FileProps[]>([]);
@@ -50,6 +39,34 @@ const GroupPage = () => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>{error}</p>;
     
+      const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const token = localStorage.getItem("token");
+      
+        if (!token) {
+          //TODO deal with this case, maybe redirect to login page
+          alert("your session has ended, please log in again!");
+          throw ("User is not authenticated!");
+        }
+      
+        const file = e.target.files?.[0];
+      
+        if (gid && file) {
+          const data: uploadFileData = {
+            file: file,
+            groupId: gid,
+          };
+      
+          try {
+            await uploadFile(token, data);
+            alert("File uploaded successfully!");
+          } catch (error) {
+            console.error("Error uploading file:", error);
+            alert("An error occurred while uploading the file.");
+          }
+        } else {
+          alert("Please select a file to upload.");
+        }
+      };
     
     return (
       <div className={styles.container}>
@@ -60,9 +77,9 @@ const GroupPage = () => {
               <h2>{group_name}</h2>
 
               <button onClick={() => {
-                const input = document.getElementById('fileInput') as HTMLElement;
+                const input = document.getElementById('fileInput') as HTMLInputElement;
                 if(input) {
-                  input.onclick;
+                  input.click();
                 }
                 }}> <MdUpload /></button>
               <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileUpload} />

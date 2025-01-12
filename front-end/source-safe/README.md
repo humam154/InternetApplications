@@ -34,7 +34,7 @@ This is the greeting screen of the application, it will be modified later.
     - [ ] `/update`
 
 - `/files`
-    - [ ] `/upload`
+    - [X] `/upload`
     - [ ] `/update/{id}`
     - [ ] `/accept/{id}`
     - [ ] `/reject/{id}`

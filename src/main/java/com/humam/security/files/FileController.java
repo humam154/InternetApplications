@@ -101,18 +101,10 @@ public class FileController {
     @GetMapping("/groupfiles/{gid}")
     public ResponseEntity<GenericResponse<List<FileDataResponse>>> groupFiles(
         @RequestHeader("Authorization") String token,
-        @PathVariable @NotNull @Min(1) Integer gid
+        @PathVariable @NotNull @Min(1) Integer gid,
+        @RequestParam(value = "filter", required = false) String filter
     ) {
-        List<FileDataResponse> groupFiles = fileService.groupFiles(token, gid);
-        return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
-    }
-    
-    @GetMapping("/pending/{gid}")
-    public ResponseEntity<GenericResponse<List<FileDataResponse>>> pendingFiles(
-        @RequestHeader("Authorization") String token,
-        @PathVariable @NotNull @Min(1) Integer gid
-    ) {
-        List<FileDataResponse> groupFiles = fileService.pendingFiles(token, gid);
+        List<FileDataResponse> groupFiles = fileService.groupFiles(token, gid, filter);
         return ResponseEntity.ok(GenericResponse.success(groupFiles, "Group files retrieved successfully"));
     }
     

@@ -26,9 +26,10 @@ Source Safe -  File Management System
     - `/reject/{id}`
     - `/download/{id}`
     - `/downloadmany`
-    - [X] `/groupfiles/{gid}` 
-    > will be `/groupfiles/{gid}?q=` for filtering between [in_use, accepted, all], result varies depending on user token (group owner or not)
-    - [X] `/pending/{gid}`
+    - [X] `/groupfiles/{gid}?filter=` 
+    > `/groupfiles/{gid}?filter=` for filtering between [in_use, accepted, pending], result varies depending on user token (group owner or not)
+    - [X] `/groupfiles/{gid}?filter=in_use`
+    - ~~[X] `/pending/{gid}`~~
     - [ ] `/filechecks/{fid}`
     - [ ] `/groupfilechecks/{gid}`
     - [ ] `/userfilechecks`

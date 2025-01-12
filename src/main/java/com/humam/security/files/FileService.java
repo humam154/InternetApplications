@@ -192,13 +192,18 @@ public class FileService {
     }
     
 
-    public List<FileDataResponse> groupFiles(String token, Integer gid) {
+    public List<FileDataResponse> groupFiles(String token, Integer gid, String filter) {
         List<FileData> files;
         boolean isGroupOwner = groupService.isGroupOwner(token, gid);
-        if(isGroupOwner) {
-            files = repository.findByGroupId(gid);
-        }
-         else {
+    
+        if (isGroupOwner) {
+            if ("pending".equalsIgnoreCase(filter)) { // query parameter = 'pending'
+                files = repository.findByGroupIdAndAcceptedFalse(gid);
+            } else { // no query parameter
+                files = repository.findByGroupId(gid);
+            }
+        } else {
+            // TODO group members can see the files of the group that THEY are using
             files = repository.findByGroupIdAndAcceptedTrue(gid);
         }
         token = token.replaceFirst("^Bearer ", "");
@@ -211,7 +216,7 @@ public class FileService {
             .name(file.getName())
             .groupName(file.getGroup().getName())
             .createdByUser(file.getCreatedBy().getFirst_name() + " " + file.getCreatedBy().getLast_name())
-            .isOwner(file.getCreatedBy().getId() == user.getId() ? true : false)
+            .isOwner(file.getCreatedBy().getId() == user.getId())
             .isGroupOwner(isGroupOwner)
             .checkedInByCurrentUser(isFileCheckedInByUser(user, file))
             .accepted(file.getAccepted())
@@ -221,29 +226,6 @@ public class FileService {
         ).toList();
     }
     
-    public List<FileDataResponse> pendingFiles(String token, Integer gid) {
-        List<FileData> files;
-        boolean isGroupOwner = groupService.isGroupOwner(token, gid);
-        if(isGroupOwner) {
-            files = repository.findByGroupIdAndAcceptedFalse(gid);
-        }
-         else {
-            throw new IllegalStateException("You are not the group owner");
-        }
-
-        return files.stream().map(file -> FileDataResponse.builder()
-            .id(file.getId())
-            .name(file.getName())
-            .groupName(file.getGroup().getName())
-            .createdByUser(file.getCreatedBy().getFirst_name() + " " + file.getCreatedBy().getLast_name())
-            .isGroupOwner(isGroupOwner)
-            .accepted(file.getAccepted())
-            .inUse(file.getInUse())
-            .version(1)
-            .build()
-        ).toList();
-    }
-
     private ByteArrayResource createZipFromFiles(List<FileData> files) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {

@@ -196,6 +196,7 @@ private String getFileExtension(String fileName) {
 
             fileCheckRepository.save(FileCheck.builder()
             .checkedBy(user)
+            .checkDate(Instant.now())
             .fileId(file)
             .build());
 

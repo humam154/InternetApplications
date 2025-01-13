@@ -59,6 +59,7 @@ public class ApplicationConfig {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .exposedHeaders("Content-Disposition")
+                        .exposedHeaders("Access-Control-Allow-Origin")
                         .allowCredentials(true);
             }
         };

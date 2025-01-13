@@ -17,7 +17,7 @@ interface FileProps {
 }
 
 const FileCard = (props: FileProps) => {
-  const { id, name, group_name, created_by, is_owner, is_group_owner, checked_by_user, accepted, in_use, version } = props;
+  const { id, name, created_by, is_owner, is_group_owner, checked_by_user, accepted, in_use, version } = props;
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {

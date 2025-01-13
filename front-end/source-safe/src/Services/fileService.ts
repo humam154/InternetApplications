@@ -102,6 +102,49 @@ export const downloadFile = async (token: string, fileId: number) => {
   }
 };
 
+export const downloadManyFiles = async (token: string, fileIds: Array<number>) => {
+  try {
+    const response = await axios.get(`${apiUrl}/downloadmany`, 
+      {params: {fileIds: fileIds
+    },
+      paramsSerializer:{
+        indexes: null
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+
+      withCredentials: true
+    });
+
+    console.log(response)
+    const contentDisposition = response.headers['content-disposition'];
+    let filename = 'downloaded_file';
+
+    if (contentDisposition && contentDisposition.includes('attachment; filename=')) {
+      const matches = contentDisposition.match(/filename[^;=\n]*=((['"]).*?2|[^;\n]*)/);
+      if (matches != null && matches[1]) {
+        filename = matches[1].replace(/['"]/g, '');
+      }
+    }
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error fetching file:", error);
+    throw error;
+  }
+};
+
 export const acceptFile = async (token: string, fileId: number)  => {
   try {
     const response = await axios.put(`${apiUrl}/accept/${fileId}`, null, {

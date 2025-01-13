@@ -5,7 +5,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styles from './GroupPage.module.css';
 import FileCard, { FileProps } from '../file/FileCard';
 import FilesList from '../file/FilesList';
-import { getFiles, uploadFile, uploadFileData } from '../../Services/fileService';
+import { downloadManyFiles, getFiles, uploadFile, uploadFileData } from '../../Services/fileService';
 
 export enum Filter {
   NONE = '',
@@ -15,6 +15,7 @@ export enum Filter {
 }
 
 const GroupPage = () => {
+    const [checkedFileIds, setCheckedFileIds] = useState<number[]>([]);
     const [filter, setFilter] = useState<Filter>(Filter.NONE);
     const [files, setFiles] = useState<FileProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -80,6 +81,36 @@ const GroupPage = () => {
       }
     };
 
+    const handleDownload = async () => {
+      if (checkedFileIds.length === 0) return;
+        const token = localStorage.getItem("token");
+
+      if (!token) {
+        //TODO deal with this case, maybe redirect to login page
+        alert("Your session has ended, please log in again!");
+        return;
+      }
+
+        try {
+          console.log('sldsbclknkcdnk')
+          await downloadManyFiles(token, checkedFileIds);
+          alert("File downloaded successfully!");
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          alert("An error occurred while uploading the file.");
+        }
+    };
+
+    const disableDownloadButton = () => {
+      if(checkedFileIds.length === 0) {
+        return true;
+      }
+      return checkedFileIds.some(id => {
+        const file = files.find(file => file.id === id);
+        return file && file.in_use;
+      });
+    };
+
     return (
       <div className={styles.container}>
           <div className={styles.banner}>
@@ -107,10 +138,15 @@ const GroupPage = () => {
             )}
           </div>
 
+          <button onClick={handleDownload} disabled={disableDownloadButton()}>
+                Download Files
+            </button>
+
           <FilesList
-              items={files}
-              renderer={(file) => <FileCard key={file.id} {...file} />}
-          />
+                items={files}
+                renderer={(file) => <FileCard key={file.id} {...file} />}
+                onCheckedChange={setCheckedFileIds}
+            />
       </div>
     );
 }

@@ -18,6 +18,7 @@ Source Safe -  File Management System
 - `/user`
     - `/change`
     - `/update`
+    - [x] `/search?q=`
 
 - `/files`
     - `/upload`
@@ -40,7 +41,6 @@ Source Safe -  File Management System
     - [X] `/create`
     - [X] `/delete/{gid}`
     - [ ] `/removemember`
-    - [x] `/search?q=`
 
 - `/invitations`
     - [X] `/invite`

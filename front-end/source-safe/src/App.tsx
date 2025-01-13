@@ -11,6 +11,7 @@ import NewGroup from "./Components/group/NewGroup";
 import GroupPage from "./Components/group/GroupPage";
 import styles from './App.module.css';
 import InvitesPage from "./Components/invite/InvitesPage";
+import UsersComponent from "./Components/user/UsersComponent";
 
 function Enter() {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/home" element={<Layout />}>
           <Route path="groups" element={<GroupsPage />} >
             <Route path="newgroup" element={<NewGroup />} />
+            <Route path="searchuser" element={<UsersComponent />} />
           </Route>
           <Route path="groups/:gid" element={<GroupPage />} />
           <Route path="profile" element={<h1>Profile Page</h1>} />

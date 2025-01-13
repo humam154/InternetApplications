@@ -5,7 +5,7 @@ import FileCard, { FileProps } from './FileCard';
 interface PropsType {
     items: FileProps[];
     renderer: (item: FileProps) => React.ReactNode;
-    onCheckedChange: (checkedItems: number[]) => void; // New prop
+    onCheckedChange: (checkedItems: number[]) => void;
 }
 
 const FilesList = (props: PropsType) => {
@@ -18,13 +18,12 @@ const FilesList = (props: PropsType) => {
         }));
     };
 
-    // Effect to notify parent of checked items
     useEffect(() => {
         const selectedIds = Object.keys(checkedItems)
             .filter((key) => checkedItems[Number(key)])
             .map(Number);
-        props.onCheckedChange(selectedIds); // Notify parent
-    }, [checkedItems, props]);
+        props.onCheckedChange(selectedIds);
+    }, [checkedItems]);
 
     return (
         <ul className={styles.list}>

@@ -56,7 +56,6 @@ const FileCard = (props: FileProps) => {
   const handleFileDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const token = localStorage.getItem("token");
 
-    console.log('sldsbclknkcdnk')
     if (!token) {
       //TODO deal with this case, maybe redirect to login page
       alert("Your session has ended, please log in again!");
@@ -64,7 +63,6 @@ const FileCard = (props: FileProps) => {
     }
 
       try {
-        console.log('sldsbclknkcdnk')
         await downloadFile(token, id);
         alert("File downloaded successfully!");
       } catch (error) {
@@ -84,7 +82,7 @@ const FileCard = (props: FileProps) => {
 
     try {
       await acceptFile(token, id);
-      alert("File updated successfully!");
+      alert("File accepted successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
       alert(error);

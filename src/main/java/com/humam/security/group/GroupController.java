@@ -67,7 +67,7 @@ public class GroupController {
         ) 
         {
             List<GroupResponse> groups = groupService.groups(token);
-        return ResponseEntity.ok(GenericResponse.success(groups, "Groups retireved successfully"));
+        return ResponseEntity.ok(GenericResponse.success(groups, "Groups retrieved successfully"));
     }
     
 }

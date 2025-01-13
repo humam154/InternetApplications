@@ -30,8 +30,9 @@ This is the greeting screen of the application, it will be modified later.
 ### What should be done
 
 - `/user`
-    - [ ] `/change`
-    - [ ] `/update`
+    - [ ] `/change`<
+    - [ ] `/update`<
+    - [X] `/search?query=`
 
 - `/files`
     - [X] `/upload`
@@ -39,10 +40,10 @@ This is the greeting screen of the application, it will be modified later.
     - [X] `/accept/{id}`
     - [X] `/reject/{id}`
     - [X] `/download/{id}`
-    - [ ] `/downloadmany`
+    - [X] `/downloadmany`
     - [X] `/groupfiles/{gid}?filter=` 
     - [X] ~~`/pending/{gid}`~~
-    - [ ] `/filechecks/{fid}`
+    - [ ] `/filechecks/{fid}`<
     - [ ] `/groupfilechecks/{gid}`
     - [ ] `/userfilechecks`
     - [ ] `/search?q=`

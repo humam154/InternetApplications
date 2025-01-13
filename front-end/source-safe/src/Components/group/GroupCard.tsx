@@ -19,21 +19,22 @@ const GroupCard = (props :GroupProps) => {
     const date = new Date(creation_date).toDateString();
     
   return (
-    <Link to={`/home/groups/${gid}`} state={{ group_name: name, is_owner: is_owner }}>
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <Link to={`/home/groups/${gid}`} state={{ group_name: name, is_owner: is_owner }}>
+      
           <div className={styles.content}>
               <h3>name: {name}</h3>
               <p>{description}</p>
               <p>Owner: {is_owner? 'You' : owner}</p>
           </div>
+          </Link>
         
         <div className={styles.owner}>
-          {is_owner && <button className={styles.invite_button} >Invite someone</button>}
+          {is_owner && <Link className={styles.invite_button} to={"searchuser"} state={{gid}}>Invite someone</Link>}
           {is_owner && <p>{date}</p>}
           {is_owner && <p>No. of Members: {members_count}</p>}
           </div>
       </div>
-    </Link>
   );
 };
 

@@ -8,8 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -219,26 +219,49 @@ private String getFileExtension(String fileName) {
     
 
     public List<FileDataResponse> groupFiles(String token, Integer gid, String filter) {
-        List<FileData> files;
+        List<FileData> files = new ArrayList<>();
         boolean isGroupOwner = groupService.isGroupOwner(token, gid);
     
-        if (isGroupOwner) {
-            if ("pending".equalsIgnoreCase(filter)) { // query parameter = 'pending'
-                files = repository.findByGroupIdAndAcceptedFalse(gid);
-            } else if ("accepted".equalsIgnoreCase(filter)) { // query parameter = 'accepted'
-            files = repository.findByGroupIdAndAcceptedTrue(gid);
-            } else { // no query parameter
-                files = repository.findByGroupId(gid);
-            }
-        } else {
-            // TODO group members can see the files of the group that THEY are using
-            files = repository.findByGroupIdAndAcceptedTrue(gid);
-        }
         token = token.replaceFirst("^Bearer ", "");
         User user = tokenRepository.findByToken(token)
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
             .getUser();
     
+        if (isGroupOwner) {
+            if ("pending".equalsIgnoreCase(filter)) { // query parameter = 'pending'
+                files = repository.findByGroupIdAndAcceptedFalse(gid);
+            } else if ("accepted".equalsIgnoreCase(filter)) { // query parameter = 'accepted'
+                files = repository.findByGroupIdAndAcceptedTrue(gid);
+            } else if ("in_use".equalsIgnoreCase(filter)) { // query parameter = 'in_use'
+                files = repository.findByGroupIdAndInUseTrue(gid);
+            } else if ("in_use_by_me".equalsIgnoreCase(filter)) { // query parameter = 'in_use_by_me'
+                List<FileData> filesInUse = repository.findByGroupIdAndInUseTrue(gid);
+                for (FileData file : filesInUse) {
+                    if (isFileCheckedInByUser(user, file)) {
+                        files.add(file);
+                    }
+                }
+            } else { // no query parameter or default list
+                files = repository.findByGroupId(gid);
+            }
+        } else {
+            if ("in_use".equalsIgnoreCase(filter)) { // query parameter = 'in_use'
+                files = repository.findByGroupIdAndInUseTrue(gid);
+            } else if ("in_use_by_me".equalsIgnoreCase(filter)) { // query parameter = 'in_use_by_me'
+                List<FileData> filesInUse = repository.findByGroupIdAndInUseTrue(gid);
+                for (FileData file : filesInUse) {
+                    if (isFileCheckedInByUser(user, file)) {
+                        files.add(file);
+                    }
+                }
+            } else if ("accepted".equalsIgnoreCase(filter)) { // query parameter = 'accepted'
+                files = repository.findByGroupIdAndAcceptedTrue(gid);
+            } else { // default list for group members
+                files = repository.findByGroupIdAndAcceptedTrue(gid);
+            }
+        }
+            
+
         return files.stream().map(file -> FileDataResponse.builder()
             .id(file.getId())
             .name(file.getName())

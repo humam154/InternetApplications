@@ -48,7 +48,8 @@ This is the greeting screen of the application, it will be modified later.
     - [X] `/download/{id}`
     - [X] `/downloadmany`
     - [X] `/groupfiles/{gid}?filter=` 
-    > - [ ] `/groupfiles/{gid}?filter=in_use`
+    - [X] `/groupfiles/{gid}?filter=in_use`
+    - [X] `/groupfiles/{gid}?filter=in_use_by_me`
     - [X] ~~`/pending/{gid}`~~
     > - [ ] `/filechecks/{fid}`
     > - [ ] `/groupfilechecks/{gid}`

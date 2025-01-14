@@ -11,7 +11,8 @@ export enum Filter {
   NONE = '',
   PENDING = 'pending',
   ACCEPTED = 'accepted',
-  IN_USE = 'in_use'
+  IN_USE = 'in_use',
+  IN_USE_BY_ME = 'in_use_by_me'
 }
 
 const GroupPage = () => {
@@ -129,19 +130,30 @@ const GroupPage = () => {
           </div>
 
           <div className={styles.filterButtons}>
+            
+                <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE} title="list all files in group">All</button>
+                <button onClick={() => setFilter(Filter.IN_USE)} disabled={filter == Filter.IN_USE || filter == Filter.IN_USE_BY_ME} title="list only files in use">In-Use</button>
+
             {is_owner && (
               <>
-                <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE} title="list all files in group">All</button>
                 <button onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING} title="list files that have not been accepted yet">Pending</button>
                 <button onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED} title="list only accepted files">Accepted</button>
               </>
             )}
-          </div>
+            </div>
 
           <button onClick={handleDownload} disabled={disableDownloadButton()} title={disableDownloadButton() ? "download many files after selecting" : "download selected files"}>
                 Download Files
             </button>
 
+            {(filter == Filter.IN_USE || filter == Filter.IN_USE_BY_ME)  && 
+            <>
+            In-Use by You
+            <input type="checkbox"
+              onChange={() => {filter == Filter.IN_USE_BY_ME? setFilter(Filter.IN_USE) : setFilter(Filter.IN_USE_BY_ME)}} 
+              title="list only files in use"
+              />
+              </>}
           <FilesList
                 items={files}
                 renderer={(file) => <FileCard key={file.id} {...file} />}

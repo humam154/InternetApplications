@@ -47,7 +47,7 @@ const SideNav = () => {
   return (
     <div className={open ? styles.container_open : styles.container_close}>
       <button className={styles.arrow} onClick={() => setOpen(!open)}>
-        {open ? <MdArrowBack /> : <MdArrowForward />}
+        {open ? <MdArrowBack  title="close navigation bar" /> : <MdArrowForward title="open navigation bar"/>}
       </button>
       {menuItems.map((item) => (
         <Tile

@@ -17,8 +17,8 @@ function Enter() {
   return (
     <div className={styles.home}>
       <Link to="/login" className={styles.link}>
-        <div className={styles.enter}>
-          Enter <BiRightArrow className={styles.arrow} />
+        <div className={styles.enter} title="enter">
+          Enter <BiRightArrow className={styles.arrow}/>
         </div>
       </Link>
     </div>

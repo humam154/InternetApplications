@@ -132,9 +132,11 @@ const handleFileReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
               if(input) {
                 input.click();
               }
-            }}>Update</button>
+            }}
+            title="updating the file checks it out and unlocks it"
+            >Update</button>
           <input type="file" id="fileUpload" style={{ display: 'none' }} onChange={handleFileUpdate} />
-          <button className={styles.menuButton} disabled={in_use} onClick={handleFileDownload}>Download</button>
+          <button className={styles.menuButton} disabled={in_use} onClick={handleFileDownload} title="downloading the file checks it in and locks it until you update it">Download</button>
         </div>
       )}
     </div>

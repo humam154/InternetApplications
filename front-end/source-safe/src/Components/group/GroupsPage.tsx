@@ -5,6 +5,7 @@ import { getGroups } from "../../Services/groupService";
 import GroupCard, { GroupProps } from "./GroupCard";
 import { Link, Outlet } from "react-router-dom";
 
+
 const GroupsPage = () => {
   const [groups, setGroups] = useState<GroupProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +35,7 @@ const GroupsPage = () => {
   return (
     <div>
       <Link to="newgroup">
-        <button>New Group</button>
+        <button title="create a new group">New Group</button>
       </Link>
       <GroupsList
       items={groups}

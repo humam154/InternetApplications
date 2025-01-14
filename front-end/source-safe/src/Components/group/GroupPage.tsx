@@ -114,7 +114,7 @@ const GroupPage = () => {
     return (
       <div className={styles.container}>
           <div className={styles.banner}>
-              <Link to="/home/groups">
+              <Link to="/home/groups" title="back to groups page">
                   <MdArrowBack />
               </Link>
               <h2>{group_name}</h2>
@@ -124,21 +124,21 @@ const GroupPage = () => {
                 if(input) {
                   input.click();
                 }
-              }}> <MdUpload /></button>
+              }} title="upload a file"> <MdUpload/></button>
               <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileUpload} />
           </div>
 
           <div className={styles.filterButtons}>
             {is_owner && (
               <>
-                <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE}>All</button>
-                <button onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING}>Pending</button>
-                <button onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED}>Accepted</button>
+                <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE} title="list all files in group">All</button>
+                <button onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING} title="list files that have not been accepted yet">Pending</button>
+                <button onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED} title="list only accepted files">Accepted</button>
               </>
             )}
           </div>
 
-          <button onClick={handleDownload} disabled={disableDownloadButton()}>
+          <button onClick={handleDownload} disabled={disableDownloadButton()} title={disableDownloadButton() ? "download many files after selecting" : "download selected files"}>
                 Download Files
             </button>
 

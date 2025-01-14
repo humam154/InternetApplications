@@ -27,10 +27,10 @@ const GroupCard = (props :GroupProps) => {
               <p>{description}</p>
               <p>Owner: {is_owner? 'You' : owner}</p>
           </div>
-          </Link>
+      </Link>
         
         <div className={styles.owner}>
-          {is_owner && <Link className={styles.invite_button} to={"searchuser"} state={{gid}}>Invite someone</Link>}
+          {is_owner && <Link className={styles.invite_button} to={"searchuser"} state={{gid}} title="add a new group member">Invite someone</Link>}
           {is_owner && <p>{date}</p>}
           {is_owner && <p>No. of Members: {members_count}</p>}
           </div>

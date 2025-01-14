@@ -22,6 +22,15 @@ public class UserService {
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
 
+    public UpdateProfileResponse getProfile(Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return UpdateProfileResponse.builder()
+                .first_name(user.getFirst_name())
+                .last_name(user.getLast_name())
+                .email(user.getEmail())
+                .build();
+    }
+    
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();

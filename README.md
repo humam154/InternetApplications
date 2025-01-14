@@ -16,6 +16,7 @@ Source Safe -  File Management System
     - [ ] `/forgotpassword`
 
 - `/user`
+    - [X] `/profile`
     - [X] `/change`
     - [X] `/update`
     - [X] `/search?query=`

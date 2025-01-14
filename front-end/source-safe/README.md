@@ -29,6 +29,12 @@ This is the greeting screen of the application, it will be modified later.
 
 ### What should be done
 
+- `/auth`
+    - [X] `/register`
+    - [X] `/authenticate`
+    > - [ ] `/confirmemail`
+    > - [ ] `/forgotpassword`
+
 - `/user`
     - [ ] `/change`<
     - [ ] `/update`<
@@ -42,17 +48,20 @@ This is the greeting screen of the application, it will be modified later.
     - [X] `/download/{id}`
     - [X] `/downloadmany`
     - [X] `/groupfiles/{gid}?filter=` 
+    > - [ ] `/groupfiles/{gid}?filter=in_use`
     - [X] ~~`/pending/{gid}`~~
-    - [ ] `/filechecks/{fid}`<
-    - [ ] `/groupfilechecks/{gid}`
-    - [ ] `/userfilechecks`
-    - [ ] `/search?q=`
+    > - [ ] `/filechecks/{fid}`
+    > - [ ] `/groupfilechecks/{gid}`
+    > - [ ] `/userfilechecks`
+    > - [ ] `/search?q=`
+
+> quoted TODO items, are not done in backend yet
 
 - [X] `/groups`
     - [X] `/create`
     - [ ] `/delete/{gid}`
-    - [ ] `/removemember`
-    - [ ] `/search?q=`
+    > - [ ] `/removemember`
+    > - [ ] `/search?q=`
 
 - `/invitations`
     - [X] `/invite`
@@ -61,4 +70,7 @@ This is the greeting screen of the application, it will be modified later.
     - [X] `/revoke/{id}`
     - [X] `/inbox`
     - [X] `/outbox`
-    - [ ] `/search?q=`
+    > - [ ] `/search?q=`
+
+> - [ ] `/logs`
+>   ...

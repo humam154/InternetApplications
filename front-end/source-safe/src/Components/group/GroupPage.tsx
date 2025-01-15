@@ -151,7 +151,7 @@ const GroupPage = () => {
             In-Use by You
             <input type="checkbox"
               onChange={() => {filter == Filter.IN_USE_BY_ME? setFilter(Filter.IN_USE) : setFilter(Filter.IN_USE_BY_ME)}} 
-              title="list only files in use"
+              title="list only files in use by you"
               />
               </>}
           <FilesList

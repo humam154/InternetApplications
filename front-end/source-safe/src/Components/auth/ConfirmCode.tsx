@@ -58,7 +58,8 @@ import { confirmEmail, resendCode } from '../../Services/authService';
     
        try {
            const responseData = await confirmEmail(email, parseInt(code));
-           navigate('/');
+           console.log(responseData)
+           navigate('/home');
         } catch (err: any) {
             setError(err.message);
         }
@@ -280,7 +281,7 @@ import { confirmEmail, resendCode } from '../../Services/authService';
         ))}
           {error && <div className={styles.error}>{error}</div>}
         <div className={styles.resend}>
-                    Already have an account? <a className={styles.resendtext} onClick={() => {
+                    Did not receive code? <a className={styles.resendtext} onClick={() => {
                         handleCodeResend;
                     }}>
                         Resend code</a>

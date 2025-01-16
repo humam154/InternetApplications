@@ -21,6 +21,26 @@ spring:
                 50MB
             max-request-size:
                 65MB
+    mail:
+        host: localhost
+        port: 1025
+        username: SourceFiles
+        password: 123456
+        properties:
+          mail:
+              smtp:
+                  trust: "*"
+              auth: true
+              starttls:
+                  enable: true
+              connectiontimeout: 5000
+              timeout: 3000
+              writetimeout: 5000
+
+application:
+    mailing:
+        frontend:
+            activation-url: http://localhost:5173/activate-account
 server:
     error:
         include-message: always

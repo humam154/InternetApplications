@@ -46,6 +46,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail =  jwtService.extractUsername(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+            if(!userDetails.isEnabled()){
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Activate Account first");
+                return ;
+            }
             var isTokenValid = tokenRepository.findByToken(jwt).map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
             if(jwtService.isTokenValid(jwt, userDetails) && isTokenValid){
                 UsernamePasswordAuthenticationToken authToken = new

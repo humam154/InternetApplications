@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setLastPasswordResetDate(LocalDateTime.now());
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);

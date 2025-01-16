@@ -12,6 +12,7 @@ import GroupPage from "./Components/group/GroupPage";
 import styles from './App.module.css';
 import InvitesPage from "./Components/invite/InvitesPage";
 import UsersComponent from "./Components/user/UsersComponent";
+import Profile from "./Components/user/Profile";
 
 function Enter() {
   return (
@@ -40,7 +41,7 @@ const App = () => {
             <Route path="searchuser" element={<UsersComponent />} />
           </Route>
           <Route path="groups/:gid" element={<GroupPage />} />
-          <Route path="profile" element={<h1>Profile Page</h1>} />
+          <Route path="profile" element={<h1><Profile /></h1>} />
           <Route path="inbox" element={<InvitesPage />} />
           <Route path="outbox" element={<InvitesPage />} />
           <Route path="settings" element={<Login />} />

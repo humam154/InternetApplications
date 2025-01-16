@@ -1,6 +1,8 @@
 package com.humam.security.user;
 
 import com.humam.security.utils.GenericResponse;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class UserController {
     
     @PatchMapping("/change")
     public ResponseEntity<GenericResponse<ChangePasswordResponse>> changePassword(
-            @RequestBody ChangePasswordRequest request,
+            @Valid @RequestBody ChangePasswordRequest request,
             Principal connectedUser
     )
     {

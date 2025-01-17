@@ -52,11 +52,12 @@ public class UserController {
 
     @GetMapping("/search")
     public ResponseEntity<GenericResponse<List<SearchUserResponse>>> search(
-            @RequestParam String query
+            @RequestParam String query,
+            @RequestParam Integer groupId
     ) {
         List<SearchUserResponse> users;
         try {
-            users = service.searchUsers(query);
+            users = service.searchUsers(query, groupId);
             return ResponseEntity.ok(GenericResponse.success(users, "success"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

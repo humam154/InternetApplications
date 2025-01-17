@@ -102,9 +102,9 @@ public class UserService {
     }
 
 
-    public List<SearchUserResponse> searchUsers(String query) {
+    public List<SearchUserResponse> searchUsers(String query, Integer groupId) {
 
-        var users = userRepository.searchUsers(query);
+        var users = userRepository.searchUsersNotInGroup(query, groupId);
 
         return users.stream()
                 .map(user -> SearchUserResponse.builder()

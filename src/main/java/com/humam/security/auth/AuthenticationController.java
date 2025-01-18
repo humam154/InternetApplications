@@ -23,7 +23,7 @@ public class AuthenticationController {
         @Valid @RequestBody RegisterRequest request
     ) throws MessagingException {
         AuthenticationResponse response = service.register(request);
-        return ResponseEntity.ok(GenericResponse.success(response, "Registration successful"));
+        return ResponseEntity.ok(GenericResponse.success(response, "check your email for code"));
     }
 
     @PostMapping("/authenticate")

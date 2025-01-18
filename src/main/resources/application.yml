@@ -44,3 +44,13 @@ application:
 server:
     error:
         include-message: always
+
+logging:
+    file:
+      name: application.log
+    level:
+        com.humam.security.aspect.FileUploadAspect: info
+        com.humam.security.aspect.FileDownloadAspect: info
+
+
+

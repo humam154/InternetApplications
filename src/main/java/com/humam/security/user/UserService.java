@@ -102,9 +102,10 @@ public class UserService {
     }
 
 
-    public List<SearchUserResponse> searchUsers(String query, Integer groupId) {
+    public List<SearchUserResponse> searchUsersInGroup(String query, boolean isMember,Integer groupId) {
 
-        var users = userRepository.searchUsersNotInGroup(query, groupId);
+        // look for users who are not members: invite, look for users who are members: search through group members
+        var users = isMember? userRepository.searchUsersInGroup(query, groupId) : userRepository.searchUsersNotInGroup(query, groupId);
 
         return users.stream()
                 .map(user -> SearchUserResponse.builder()

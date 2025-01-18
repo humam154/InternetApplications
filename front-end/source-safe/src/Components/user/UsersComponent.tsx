@@ -16,6 +16,32 @@ const UsersComponent = () => {
     const {gid} = state;
     const {isMember} = state;
     
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            setError(null);
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Your session has ended, please log in again!");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const results = await searchUser(token, '', isMember, gid);
+                setUsers(results.data);
+            } catch (err) {
+                console.error("Error fetching users:", err);
+                setError("Failed to fetch users");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, [gid, isMember]);
+
     const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);

@@ -20,4 +20,10 @@ public class AuthenticationResponse{
 
     @JsonProperty("token")
     private String token;
+
+    private boolean isAdmin;
+    @JsonProperty("is_admin")
+    public boolean getIsAdmin() {
+     return this.isAdmin;
+    }
 }

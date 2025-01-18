@@ -18,8 +18,8 @@ const Login: React.FC = () => {
 
         try {
             const responseData = await loginUser(email, password);
-            console.log('Login successful:', responseData);
             localStorage.setItem('token', JSON.parse(JSON.stringify(responseData.data.token)));
+            localStorage.setItem('isAdmin', JSON.parse(responseData.data.is_admin));
             navigate('/home');
         } catch (err: any) {
             setError(err.message);

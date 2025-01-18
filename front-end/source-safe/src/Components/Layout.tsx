@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import SideNav from "./navigation/sideNav";
+import SideNav from "./navigation/SideNav";
 import styles from "./Layout.module.css";
 
 const Layout = () => {

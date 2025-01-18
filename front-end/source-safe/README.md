@@ -38,7 +38,7 @@ This is the greeting screen of the application, it will be modified later.
 - `/user`
     - [X] `/change`
     - [X] `/update`
-    - [X] `/search?query=`
+    - [X] `/search?query=&isMember=&groupId=`
 
 - `/files`
     - [X] `/upload`

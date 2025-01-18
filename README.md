@@ -19,7 +19,7 @@ Source Safe -  File Management System
     - [X] `/profile`
     - [X] `/change`
     - [X] `/update`
-    - [X] `/search?query=`
+    - [X] `/search?query=&isMember=&groupId=`
 
 - `/files`
     - [X] `/upload`

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+
 import UsersList from './UsersList';
 import { searchUser } from '../../Services/userService';
 import UserCard, { UserProps } from './UserCard';
@@ -10,9 +11,15 @@ const UsersComponent = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const location = useLocation();
+    const state = location.state;
+    const {gid} = state;
+    const {isMember} = state;
+    
     const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);
+
 
         if (value.trim() === '') {
             setUsers([]);
@@ -30,7 +37,7 @@ const UsersComponent = () => {
         }
 
         try {
-            const results = await searchUser(token, value);
+            const results = await searchUser(token, value, isMember, gid);
             setUsers(results.data);
         } catch (err) {
             console.error("Error searching for users:", err);

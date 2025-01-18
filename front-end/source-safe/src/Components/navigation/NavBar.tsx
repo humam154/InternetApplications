@@ -7,6 +7,7 @@ export interface TileProps {
   title: string;
   icon: React.ReactNode;
   path: string;
+  state: any;
 }
 
 interface NavBarProps {
@@ -14,11 +15,11 @@ interface NavBarProps {
 }
 
 const Tile = (
-  { title, icon, path, open, isSelected, onSelect }: TileProps & 
-  { open: boolean; isSelected: boolean; onSelect: (title: string) => void }
+  { title, icon, path, open, isSelected, onSelect, state }: TileProps & 
+  { open: boolean; isSelected: boolean; onSelect: (title: string) => void}
 ) => {
   return (
-    <Link to={path} className={styles.link} onClick={() => onSelect(title)}>
+    <Link to={path} className={styles.link} onClick={() => onSelect(title)} state={state}>
       <div className={`${open ? styles.tile_container_open : styles.tile_container_close} ${isSelected ? styles.selected_tile : styles.unselected_tile}`}>
         <div className={styles.tile_icon}>{icon}</div>
         {open && <div className={styles.tile_title}>{title}</div>}

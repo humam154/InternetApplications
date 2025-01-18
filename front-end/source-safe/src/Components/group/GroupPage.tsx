@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { MdArrowBack, MdUpload } from "react-icons/md";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { MdArrowBack, MdUpload, MdFileOpen, MdVerifiedUser, MdLock } from "react-icons/md";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 
 import styles from './GroupPage.module.css';
 import FileCard, { FileProps } from '../file/FileCard';
 import FilesList from '../file/FilesList';
 import { downloadManyFiles, getFiles, uploadFile, uploadFileData } from '../../Services/fileService';
+import NavBar, { TileProps } from "../navigation/NavBar";
 
 export enum Filter {
   NONE = '',
@@ -93,7 +94,6 @@ const GroupPage = () => {
       }
 
         try {
-          console.log('sldsbclknkcdnk')
           await downloadManyFiles(token, checkedFileIds);
           alert("File downloaded successfully!");
         } catch (error) {
@@ -112,6 +112,12 @@ const GroupPage = () => {
       });
     };
 
+    const groupMenu: Array<TileProps> = [
+        { icon: <MdFileOpen />, title: "Files", path: "/home/groups/${gid}/files", state: {} },
+        { icon: <MdLock />, title: "My files", path: "/home/groups/${gid}/myfiles", state: {} },
+        { icon: <MdVerifiedUser />, title: "Members", path: `/home/groups/${gid}/members`, state: { gid, isMember:true }},
+      ];
+
     return (
       <div className={styles.container}>
           <div className={styles.banner}>
@@ -120,6 +126,10 @@ const GroupPage = () => {
               </Link>
               <h2>{group_name}</h2>
 
+              <div className={styles.navbar}>
+              <NavBar items={groupMenu} />
+              </div>
+              
               <button onClick={() => {
                 const input = document.getElementById('fileInput') as HTMLInputElement;
                 if(input) {
@@ -153,12 +163,16 @@ const GroupPage = () => {
               onChange={() => {filter == Filter.IN_USE_BY_ME? setFilter(Filter.IN_USE) : setFilter(Filter.IN_USE_BY_ME)}} 
               title="list only files in use by you"
               />
-              </>}
+            </>
+            }
+
           <FilesList
                 items={files}
                 renderer={(file) => <FileCard key={file.id} {...file} />}
                 onCheckedChange={setCheckedFileIds}
             />
+
+          <Outlet />
       </div>
     );
 }

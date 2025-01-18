@@ -15,6 +15,7 @@ const UserCard = (props: UserProps) => {
     const location = useLocation();
     const state = location.state;
     const { gid } = state;
+    const { isMember } = state;
 
     const handleInvite = async () => {
         const token = localStorage.getItem("token");
@@ -41,7 +42,7 @@ const UserCard = (props: UserProps) => {
             <br/>
             {email}
           </p>
-          <button onClick={handleInvite}>Invite</button>
+          {!isMember && <button onClick={handleInvite}>Invite</button>}
         </div>
     );
 

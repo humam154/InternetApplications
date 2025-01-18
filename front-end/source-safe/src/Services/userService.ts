@@ -2,10 +2,10 @@ import axios, { AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
 
-export const searchUser = async (token: string, query: string) => {
+export const searchUser = async (token: string, query: string, isMember: boolean, groupId: number) => {
     try {
       const response = await axios.get(`${apiUrl}/search`, {
-        params: {query},
+        params: {query, isMember, groupId},
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -42,8 +42,11 @@ export const registerUser = async (first_name: string, last_name: string, email:
 
 export const confirmEmail = async (email: string, code: number) => {
     try {
-        const response = await axios.post('/api/verify-code', { email ,code });
-        console.log('Verification successful:', response.data);
+        const response = await axios.get(`${apiUrl}/activate-account`,
+            {
+                params: code
+            }
+        );
 
       } catch (error: any) {
         console.error('Verification failed:', error.response?.data || error.message);

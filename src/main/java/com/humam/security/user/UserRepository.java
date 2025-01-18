@@ -14,15 +14,17 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
     Optional<User> findById(Integer id);
 
-    @Query("SELECT u FROM User u WHERE " +
-            "(LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(CONCAT(u.first_name, ' ', u.last_name)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
-            "AND u.id NOT IN (" +
-            "SELECT u.id FROM User u " +
-            "JOIN GroupMember gu ON gu.user.id = u.id " +
-            "JOIN Group g ON g.id = gu.group.id)")
-    List<User> searchUsers(@Param("searchTerm") String searchTerm);
+    @Query("SELECT u FROM User u LEFT JOIN GroupMember gm ON u.id = gm.user.id AND gm.group.id = :groupId " +
+    "WHERE (LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+    "LOWER(CONCAT(u.first_name, ' ', u.last_name)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
+    "gm.id IS NULL")
+    List<User> searchUsersNotInGroup(@Param("searchTerm") String searchTerm, @Param("groupId") Integer groupId);
 
+    @Query("SELECT u FROM User u LEFT JOIN GroupMember gm ON u.id = gm.user.id AND gm.group.id = :groupId " +
+    "WHERE (LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+    "LOWER(CONCAT(u.first_name, ' ', u.last_name)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
+    "gm.id IS NOT NULL")
+    List<User> searchUsersInGroup(@Param("searchTerm") String searchTerm, @Param("groupId") Integer groupId);
 
     @Query("SELECT u FROM User u WHERE u.activationCode = :code")
     Optional<User> findByCode(@Param("code") String code);

@@ -6,6 +6,7 @@ import com.humam.security.token.Token;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.token.TokenType;
 import com.humam.security.user.ChangePasswordResponse;
+import com.humam.security.user.Role;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 import jakarta.mail.MessagingException;
@@ -121,12 +122,14 @@ public class AuthenticationService {
             revokeAllUserTokens(user);
             saveUserToken(user, jwtToken);
 
+            boolean role = user.getRole().equals(Role.ADMIN);
 
         return AuthenticationResponse.builder()
                 .first_name(user.getFirst_name())
                 .last_name(user.getLast_name())
                 .email(user.getEmail())
                 .token(jwtToken)
+                .isAdmin(role)
                 .build();
     }
 

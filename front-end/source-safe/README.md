@@ -32,13 +32,13 @@ This is the greeting screen of the application, it will be modified later.
 - `/auth`
     - [X] `/register`
     - [X] `/authenticate`
-    > - [ ] `/confirmemail`
-    > - [ ] `/forgotpassword`
+    - [X] `/confirmemail`
+    - [ ] `/forgotpassword`<
 
 - `/user`
-    - [ ] `/change`<
-    - [ ] `/update`<
-    - [X] `/search?query=`
+    - [X] `/change`
+    - [X] `/update`
+    - [X] `/search?query=&isMember=&groupId=`
 
 - `/files`
     - [X] `/upload`

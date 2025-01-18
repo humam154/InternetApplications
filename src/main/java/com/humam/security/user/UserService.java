@@ -1,6 +1,7 @@
 package com.humam.security.user;
 
 import com.humam.security.config.JwtService;
+import com.humam.security.groupmember.GroupMemberRepository;
 import com.humam.security.token.Token;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.token.TokenType;
@@ -20,6 +21,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final GroupMemberRepository groupMemberRepository;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
 
@@ -102,10 +104,23 @@ public class UserService {
     }
 
 
-    public List<SearchUserResponse> searchUsers(String query) {
+    // TODO: move to group service?
+    public List<SearchUserResponse> searchUsersInGroup(String query, boolean isMember,Integer groupId) {
+        // TIP define datatype of things do not leave them as var
+        List<User> users;
 
-        var users = userRepository.searchUsers(query);
+        // look for users who are not members: invite, look for users who are members: search through group members
+        if (query == null || query.trim().isEmpty()) { // default list is all users of some type
 
+            users = isMember ? 
+                groupMemberRepository.findAllMembers(groupId) : 
+                groupMemberRepository.findAllNonMembers(groupId);
+        
+        } else {
+            users = isMember ? 
+                userRepository.searchUsersInGroup(query, groupId) : 
+                userRepository.searchUsersNotInGroup(query, groupId);
+        }
         return users.stream()
                 .map(user -> SearchUserResponse.builder()
                         .id(user.getId())
@@ -116,5 +131,5 @@ public class UserService {
                 )
                 .collect(Collectors.toList());
 
-    }
+    } 
 }

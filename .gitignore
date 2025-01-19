@@ -33,6 +33,8 @@ build/
 .vscode/
 
 
-.log/
+.logs/
 
 *.log
+
+.public/

@@ -16,7 +16,6 @@ const NewGroup = () => {
                 name: name,
                 description: description
             }
-            console.log(data);
             if (!token) {
                 return;
             }

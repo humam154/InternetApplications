@@ -41,7 +41,8 @@ const Signup = () => {
         }
     }
     return (
-        <div className={styles.container}>
+        <div className={styles.page}>
+<div className={styles.container}>
             <div className={styles.header}>
                 <h2 className={styles.text}>Sign Up</h2>
                 <div className={styles.underline}></div>
@@ -115,6 +116,7 @@ const Signup = () => {
                     Already have an account? <Link className={styles.logintext} to="/login">Login.</Link>
                 </div>
             </form>
+        </div>
         </div>
     );
 };

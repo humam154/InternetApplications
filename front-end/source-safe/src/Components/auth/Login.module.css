@@ -1,12 +1,15 @@
 /* Login.module.css */
 
-:global(*) {
-    box-sizing: border-box;
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
 .container {
     width: 350px;
-    margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -54,7 +57,6 @@
     position: absolute;
     right: 20px;
     transform: translateY(50%);
-
 }
 
 input {
@@ -64,7 +66,6 @@ input {
     border-radius: 4px;
     font-size: 16px;
 }
-
 
 .forgot {
     text-align: center;

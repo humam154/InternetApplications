@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
 import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
-import { loginUser } from '../../Services/authService';
+import { loginUser, resetPasswordCode } from '../../Services/authService';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -26,6 +26,18 @@ const Login: React.FC = () => {
         }
     };
 
+    const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            await resetPasswordCode(email);
+            navigate('/password-reset');
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+
     function focusInput(): void {
         const passwordInput = document.getElementById("password") as HTMLInputElement;
         if (passwordInput) {
@@ -34,7 +46,8 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.page}>
+            <div className={styles.container}>
             <div className={styles.header}>
                 <h2 className={styles.text}>Login</h2>
                 <div className={styles.underline}></div>
@@ -78,6 +91,7 @@ const Login: React.FC = () => {
                     Don't have an account? <Link className={styles.signuptext} to="/signup">Sign Up.</Link>
                 </div>
             </form>
+        </div>
         </div>
     );
 };

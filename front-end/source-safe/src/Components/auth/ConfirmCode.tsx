@@ -58,7 +58,6 @@ import { confirmEmail, resendCode } from '../../Services/authService';
     
        try {
            const responseData = await confirmEmail(email, parseInt(code));
-           console.log(responseData)
            navigate('/home');
         } catch (err: any) {
             setError(err.message);

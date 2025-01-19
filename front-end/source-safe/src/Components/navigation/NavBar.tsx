@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { Link } from "react-router-dom";
-import styles from "./sideNav.module.css";
+import styles from "./NavBar.module.css";
 
 export interface TileProps {
   title: string;

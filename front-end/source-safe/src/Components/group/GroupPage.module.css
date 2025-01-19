@@ -1,0 +1,132 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    background-color: #2A2933;
+    overflow: hidden;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #1B1A21;
+    color: #ffffff;
+    justify-content: space-between;
+}
+
+.banner h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #ffffff;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.arrow {
+    height: 40px;
+    width: 40px;
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.banner a:hover {
+    color: #00bcd4;
+}
+
+.groupcontent {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #1B1A21;
+    height: 100%;
+    width: fit-content;
+    padding: 10px;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #2A2933;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .banner {
+        flex-direction: row;
+        height: fit-content;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .banner h2 {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    .arrow {
+        height: 35px;
+        width: 35px;
+        font-size: 1.4rem;
+    }
+
+    .groupcontent {
+        flex-direction: column;
+    }
+
+    .navbar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner h2 {
+        font-size: 1.2rem;
+    }
+
+    .arrow {
+        font-size: 1.2rem;
+        height: 30px;
+        width: 30px;
+    }
+
+    .navbar {
+        gap: 8px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}

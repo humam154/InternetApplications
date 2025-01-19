@@ -13,6 +13,7 @@ import styles from './App.module.css';
 import InvitesPage from "./Components/invite/InvitesPage";
 import UsersComponent from "./Components/user/UsersComponent";
 import Profile from "./Components/user/Profile";
+import GroupFiles from "./Components/group/GroupFiles";
 
 function Enter() {
   return (
@@ -36,11 +37,14 @@ const App = () => {
         <Route path="/" element={<Enter />} />
         
         <Route path="/home" element={<Layout />}>
-          <Route path="groups" element={<GroupsPage />} >
+            <Route path="groups" element={<GroupsPage />} >
             <Route path="newgroup" element={<NewGroup />} />
             <Route path="searchuser" element={<UsersComponent />} />
+        </Route>
+          <Route path="groups/:gid" element={<GroupPage />}>
+            <Route path="members" element={<UsersComponent />}/>
+            <Route path="files" element={<GroupFiles />}/>
           </Route>
-          <Route path="groups/:gid" element={<GroupPage />} />
           <Route path="profile" element={<h1><Profile /></h1>} />
           <Route path="inbox" element={<InvitesPage />} />
           <Route path="outbox" element={<InvitesPage />} />

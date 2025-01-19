@@ -6,7 +6,9 @@ import styles from "./Layout.module.css";
 const Layout = () => {
   return (
     <div className={styles.layout}>
-      <SideNav />
+      <div className={styles.SideNav}>
+        <SideNav />
+      </div>
       <div className={styles.content}>
         <Outlet />
       </div>

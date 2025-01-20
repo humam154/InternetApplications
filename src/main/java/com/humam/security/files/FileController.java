@@ -58,7 +58,7 @@ public class FileController {
             @RequestHeader("Authorization") String token,
             @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
-        String message = fileService.acceptFile(id);
+        String message = fileService.acceptFile(token, id);
         return ResponseEntity.ok(GenericResponse.success(message, "File accepted successfully"));
     }
 
@@ -67,7 +67,7 @@ public class FileController {
             @RequestHeader("Authorization") String token,
             @PathVariable @NotNull @Min(1) Integer id
     ) throws IOException {
-        String message = fileService.rejectFile(id);
+        String message = fileService.rejectFile(token, id);
         return ResponseEntity.ok(GenericResponse.success(message, "File rejected successfully"));
     }
 

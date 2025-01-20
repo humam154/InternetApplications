@@ -121,7 +121,13 @@ private String getFileExtension(String fileName) {
     return (lastIndexOfDot == -1) ? "" : fileName.substring(lastIndexOfDot + 1);
 }
 
-    public String acceptFile(Integer fileId){
+    public String acceptFile(String token, Integer fileId){
+        token = token.replaceFirst("^Berare", "");
+        Group group = groupRepository.findById(fileId).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        boolean isGroupOwner = groupService.isGroupOwner(token, group.getId());
+        if(!isGroupOwner) {
+            throw new IllegalArgumentException("the user is not the owner for this group");
+        }
         FileData fileData = repository.findById(fileId)
         .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
 
@@ -131,7 +137,13 @@ private String getFileExtension(String fileName) {
         return "Accepted file successfully!";
     }
 
-    public String rejectFile(Integer fileId){
+    public String rejectFile(String token, Integer fileId){
+        token = token.replaceFirst("^Berare", "");
+        Group group = groupRepository.findById(fileId).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        boolean isGroupOwner = groupService.isGroupOwner(token, group.getId());
+        if(!isGroupOwner) {
+            throw new IllegalArgumentException("the user is not the owner for this group");
+        }
         FileData fileData = repository.findById(fileId)
         .orElseThrow(() -> new IllegalArgumentException("File not found with id: " + fileId));
 

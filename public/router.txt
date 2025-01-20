@@ -1,0 +1,137 @@
+
+ RAS version: Build 141023 Rel.24209
+ System   ID: $2.12.190.0(G04.BZ.4)3.20.17.0  20141017_v004  [Oct 17 2014 10:52:                                                                                                             12]
+ romRasSize: 1572726
+ system up time:     1:59:01 (ae5d0 ticks)
+ bootbase version: VTC_SPI1.26 |  2012/12/26
+
+Hostname        = TP-LINK
+Message         = <empty>
+ip route mode   = Yes
+bridge mode     = Yes
+DHCP setting:
+  DHCP Mode      = Server
+  Client IP Pool Starting Address = 192.168.1.100
+  Size of Client IP Pool = 101
+  Primary DNS Server     = 0.0.0.0
+  Secondary DNS Server   = 0.0.0.0
+  DHCP server leasetime  = 259200
+TCP/IP Setup:
+  IP Address     = 192.168.1.1
+  IP Subnet Mask = 255.255.255.0
+  Rip Direction  = Both
+    Version      = Rip-2B
+  Multicast      = IGMP-v2
+
+RemoteNode     = 0
+Rem Node Name  = Node1
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 1/32
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 1
+Rem Node Name  = Node2
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 0/33
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 2
+Rem Node Name  = Node3
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 0/35
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 3
+Rem Node Name  = Node4
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 0/100
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 4
+Rem Node Name  = Node5(ISP)
+Encapsulation  = PPPoE
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 8/35
+IP Routing mode= Yes
+Bridge mode    = No
+PPP Username   = rna65oanly@tarassul.sy
+
+PPP Password   = 2718755
+
+Service name   =
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = Yes
+
+RemoteNode     = 5
+Rem Node Name  = Node6
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 8/48
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 6
+Rem Node Name  = Node7
+Encapsulation  = RFC 1483
+Multiplexing   = LLC-based
+Channel active = Yes
+VPI/VCI value  = 0/38
+IP Routing mode= No
+Bridge mode    = Yes
+Remote IP Addr        = 0.0.0.0
+Remote IP Subnet Mask = 0.0.0.0
+IP address assignment type = Dynamic
+SUA            = Yes
+Multicast      = None
+Default Route node            = No
+
+RemoteNode     = 7
+ <empty>

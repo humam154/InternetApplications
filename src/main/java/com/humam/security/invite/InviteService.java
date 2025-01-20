@@ -95,7 +95,11 @@ public class InviteService {
         }
     }
 
-    public boolean rejectInvite(Integer id) {
+    public boolean rejectInvite(String token,Integer id) {
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token).orElseThrow(
+                () -> new IllegalArgumentException("Invalid token")
+        ).getUser();
         var optionalInvite = inviteRepository.findById(id);
 
         if(optionalInvite.isPresent()) {

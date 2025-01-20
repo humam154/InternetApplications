@@ -1,13 +1,15 @@
 package com.humam.security.log;
 
+import jakarta.persistence.EnumType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface LogRepository extends JpaRepository<Log, Integer> {
-    List<Log> findByFileId(Integer fileId);
-    List<Log> findByUserId(Integer userId);
-    List<Log> findByAction(String action);
+
+    @Query("SELECT l FROM Log l WHERE l.logType = :type")
+    List<Log> findByType(LogType type);
 }

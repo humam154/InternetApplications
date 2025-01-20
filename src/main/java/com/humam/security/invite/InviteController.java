@@ -52,11 +52,12 @@ public class InviteController {
 
     @PostMapping("/reject/{id}")
     public ResponseEntity<GenericResponse<Object>> reject(
+        @RequestHeader("Authorization") String token,
         @PathVariable @NotNull @Min(1) Integer id
     )
     {
         try {
-            var isRejected = (Object) inviteService.rejectInvite(id);
+            var isRejected = (Object) inviteService.rejectInvite(token, id);
             return ResponseEntity.ok(GenericResponse.success(isRejected, "Rejected"));
         }
         catch (IllegalArgumentException exception){

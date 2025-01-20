@@ -37,4 +37,4 @@ build/
 
 *.log
 
-.public/
+/public

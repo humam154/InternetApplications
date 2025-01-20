@@ -33,7 +33,7 @@ This is the greeting screen of the application, it will be modified later.
     - [X] `/register`
     - [X] `/authenticate`
     - [X] `/confirmemail`
-    - [ ] `/forgotpassword`<
+    - [X] `/forgotpassword`
 
 - `/user`
     - [X] `/change`

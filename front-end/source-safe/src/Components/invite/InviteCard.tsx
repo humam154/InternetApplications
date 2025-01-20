@@ -16,7 +16,6 @@ const handleAccept = (id: number) => {
   if (!token) {
     return;
   }
-  console.log(`Accepted invite with id: ${id}`);
   accept(token, id);
 };
 
@@ -25,7 +24,6 @@ const handleReject = (id: number) => {
   if (!token) {
     return;
   }
-  console.log(`Rejected invite with id: ${id}`);
   reject(token, id);
 };
 
@@ -34,7 +32,6 @@ const handleRevoke = (id: number) => {
     if (!token) {
       return;
     }
-    console.log(`Revoked invite with id: ${id}`);
     revoke(token, id);
 };
 

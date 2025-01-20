@@ -75,7 +75,6 @@ export const downloadFile = async (token: string, fileId: number) => {
       withCredentials: true
     });
 
-    console.log(response)
     const contentDisposition = response.headers['content-disposition'];
     let filename = 'downloaded_file';
 
@@ -118,7 +117,6 @@ export const downloadManyFiles = async (token: string, fileIds: Array<number>) =
       withCredentials: true
     });
 
-    console.log(response)
     const contentDisposition = response.headers['content-disposition'];
     let filename = 'downloaded_file';
 

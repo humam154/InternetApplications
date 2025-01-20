@@ -48,8 +48,43 @@ export const confirmEmail = async (email: string, code: number) => {
             }
         );
 
+        return response.data;
       } catch (error: any) {
         console.error('Verification failed:', error.response?.data || error.message);
+      }
+}
+
+export const resetPasswordCode = async (email: string) => {
+    try {
+        const response = await axios.get(`${apiUrl}/request-reset`,
+            {
+                params: {email},
+            },
+        );
+
+        return response.data;
+      } catch (error: any) {
+        console.error('request code failed:', error.response?.data || error.message);
+      }
+}
+
+export interface resetPasswordData {
+    code: string,
+    email: string,
+    password: string,
+    passwordConfirm: string
+}
+
+export const resetPasswowrd =  async (data: resetPasswordData) => {
+    try {
+        const response = await axios.post(`${apiUrl}/forgot`,
+            data
+            );
+
+            return response.data;
+
+      } catch (error: any) {
+        console.error('password reset failed:', error.response?.data || error.message);
       }
 }
 

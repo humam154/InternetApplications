@@ -26,12 +26,16 @@ const Login: React.FC = () => {
         }
     };
 
-    const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleForgotPassword = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setError('');
 
         try {
-            await resetPasswordCode(email);
+            if(!email){
+                setError("You must specify your email first");
+                return;
+            }
+            const response = await resetPasswordCode(email);
             navigate('/password-reset');
         } catch (err: any) {
             setError(err.message);
@@ -85,7 +89,7 @@ const Login: React.FC = () => {
                     <button type="submit" className={styles.submit}>Login</button>
                 </div>
                 <div className={styles.forgot}>
-                    Forgot password? <Link className={styles.passtext} to="/">Reset password.</Link>
+                    Forgot password? <button className={styles.passtext} onClick={handleForgotPassword}>Reset password.</button>
                 </div>
                 <div className={styles.signup}>
                     Don't have an account? <Link className={styles.signuptext} to="/signup">Sign Up.</Link>

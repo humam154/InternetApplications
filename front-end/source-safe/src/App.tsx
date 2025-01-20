@@ -14,6 +14,7 @@ import InvitesPage from "./Components/invite/InvitesPage";
 import UsersComponent from "./Components/user/UsersComponent";
 import Profile from "./Components/user/Profile";
 import GroupFiles from "./Components/group/GroupFiles";
+import PasswordReset from "./Components/auth/PasswordReset";
 
 function Enter() {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/confirmcode" element={<ConfirmCode />} />
+        <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/" element={<Enter />} />
         
         <Route path="/home" element={<Layout />}>

@@ -55,8 +55,6 @@ const Profile = () => {
             }
             const response = await changePassword(token, { currentPassword, newPassword, confirmPassword });
             localStorage.setItem('token', response.data.token);
-            console.log(response.data.token);
-            console.log(localStorage.getItem('token'));
             setIsPasswordEditing(false);
         } catch (error: any) {
             setError(error.response.data.message);

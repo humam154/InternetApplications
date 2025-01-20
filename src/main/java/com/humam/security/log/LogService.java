@@ -1,8 +1,6 @@
 package com.humam.security.log;
 
 import com.humam.security.token.TokenRepository;
-import com.humam.security.user.User;
-import com.humam.security.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +16,11 @@ public class LogService {
 
     public List<LogResponse> getLogs(String token){
         String cleanedToken = token.replaceFirst("^Bearer", "").trim();
-        var user = tokenRepository.findByToken(cleanedToken)
-                .orElseThrow(() -> new IllegalArgumentException("invalid token"))
-                .getUser();
+        var tokenEntity = tokenRepository.findByToken(cleanedToken)
+                .orElseThrow(() -> new IllegalArgumentException("invalid token"));
+
+        var user = tokenEntity.getUser();
+
         List<Log> logs = logRepository.findAll();
 
         return logs.stream().map(
@@ -33,10 +33,13 @@ public class LogService {
     }
 
     public List<LogResponse> getByType(String token, LogType type){
-        token = token.replaceFirst("^Bearer", "");
-        User user = tokenRepository.findByToken(token).orElseThrow(
-                () -> new IllegalArgumentException("invalid token")
-        ).getUser();
+        String cleanedToken = token.replaceFirst("^Bearer", "").trim();
+
+        // Find the token in the repository
+        var tokenEntity = tokenRepository.findByToken(cleanedToken)
+                .orElseThrow(() -> new IllegalArgumentException("invalid token"));
+
+        var user = tokenEntity.getUser();
 
         List<Log> logs = logRepository.findByType(type);
 

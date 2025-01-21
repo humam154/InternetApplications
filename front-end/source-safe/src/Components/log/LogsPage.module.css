@@ -1,0 +1,63 @@
+.container {
+    width: 100%;
+    padding: 20px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    width: 90%;
+    border-spacing: 0;
+    margin-top: 20px;
+}
+:is(td, th) {
+  border-block-width: 1px 0;
+  border-inline-width: 1px 0;
+  &:last-of-type { border-inline-end-width: 1px }
+}
+
+th {
+    background: #1B1A21;
+    padding: 20px;
+    text-align: left;
+    border-bottom: 2px solid #fff;
+}
+
+td {
+    padding: 10px;
+}
+
+tr:nth-of-type(odd) { 
+    background: #383644;
+}
+
+tr:nth-of-type(even) { 
+    background: #292833;
+}
+
+tr:hover {
+    background: #5e5b70;
+}
+
+.paginationWrapper {
+    margin: 20px;
+}
+
+.paginationButton {
+    background-color: #5e5b70;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.paginationButton:hover {
+    background-color: #292833;
+}
+
+.paginationInfo {
+    margin: 10px;
+}

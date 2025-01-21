@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
 
-export const searchUser = async (token: string, query: string, isMember: boolean, groupId: number) => {
+export const searchUserInGroup = async (token: string, query: string, isMember: boolean, groupId: number) => {
     try {
       const response = await axios.get(`${apiUrl}/search`, {
         params: {query, isMember, groupId},
@@ -12,7 +12,22 @@ export const searchUser = async (token: string, query: string, isMember: boolean
       });
       return response.data;
     } catch (error) {
-      console.error("Error fetching inbox:", error);
+      console.error("Error fetching users:", error);
+      throw error;
+    }
+  };
+
+  export const searchUser = async (token: string, query: string) => {
+    try {
+      const response = await axios.get(`${apiUrl}/allusers`, {
+        params: {query},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching users:", error);
       throw error;
     }
   };
@@ -26,7 +41,7 @@ export const getProfile = async (token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching inbox:", error);
+    console.error("Error fetching profile:", error);
     throw error;
   }
 };
@@ -46,7 +61,7 @@ export const updateProfile = async (token: string, data: profileData) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching inbox:", error);
+    console.error("Error updating profile:", error);
     throw error;
   }
 };
@@ -66,7 +81,7 @@ export const changePassword = async (token: string, data: passwordData) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching inbox:", error);
+    console.error("Error changing password:", error);
     throw error;
   }
 };

@@ -50,6 +50,15 @@ public class UserController {
         return ResponseEntity.ok(GenericResponse.success(response, "Profile updated!"));
     }
 
+    @GetMapping("/allusers")
+    public ResponseEntity<GenericResponse<List<SearchUserResponse>>> getAllUsers(
+        @RequestParam String query
+        ) 
+        {
+            List<SearchUserResponse> users = service.searchUsers(query);
+            return ResponseEntity.ok(GenericResponse.success(users, "success"));
+    }
+    
     @GetMapping("/search")
     public ResponseEntity<GenericResponse<List<SearchUserResponse>>> searchUsersInGroup(
             @RequestParam String query,

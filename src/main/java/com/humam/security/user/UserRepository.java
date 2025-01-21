@@ -32,4 +32,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.role = :role")
     Optional<User> findAdmin(Role role);
 
+    @Query("SELECT u FROM User u WHERE " +
+    "LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+    "LOWER(CONCAT(u.first_name, ' ', u.last_name)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<User> searchUsers(@Param("searchTerm") String searchTerm);
+
 }

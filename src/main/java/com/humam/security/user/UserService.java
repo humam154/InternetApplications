@@ -132,4 +132,27 @@ public class UserService {
                 .collect(Collectors.toList());
 
     } 
+
+    public List<SearchUserResponse> searchUsers(String query) {
+        List<User> users;
+
+        if (query == null || query.trim().isEmpty()) { // default list is all users of some type
+
+            users = userRepository.findAll();
+        
+        } else {
+            users = userRepository.searchUsers(query);
+        }
+        
+        return users.stream()
+                .map(user -> SearchUserResponse.builder()
+                        .id(user.getId())
+                        .first_name(user.getFirst_name())
+                        .last_name(user.getLast_name())
+                        .email(user.getEmail())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+    } 
 }

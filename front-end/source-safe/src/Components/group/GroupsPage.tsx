@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import { MdRefresh } from "react-icons/md";
 
 import GroupsList from "./GroupsList";
-import { getGroups } from "../../Services/groupService";
+import { getAllGroups, getGroups } from "../../Services/groupService";
 import GroupCard, { GroupProps } from "./GroupCard";
 import styles from "./GroupsPage.module.css";
 
@@ -13,22 +13,32 @@ const GroupsPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   
-  const fetchGroups = () => {
+  const fetchGroups = async () => {
     const token = localStorage.getItem("token");
+    const isAdmin: boolean = JSON.parse(localStorage.getItem("isAdmin")!,  (k, v) => v === "true" ? true : v === "false" ? false : v);
+  
     if (!token) {
       setError("User is not authenticated");
       setLoading(false);
       return;
     }
-    getGroups(token)
-      .then((data) => {
-        setGroups(data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Failed to fetch groups");
-        setLoading(false);
-      });
+
+   try {
+     var groups;
+ 
+     if(isAdmin) {
+       groups = await getAllGroups(token);
+     } else {
+       groups = await getGroups(token);
+     }
+ 
+     setGroups(groups.data);
+     setLoading(false);
+     
+   } catch (error: any) {
+    setLoading(false);
+    setError(error.message);
+   }
   }
 
   useEffect(() => {

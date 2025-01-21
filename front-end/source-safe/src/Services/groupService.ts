@@ -16,6 +16,20 @@ export const getGroups = async (token: string) => {
   }
 };
 
+export const getAllGroups = async (token: string) => {
+  try {
+    const response = await axios.get(`${apiUrl}/all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching groups:", error);
+    throw error;
+  }
+};
+
 export interface CreateGroupData {
   name: string;
   description: string;

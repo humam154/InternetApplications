@@ -42,7 +42,7 @@ const UserCard = (props: UserProps) => {
             <br/>
             {email}
           </p>
-          {!isMember && <button onClick={handleInvite}>Invite</button>}
+          {!isMember && gid && <button onClick={handleInvite} title={`invite user to group:${group_name}`}>Invite</button>}
         </div>
     );
 

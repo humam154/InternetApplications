@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import UsersList from './UsersList';
-import { searchUser } from '../../Services/userService';
+import { searchUser, searchUserInGroup } from '../../Services/userService';
 import UserCard, { UserProps } from './UserCard';
 
 const UsersComponent = () => {
@@ -29,7 +29,12 @@ const UsersComponent = () => {
             }
 
             try {
-                const results = await searchUser(token, '', isMember, gid);
+                var results;
+                if(gid) {
+                    results = await searchUserInGroup(token, '', isMember, gid);
+                } else {
+                    results = await searchUser(token, '');
+                }
                 setUsers(results.data);
             } catch (err) {
                 console.error("Error fetching users:", err);
@@ -63,7 +68,12 @@ const UsersComponent = () => {
         }
 
         try {
-            const results = await searchUser(token, value, isMember, gid);
+            var results;
+            if(gid){
+                results = await searchUserInGroup(token, value, isMember, gid);
+            } else {
+                results = await searchUser(token, value);
+            }
             setUsers(results.data);
         } catch (err) {
             console.error("Error searching for users:", err);

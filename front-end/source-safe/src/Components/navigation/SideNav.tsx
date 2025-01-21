@@ -43,7 +43,7 @@ const SideNav = () => {
       icon: <CgUser />,
       title: "Users",
       path: "/home/users",
-      state: {},
+      state: {gid:null, isMember: false},
     },
   );
   }

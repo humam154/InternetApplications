@@ -12,7 +12,8 @@ import InvitesPage from "./Components/invite/InvitesPage";
 import UsersComponent from "./Components/user/UsersComponent";
 import Profile from "./Components/user/Profile";
 import GroupFiles from "./Components/group/GroupFiles";
-import Home from "./Components/Home"; // Import the new Home component
+import Home from "./Components/Home";
+import Settings from "./Components/user/Settings";
 
 const App = () => {
     return (
@@ -40,7 +41,8 @@ const App = () => {
                     <Route path="profile" element={<Profile />} />
                     <Route path="inbox" element={<InvitesPage />} />
                     <Route path="outbox" element={<InvitesPage />} />
-                    <Route path="settings" element={<Login />} />
+                    <Route path="users" element={<UsersComponent />} />
+                    <Route path="settings" element={<Settings />} />
                 </Route>
             </Routes>
         </Router>

@@ -18,10 +18,11 @@ const GroupPage = () => {
   const location = useLocation();
   const state = location.state;
   const { group_name } = state;
+  const { is_owner } = state;
 
   const groupMenu: Array<TileProps> = [
     { icon: <MdFileOpen />, title: "Files", path: `/home/groups/${gid}/files`, state: { group_name } },
-    { icon: <MdVerifiedUser />, title: "Members", path: `/home/groups/${gid}/members`, state: { gid, isMember: true, group_name } },
+    { icon: <MdVerifiedUser />, title: "Members", path: `/home/groups/${gid}/members`, state: { gid, isMember: true, group_name, is_owner } },
   ];
 
   return (

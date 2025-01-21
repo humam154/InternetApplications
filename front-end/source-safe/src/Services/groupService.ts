@@ -51,3 +51,17 @@ export const deleteGroup = async (token: string, gid: number)  => {
     throw error;
   }
 };
+
+export const removeMember = async (token: string, gid: number, uid: number)  => {
+  try {
+    const response = await axios.delete(`${apiUrl}/member/${gid}/${uid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error removing member:", error);
+    throw error;
+  }
+};

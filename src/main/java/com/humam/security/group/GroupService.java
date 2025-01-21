@@ -102,6 +102,7 @@ public class GroupService {
     }
 
     public String removeMember(String token, Integer gid, Integer memberId){
+        // TODO don't remove group owner >:-(
         boolean owner = this.isGroupOwner(token, gid);
         if(owner){
             GroupMember groupMember = groupMemberRepository.findRecordByGroupIdAndUserId(gid, memberId);

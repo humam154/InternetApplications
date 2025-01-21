@@ -36,3 +36,18 @@ export const createGroup = async (token: string, data: CreateGroupData) => {
     throw error;
   }
 };
+
+
+export const deleteGroup = async (token: string, gid: number)  => {
+  try {
+    const response = await axios.delete(`${apiUrl}/delete/${gid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting group:", error);
+    throw error;
+  }
+};

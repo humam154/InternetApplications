@@ -3,10 +3,9 @@
     max-width: 800px;
     background: #56534e;
     display: flex;
-    justify-content: space-between; /* Space between left and right sections */
-    align-items: center; /* Vertically align items */
+    justify-content: space-between;
+    align-items: center;
     text-align: left;
-    padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background 0.3s ease;
@@ -45,17 +44,39 @@
     background: #0056b3;
 }
 
+.delete_button {
+    background: #716e6755;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete_button:hover {
+    background: #c73b2b95;
+}
+
+.group {
+    width: 70%;
+    padding: 20px;
+}
+
 .content {
-    flex: 1; /* Content takes up as much space as possible */
+    flex: 1;
     display: flex;
-    flex-direction: column; /* Stack content vertically */
+    flex-direction: column;
 }
 
 .owner {
     display: flex;
-    flex-direction: column; /* Stack items in the right block */
-    align-items: flex-end; /* Align items to the right */
-    text-align: right; /* Ensure text aligns to the right */
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding: 20px;
 }
 
 @media (max-width: 768px) {

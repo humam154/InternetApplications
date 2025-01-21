@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { MdRefresh } from "react-icons/md";
 
 import GroupsList from "./GroupsList";
 import { getGroups } from "../../Services/groupService";
 import GroupCard, { GroupProps } from "./GroupCard";
-import { Link, Outlet } from "react-router-dom";
+import styles from "./GroupsPage.module.css";
 
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState<GroupProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
+  
+  const fetchGroups = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setError("User is not authenticated");
@@ -27,21 +29,33 @@ const GroupsPage = () => {
         setError("Failed to fetch groups");
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    fetchGroups();
   }, []);
+  
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <Link to="newgroup">
-        <button title="create a new group">New Group</button>
-      </Link>
-      <GroupsList
-      items={groups}
-      renderer={(group) => <GroupCard key={group.gid} {...group} />}
-      />
-      <Outlet />
+    <div className={styles.container}>
+    <div className={styles.groups}>
+    <GroupsList
+            items={groups}
+            renderer={(group) => <GroupCard key={group.gid} {...group} />}
+          />
+    </div>
+      
+      <div className={styles.outlet}>
+      <button className={styles.refresh} title="refresh page" onClick={() => {window.location.reload();}}>{<MdRefresh />}</button>
+          <Link to="newgroup" className={styles.newGroup}>
+            <button title="create a new group">New Group</button>
+          </Link>
+        <Outlet />
+      </div>
     </div>
   );
 };

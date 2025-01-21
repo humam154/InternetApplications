@@ -9,101 +9,97 @@ import FilesList from '../file/FilesList';
 
 const GroupFiles = () => {
 
-        const [filter, setFilter] = useState<Filter>(Filter.NONE);
-        const [files, setFiles] = useState<FileProps[]>([]);
-        const [checkedFileIds, setCheckedFileIds] = useState<number[]>([]);
-        
-        const { gid } = useParams();
-        const location = useLocation();
-        const state = location.state;
-        const { is_owner } = state;
-        const [loading, setLoading] = useState<boolean>(true);
-        const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>(Filter.NONE);
+  const [files, setFiles] = useState<FileProps[]>([]);
+  const [checkedFileIds, setCheckedFileIds] = useState<number[]>([]);
+  
+  const { gid } = useParams();
+  const location = useLocation();
+  const state = location.state;
+  const { is_owner } = state;
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const fetchFiles = async (token: string) => {
+    try {
+      const data = await getFiles(token, gid, filter);
+      setFiles(data.data);
+    } catch (err) {
+      setError("Failed to fetch files");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("User is not authenticated");
+      setLoading(false);
+      return;
+    }
+    fetchFiles(token);
+  }, [filter]);
         
 
-        const fetchFiles = async (token: string) => {
-              try {
-                const data = await getFiles(token, gid, filter);
-                setFiles(data.data);
-              } catch (err) {
-                setError("Failed to fetch files");
-              } finally {
-                setLoading(false);
-              }
-            };
-        
-            useEffect(() => {
-              const token = localStorage.getItem("token");
-              if (!token) {
-                setError("User is not authenticated");
-                setLoading(false);
-                return;
-              }
-              fetchFiles(token);
-            }, [filter]);
-        
+const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      //TODO deal with this case, maybe redirect to login page
+      alert("Your session has ended, please log in again!");
+      return;
+    }
 
-    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const token = localStorage.getItem("token");
-  
-        if (!token) {
-          //TODO deal with this case, maybe redirect to login page
-          alert("Your session has ended, please log in again!");
-          return;
-        }
-  
-        const file = e.target.files?.[0];
-  
-        if (gid && file) {
-          const data: uploadFileData = {
-            file: file,
-            groupId: gid,
-          };
-  
-          try {
-            await uploadFile(token, data);
-            alert("File uploaded successfully!");
+    const file = e.target.files?.[0];
+    if (gid && file) {
+      const data: uploadFileData = {
+        file: file,
+        groupId: gid,
+      };
+
+      try {
+        await uploadFile(token, data);
+        alert("File uploaded successfully!");
             fetchFiles(token);
-          } catch (error) {
-            console.error("Error uploading file:", error);
-            alert("An error occurred while uploading the file.");
-          }
-        } else {
-          alert("Please select a file to upload.");
-        }
-      };
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert("An error occurred while uploading the file.");
+      }
+    } else {
+      alert("Please select a file to upload.");
+    }
+  };
   
-      const handleDownload = async () => {
-        if (checkedFileIds.length === 0) return;
-          const token = localStorage.getItem("token");
+  const handleDownload = async () => {
+    if (checkedFileIds.length === 0) return;
+      const token = localStorage.getItem("token");
+    if (!token) {
+      //TODO deal with this case, maybe redirect to login page
+      alert("Your session has ended, please log in again!");
+      return;
+    }
+
+    try {
+      await downloadManyFiles(token, checkedFileIds);
+      alert("File downloaded successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("An error occurred while uploading the file.");
+    }
+  };
   
-        if (!token) {
-          //TODO deal with this case, maybe redirect to login page
-          alert("Your session has ended, please log in again!");
-          return;
-        }
-  
-          try {
-            await downloadManyFiles(token, checkedFileIds);
-            alert("File downloaded successfully!");
-          } catch (error) {
-            console.error("Error uploading file:", error);
-            alert("An error occurred while uploading the file.");
-          }
-      };
-  
-      const disableDownloadButton = () => {
-        if(checkedFileIds.length === 0) {
-          return true;
-        }
-        return checkedFileIds.some(id => {
-          const file = files.find(file => file.id === id);
-          return file && file.in_use;
-        });
-      };
-  
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>{error}</p>;
+  const disableDownloadButton = () => {
+    if(checkedFileIds.length === 0) {
+      return true;
+    }
+    return checkedFileIds.some(id => {
+      const file = files.find(file => file.id === id);
+      return file && file.in_use;
+    });
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
   
     return (
         <div>

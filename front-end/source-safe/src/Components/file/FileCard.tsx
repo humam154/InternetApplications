@@ -45,11 +45,11 @@ const FileCard = (props: FileProps) => {
             await updateFile(token, data);
             alert("File updated successfully!");
           } catch (error) {
-            console.error("Error uploading file:", error);
-            alert("An error occurred while uploading the file.");
+            console.error("Error updating file:", error);
+            alert("An error occurred while updating the file.");
           }
         } else {
-          alert("Please select a file to upload.");
+          alert("Please select a file to update.");
         }
   };
 
@@ -66,8 +66,8 @@ const FileCard = (props: FileProps) => {
         await downloadFile(token, id);
         alert("File downloaded successfully!");
       } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("An error occurred while uploading the file.");
+        console.error("Error downloading file:", error);
+        alert("An error occurred while downloading the file.");
       }
   };
 
@@ -84,7 +84,7 @@ const FileCard = (props: FileProps) => {
       await acceptFile(token, id);
       alert("File accepted successfully!");
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error accepting file:", error);
       alert(error);
     }
 };
@@ -102,7 +102,7 @@ const handleFileReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
     await rejectFile(token, id);
     alert("File updated successfully!");
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error("Error rejecting file:", error);
     alert(error);
   }
 };
@@ -128,14 +128,14 @@ const handleFileReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
       {menuOpen && (
         <div className={styles.menu}>
           <button className={styles.menuButton} disabled={in_use ? checked_by_user ? false : true : true} onClick={() => {
-              const input = document.getElementById('fileUpload') as HTMLInputElement;
+              const input = document.getElementById('fileUpdate') as HTMLInputElement;
               if(input) {
                 input.click();
               }
             }}
             title="updating the file checks it out and unlocks it"
             >Update</button>
-          <input type="file" id="fileUpload" style={{ display: 'none' }} onChange={handleFileUpdate} />
+          <input type="file" id="fileUpdate" style={{ display: 'none' }} onChange={handleFileUpdate} />
           <button className={styles.menuButton} disabled={in_use} onClick={handleFileDownload} title="downloading the file checks it in and locks it until you update it">Download</button>
         </div>
       )}

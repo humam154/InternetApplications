@@ -1,0 +1,71 @@
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+}
+
+.groups {
+    flex-direction: column;
+    width: 70%;
+}
+
+.outlet {
+    flex-direction: row;
+}
+
+.refresh {
+    background: #41b8dc;
+    margin: 5px;
+}
+
+.newContainer {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.newGroup {
+    background: #41dc7f;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.newGroup button {
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.newGroup:hover {
+    background: #38be6e;
+    transition: background 0.3s ease;
+}
+
+input {
+    margin: 10px;
+    width: 20%;
+}
+
+.create {
+    background: #dc5641;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.create:hover {
+    background: #b54635;
+    transition: background 0.3s ease;
+}

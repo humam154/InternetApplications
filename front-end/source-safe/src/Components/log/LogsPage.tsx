@@ -11,7 +11,15 @@ interface LogProps {
   time: string
 }
 
+export enum LogsFilter {
+  NONE = '',
+  GROUPS = 'GROUPS',
+  FILES = 'FILES',
+  INVITES = 'INVITES'
+}
+
 const LogsPage = () => {
+    const [filter, setFilter] = useState<LogsFilter>(LogsFilter.NONE);
     const [logs, setLogs] = useState<LogProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -39,7 +47,7 @@ const LogsPage = () => {
      try {
        var logs;
    
-       logs = await getLogs(token, page);
+       logs = await getLogs(token, page, filter);
        
        setTotalPages(logs.totalPages);
        setLogs(logs.content);
@@ -53,7 +61,7 @@ const LogsPage = () => {
   
     useEffect(() => {
       fetchLogs();
-    }, [page]);
+    }, [page, filter]);
 
 
   if (loading) return <p>Loading...</p>;
@@ -91,7 +99,14 @@ const LogsPage = () => {
             handlePrevPage={handlePrevPage}
             handleNextPage={handleNextPage}
           />
+          <div className={styles.dropdown}>
+                
+            <button onClick={() => setFilter(LogsFilter.NONE)} disabled={filter == LogsFilter.NONE} title="list all logs">All</button>
+            <button onClick={() => setFilter(LogsFilter.GROUPS)} disabled={filter == LogsFilter.GROUPS} title="list groups logs">Groups</button>
+            <button onClick={() => setFilter(LogsFilter.FILES)} disabled={filter == LogsFilter.FILES} title="list files logs">Files</button>
+            <button onClick={() => setFilter(LogsFilter.INVITES)} disabled={filter == LogsFilter.INVITES} title="list invites logs">Invites</button>
         </div>
+      </div>
     );
 }
 

@@ -58,6 +58,7 @@ import { confirmEmail, resendCode } from '../../Services/authService';
     
        try {
            const responseData = await confirmEmail(email, parseInt(code));
+           localStorage.setItem('token', JSON.parse(JSON.stringify(responseData.data.token)));
            navigate('/home');
         } catch (err: any) {
             setError(err.message);

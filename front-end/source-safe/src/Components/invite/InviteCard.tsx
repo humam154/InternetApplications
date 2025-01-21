@@ -11,28 +11,28 @@ interface InviteProps {
   invite_date: Date;
 }
 
-const handleAccept = (id: number) => {
+const handleAccept = async (id: number) => {
   const token = localStorage.getItem("token");
   if (!token) {
     return;
   }
-  accept(token, id);
+  await accept(token, id);
 };
 
-const handleReject = (id: number) => {
+const handleReject = async (id: number) => {
   const token = localStorage.getItem("token");
   if (!token) {
     return;
   }
-  reject(token, id);
+  await reject(token, id);
 };
 
-const handleRevoke = (id: number) => {
+const handleRevoke = async (id: number) => {
     const token = localStorage.getItem("token");
     if (!token) {
       return;
     }
-    revoke(token, id);
+    await revoke(token, id);
 };
 
 const InviteCard = (props: InviteProps) => {

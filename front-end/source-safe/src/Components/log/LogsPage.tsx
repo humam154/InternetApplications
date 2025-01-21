@@ -99,8 +99,7 @@ const LogsPage = () => {
             handlePrevPage={handlePrevPage}
             handleNextPage={handleNextPage}
           />
-          <div className={styles.dropdown}>
-                
+          <div className={styles.filters}>
             <button onClick={() => setFilter(LogsFilter.NONE)} disabled={filter == LogsFilter.NONE} title="list all logs">All</button>
             <button onClick={() => setFilter(LogsFilter.GROUPS)} disabled={filter == LogsFilter.GROUPS} title="list groups logs">Groups</button>
             <button onClick={() => setFilter(LogsFilter.FILES)} disabled={filter == LogsFilter.FILES} title="list files logs">Files</button>

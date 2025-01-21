@@ -19,6 +19,7 @@ const Pagination = (props: Props) => {
         className={styles.paginationButton}
         onClick={() => handlePrevPage(currentPage)}
         disabled={currentPage === 1}
+        title="previous page"
       >
         &larr;
       </button>
@@ -31,6 +32,7 @@ const Pagination = (props: Props) => {
         className={styles.paginationButton}
         onClick={() => handleNextPage(currentPage)}
         disabled={currentPage === totalPages}
+        title="next page"
       >
        &rarr;
       </button>

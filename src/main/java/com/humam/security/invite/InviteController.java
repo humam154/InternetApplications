@@ -96,7 +96,7 @@ public class InviteController {
         if(invites.isEmpty()) {
             return ResponseEntity.ok(GenericResponse.empty("Wow, such empty! You do not have pending invitations."));   
         }
-        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retireved successfully"));
+        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retrieved successfully"));
     }
 
     @GetMapping("/outbox")
@@ -109,6 +109,6 @@ public class InviteController {
         if(invites.isEmpty()) {
             return ResponseEntity.ok(GenericResponse.empty("Wow, such empty! You do not have pending invitations."));   
         }
-        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retireved successfully"));
+        return ResponseEntity.ok(GenericResponse.success(invites, "Pending invitations retrieved successfully"));
     }
 }

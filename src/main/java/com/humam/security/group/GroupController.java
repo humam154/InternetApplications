@@ -40,33 +40,23 @@ public class GroupController {
         return ResponseEntity.ok(GenericResponse.success(response, "Group Created Successfully!"));
     }
 
-    @DeleteMapping("/{gid}")
+    @DeleteMapping("/delete/{gid}")
     public ResponseEntity<GenericResponse<Object>> delete(
-            @PathVariable @NotNull @Min(1) Integer gid
+        // idk why but adding this fixed everything
+        @RequestHeader("Authorization") String token,
+        @PathVariable @NotNull @Min(1) Integer gid
     )
     {
-        try {
-            var isDeleted = (Object) groupService.delete(gid);
-            return ResponseEntity.ok(GenericResponse.success(isDeleted, "Group deleted successfully"));
-        }
-        catch (IllegalStateException illegalStateException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GenericResponse.error(illegalStateException.getMessage()));
-        }
-        catch (IllegalArgumentException illegalArgumentException) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GenericResponse.error(illegalArgumentException.getMessage()));
-        }
-        catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
-        }
-
+        boolean isDeleted = groupService.delete(gid);
+        return ResponseEntity.ok(GenericResponse.empty("Group deleted successfully"));
     }
 
     @GetMapping("/")
     public ResponseEntity<GenericResponse<List<GroupResponse>>> groups(
         @RequestHeader("Authorization") String token
-        ) 
-        {
-            List<GroupResponse> groups = groupService.groups(token);
+    ) 
+    {
+        List<GroupResponse> groups = groupService.groups(token);
         return ResponseEntity.ok(GenericResponse.success(groups, "Groups retrieved successfully"));
     }
 

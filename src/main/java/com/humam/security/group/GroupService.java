@@ -70,7 +70,7 @@ public class GroupService {
             int membersCount = groupMemberRepository.numOfMembers(gid);
 
             if(membersCount > 0) {
-                groupRepository.deleteById(gid);
+                groupRepository.delete(group.get());
                 return true;
             } else {
                 throw new IllegalStateException("group has members");

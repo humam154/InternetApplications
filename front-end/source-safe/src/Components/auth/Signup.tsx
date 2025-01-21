@@ -68,7 +68,7 @@ const Signup = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdAlternateEmail /></div>
-                    <input 
+                    <input className={styles.signupinput}
                         type="email" 
                         placeholder='Email' 
                         value={email} 
@@ -78,7 +78,7 @@ const Signup = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdPassword /></div>
-                    <input 
+                    <input className={styles.signupinput}
                         id='password'
                         type= {showPassword ? "text" : "password"} 
                         placeholder='Password' 
@@ -94,7 +94,7 @@ const Signup = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdPassword /></div>
-                    <input 
+                    <input className={styles.signupinput}
                         id='password'
                         type= {showPassword ? "text" : "password"} 
                         placeholder='Confirm Password' 

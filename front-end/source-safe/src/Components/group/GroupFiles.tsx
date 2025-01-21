@@ -20,6 +20,7 @@ const GroupFiles = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   
+  console.log(`is owner ${is_owner}`)
   const fetchFiles = async (token: string) => {
     try {
       const data = await getFiles(token, gid, filter);
@@ -113,29 +114,29 @@ const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
           
             <div className={styles.filterButtons}>
                       
-                    <button onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE} title="list all files in group">All</button>
-                    <button onClick={() => setFilter(Filter.IN_USE)} disabled={filter == Filter.IN_USE || filter == Filter.IN_USE_BY_ME} title="list only files in use">In-Use</button>
+                    <button className={styles.filter} onClick={() => setFilter(Filter.NONE)} disabled={filter == Filter.NONE} title="list all files in group">All</button>
+                    <button className={styles.filter} onClick={() => setFilter(Filter.IN_USE)} disabled={filter == Filter.IN_USE || filter == Filter.IN_USE_BY_ME} title="list only files in use">In-Use</button>
     
-                {is_owner && (
+              {is_owner && (
                   <>
-                    <button onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING} title="list files that have not been accepted yet">Pending</button>
-                    <button onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED} title="list only accepted files">Accepted</button>
+                    <button className={styles.filter} onClick={() => setFilter(Filter.PENDING)} disabled={filter == Filter.PENDING} title="list files that have not been accepted yet">Pending</button>
+                    <button className={styles.filter} onClick={() => setFilter(Filter.ACCEPTED)} disabled={filter == Filter.ACCEPTED} title="list only accepted files">Accepted</button>
                   </>
                 )}
             </div>
 
-            <button onClick={handleDownload} disabled={disableDownloadButton()} title={disableDownloadButton() ? "download many files after selecting" : "download selected files"}>
+            <button className={styles.filter} onClick={handleDownload} disabled={disableDownloadButton()} title={disableDownloadButton() ? "download many files after selecting" : "download selected files"}>
                 Download Files
             </button>
 
             {(filter == Filter.IN_USE || filter == Filter.IN_USE_BY_ME)  && 
-            <>
+            <div className={styles.checkbox}>
             In-Use by You
             <input type="checkbox"
               onChange={() => {filter == Filter.IN_USE_BY_ME? setFilter(Filter.IN_USE) : setFilter(Filter.IN_USE_BY_ME)}} 
               title="list only files in use by you"
               />
-            </>
+            </div>
             }
 
           <FilesList

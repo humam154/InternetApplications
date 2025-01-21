@@ -59,7 +59,7 @@ const Login: React.FC = () => {
             <form onSubmit={handleSubmit} className={styles.inputs}>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdAlternateEmail /></div>
-                    <input 
+                    <input className={styles.logininput}
                         type="email" 
                         placeholder='Email' 
                         value={email} 
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdPassword /></div>
-                    <input 
+                    <input className={styles.logininput}
                         id='password'
                         type={showPassword ? "text" : "password"} 
                         placeholder='Password' 

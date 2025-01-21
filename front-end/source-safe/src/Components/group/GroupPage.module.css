@@ -62,6 +62,24 @@
     overflow-y: auto;
 }
 
+.filter {
+    background-color: #383644;
+    margin: 10px;
+}
+
+.filter:hover {
+    background-color: #292833;
+    transition: background 0.3s ease;
+}
+.filter:disabled {
+    background-color: #292833;
+    border-color: #383644;
+}
+
+.checkbox {
+    display: flex;
+}
+
 .content {
     flex-grow: 1;
     overflow-y: auto;

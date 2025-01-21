@@ -21,7 +21,7 @@ const GroupPage = () => {
   const { is_owner } = state;
 
   const groupMenu: Array<TileProps> = [
-    { icon: <MdFileOpen />, title: "Files", path: `/home/groups/${gid}/files`, state: { group_name } },
+    { icon: <MdFileOpen />, title: "Files", path: `/home/groups/${gid}/files`, state: { group_name, is_owner } },
     { icon: <MdVerifiedUser />, title: "Members", path: `/home/groups/${gid}/members`, state: { gid, isMember: true, group_name, is_owner } },
   ];
 

@@ -69,9 +69,15 @@ tr:hover {
 
 .filters button {
     background-color: #383644;
+    margin: 10px;
 }
 
 .filters button:hover {
     background-color: #292833;
     transition: background 0.3s ease;
+}
+
+.filters button:disabled {
+    background-color: #292833;
+    border-color: #383644;
 }

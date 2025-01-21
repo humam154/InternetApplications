@@ -68,7 +68,7 @@ const PasswordReset = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdAlternateEmail /></div>
-                    <input 
+                    <input className={styles.passinput}
                         type="email" 
                         placeholder='Email' 
                         value={email} 
@@ -78,7 +78,7 @@ const PasswordReset = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdPassword /></div>
-                    <input 
+                    <input className={styles.passinput}
                         id='password'
                         type= {showPassword ? "text" : "password"} 
                         placeholder='Password' 
@@ -94,7 +94,7 @@ const PasswordReset = () => {
                 </div>
                 <div className={styles.input}>
                     <div className={styles.icon}><MdPassword /></div>
-                    <input 
+                    <input className={styles.passinput}
                         id='password'
                         type= {showPassword ? "text" : "password"} 
                         placeholder='Confirm Password' 

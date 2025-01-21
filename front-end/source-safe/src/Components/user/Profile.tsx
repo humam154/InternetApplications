@@ -66,7 +66,7 @@ const Profile = () => {
                     title="last name"
                 />
                 <p>Email:</p>
-                <input 
+                <input className={styles.passinput}
                     type="email" 
                     placeholder='Email' 
                     value={email} 

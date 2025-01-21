@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.humam.security.utils.GenericResponse;
@@ -82,6 +83,23 @@ public class GroupController {
         }
         catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GenericResponse.error(e.getMessage()));
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
+        }
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponse<List<GroupResponse>>> getAllGroups(
+            @RequestHeader("Authorization") String token
+    ) {
+        try{
+            var response = groupService.getAllGroups(token);
+            return ResponseEntity.ok(GenericResponse.success(response, "groups fetched successfully"));
+        }
+        catch (IllegalStateException | IllegalArgumentException exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GenericResponse.error(exception.getMessage()));
         }
         catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));

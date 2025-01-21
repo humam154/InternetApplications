@@ -38,23 +38,17 @@ public class LogController {
 
     @GetMapping("/{type}")
     @PreAuthorize("hasAuthority('logs:read')")
-    public ResponseEntity<GenericResponse<List<LogResponse>>> getLogsByType(
+    public Page<LogResponse> getLogsByType(
             @RequestHeader("Authorization") String token,
-            @PathVariable LogType type
+            @PathVariable LogType type,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending
     ) {
-        try{
-            var logs = logService.getByType(token, type);
-            return ResponseEntity.ok(GenericResponse.success(logs, "logs fetched successfully"));
-        }
-        catch (IllegalArgumentException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    GenericResponse.error(exception.getMessage())
-            );
-        }
-        catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    GenericResponse.error(exception.getMessage())
-            );
-        }
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return logService.getByType(token, type, pageable);
     }
 }

@@ -38,7 +38,7 @@ public class LogService {
         return new PageImpl<>(logsList, pageable, logs.getTotalElements());
     }
 
-    public List<LogResponse> getByType(String token, LogType type){
+    public Page<LogResponse> getByType(String token, LogType type, Pageable pageable){
         String cleanedToken = token.replaceFirst("^Bearer", "").trim();
 
         var tokenEntity = tokenRepository.findByToken(cleanedToken)
@@ -46,15 +46,17 @@ public class LogService {
 
         var user = tokenEntity.getUser();
 
-        List<Log> logs = logRepository.findByType(type);
+        Page<Log> logs = logRepository.findByType(type, pageable);
 
-        return logs.stream().map(
-                log -> LogResponse.builder()
+        
+        List<LogResponse> logsList = logs.getContent().stream()
+                .map(log -> LogResponse.builder()
                         .id(log.getId())
                         .action(log.getAction())
                         .userName(user.fullName())
                         .time(log.getTimestamp())
-                        .build()
-        ).toList();
+                        .build()).toList();
+
+        return new PageImpl<>(logsList, pageable, logs.getTotalElements());
     }
 }

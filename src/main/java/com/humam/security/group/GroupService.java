@@ -1,5 +1,6 @@
 package com.humam.security.group;
 
+import com.humam.security.user.Role;
 import com.humam.security.user.User;
 
 import java.time.Instant;
@@ -14,6 +15,8 @@ import com.humam.security.groupmember.GroupMemberRepository;
 import com.humam.security.token.TokenRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.humam.security.user.Role.*;
 
 @Service
 @RequiredArgsConstructor
@@ -110,6 +113,31 @@ public class GroupService {
             return "removed successfully";
         } else {
             throw new IllegalStateException("not group owner");
+        }
+    }
+
+    public List<GroupResponse> getAllGroups(String token) {
+        token = token.replaceFirst("^Bearer ", "");
+        User user = tokenRepository.findByToken(token).orElseThrow(
+                () -> new IllegalArgumentException("Invalid token")
+        ).getUser();
+
+        if(user.getRole() == ADMIN) {
+            List<Group> groups = groupRepository.findAll();
+
+            return groups.stream().map( group -> GroupResponse.builder()
+                    .gid(group.getId())
+                    .name(group.getName())
+                    .description(group.getDescription())
+                    .isOwner(group.getCreatedBy().getId() == user.getId() ? true : false)
+                    .owner(group.getCreatedBy().getFirst_name() + " " + group.getCreatedBy().getLast_name())
+                    .creation_date(group.getCreationDate())
+                    .numMembers(groupMemberRepository.numOfMembers(group.getId()))
+                    .build()
+
+            ).toList();
+        } else {
+            throw new IllegalStateException("not admin");
         }
     }
 }

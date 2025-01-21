@@ -44,7 +44,7 @@ export const confirmEmail = async (email: string, code: number) => {
     try {
         const response = await axios.get(`${apiUrl}/activate-account`,
             {
-                params: code
+                params: {code}
             }
         );
 
@@ -94,5 +94,20 @@ export const resendCode =  async (email: string) => {
 
       } catch (error: any) {
         console.error('Verification failed:', error.response?.data || error.message);
+      }
+}
+
+export const logout =  async (token: string) => {
+    try {
+        const response = await axios.get(`${apiUrl}/logout`,
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+
+      } catch (error: any) {
+        console.error('logout failed:', error.response?.data || error.message);
       }
 }

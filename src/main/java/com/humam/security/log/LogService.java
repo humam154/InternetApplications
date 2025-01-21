@@ -2,6 +2,10 @@ package com.humam.security.log;
 
 import com.humam.security.token.TokenRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,28 +18,29 @@ public class LogService {
     private final TokenRepository tokenRepository;
 
 
-    public List<LogResponse> getLogs(String token){
+    public Page<LogResponse> getLogs(String token, Pageable pageable){
         String cleanedToken = token.replaceFirst("^Bearer", "").trim();
         var tokenEntity = tokenRepository.findByToken(cleanedToken)
                 .orElseThrow(() -> new IllegalArgumentException("invalid token"));
 
         var user = tokenEntity.getUser();
 
-        List<Log> logs = logRepository.findAll();
+        Page<Log> logs = logRepository.findAll(pageable);
 
-        return logs.stream().map(
-                log -> LogResponse.builder()
+        List<LogResponse> logsList = logs.getContent().stream()
+                .map(log -> LogResponse.builder()
+                        .id(log.getId())
                         .action(log.getAction())
                         .userName(user.fullName())
                         .time(log.getTimestamp())
-                        .build()
-        ).toList();
+                        .build()).toList();
+
+        return new PageImpl<>(logsList, pageable, logs.getTotalElements());
     }
 
     public List<LogResponse> getByType(String token, LogType type){
         String cleanedToken = token.replaceFirst("^Bearer", "").trim();
 
-        // Find the token in the repository
         var tokenEntity = tokenRepository.findByToken(cleanedToken)
                 .orElseThrow(() -> new IllegalArgumentException("invalid token"));
 
@@ -45,6 +50,7 @@ public class LogService {
 
         return logs.stream().map(
                 log -> LogResponse.builder()
+                        .id(log.getId())
                         .action(log.getAction())
                         .userName(user.fullName())
                         .time(log.getTimestamp())

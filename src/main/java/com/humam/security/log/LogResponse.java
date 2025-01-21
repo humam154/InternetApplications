@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LogResponse {
 
+    @JsonProperty("id")
+    private Integer id;
+
     @JsonProperty("action")
     private String action;
 

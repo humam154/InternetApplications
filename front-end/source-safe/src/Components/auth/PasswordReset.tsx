@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { MdAlternateEmail, MdPassword, MdVisibility, MdVisibilityOff, MdNumbers } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./PasswordReset.module.css";
@@ -49,6 +49,7 @@ const PasswordReset = () => {
             </div>
             <form onSubmit={handleSubmit} className={styles.inputs}>
                 <div className={styles.inputgroup}>
+                <div className={styles.icon}><MdNumbers /></div>
                 <input 
                     className={styles.code}
                     type="text" 

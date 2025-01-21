@@ -41,6 +41,9 @@
     position: relative;
     display: flex;
     margin-bottom: 15px;
+    align-self: center;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 .fname {
@@ -58,23 +61,24 @@
 .input {
     position: relative;
     margin-bottom: 15px;
+    display: flex;
+    align-self: center;
 }
 
 .icon {
     position: absolute;
-    left: 10px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .showHide {
-    border: false;
+    border: none;
     background: transparent;
     padding: 0;
     position: absolute;
     right: 20px;
-    transform: translateY(50%);
-
+    transform: translateY(100%);
 }
 
 input {

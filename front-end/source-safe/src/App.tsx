@@ -14,6 +14,7 @@ import Profile from "./Components/user/Profile";
 import GroupFiles from "./Components/group/GroupFiles";
 import Home from "./Components/Home";
 import Settings from "./Components/user/Settings";
+import LogsPage from "./Components/log/LogsPage";
 
 const App = () => {
     return (
@@ -42,6 +43,7 @@ const App = () => {
                     <Route path="inbox" element={<InvitesPage />} />
                     <Route path="outbox" element={<InvitesPage />} />
                     <Route path="users" element={<UsersComponent />} />
+                    <Route path="logs" element={<LogsPage />} />
                     <Route path="settings" element={<Settings />} />
                 </Route>
             </Routes>

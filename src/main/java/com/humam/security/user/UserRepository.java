@@ -29,4 +29,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.activationCode = :code")
     Optional<User> findByCode(@Param("code") String code);
 
+    @Query("SELECT u FROM User u WHERE u.role = :role")
+    Optional<User> findAdmin(Role role);
+
 }

@@ -27,4 +27,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Intege
     
     @Query("SELECT u FROM User u WHERE u.id NOT IN (SELECT gm.user.id FROM GroupMember gm WHERE gm.group.id = :groupId)")
     List<User> findAllNonMembers(@Param("groupId") Integer groupId);
+
+    @Query("SELECT gm FROM GroupMember gm WHERE gm.group.id = :groupId AND gm.user.id = :userId")
+    GroupMember findRecordByGroupIdAndUserId(Integer groupId, Integer userId);
 }

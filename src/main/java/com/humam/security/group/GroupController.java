@@ -69,5 +69,23 @@ public class GroupController {
             List<GroupResponse> groups = groupService.groups(token);
         return ResponseEntity.ok(GenericResponse.success(groups, "Groups retrieved successfully"));
     }
+
+    @DeleteMapping("/member/{gid}/{uid}")
+    public ResponseEntity<GenericResponse<Object>> deleteMember(
+            @RequestHeader("Authorization") String token,
+            @PathVariable @NotNull @Min(1) Integer gid,
+            @PathVariable @NotNull @Min(1) Integer uid
+    ) {
+        try{
+            String response = groupService.removeMember(token, gid, uid);
+            return ResponseEntity.ok(GenericResponse.success(response, "Member deleted successfully"));
+        }
+        catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GenericResponse.error(e.getMessage()));
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GenericResponse.error(exception.getMessage()));
+        }
+    }
     
 }

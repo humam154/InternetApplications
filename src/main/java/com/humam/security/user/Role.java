@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static com.humam.security.user.Permission.*;
 
+@Getter
 @RequiredArgsConstructor
 public enum Role {
     USER(
@@ -57,7 +58,6 @@ public enum Role {
     )
     ;
 
-    @Getter
     private final Set<Permission> permission;
 
     public List<SimpleGrantedAuthority> getAuthorities() {

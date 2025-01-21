@@ -6,7 +6,7 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         show-sql: true
         properties:
           hibernate:
@@ -51,6 +51,9 @@ logging:
     level:
         com.humam.security.aspect.FileUploadAspect: info
         com.humam.security.aspect.FileDownloadAspect: info
+    logback:
+        rollingpolicy:
+            enabled: false
 
 
 

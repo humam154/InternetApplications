@@ -12,8 +12,8 @@ Source Safe -  File Management System
 - `/auth`
     - [X] `/register`
     - [X] `/authenticate`
-    - [ ] `/confirmemail`
-    - [ ] `/forgotpassword`
+    - [x] `/confirmemail`
+    - [x] `/forgotpassword`
 
 - `/user`
     - [X] `/profile`
@@ -42,7 +42,7 @@ Source Safe -  File Management System
     - [X] `/isOwner`
     - [X] `/create`
     - [X] `/delete/{gid}`
-    - [ ] `/removemember`
+    - [X] `/removemember`
     - [ ] `/search?q=`
 
 - `/invitations`
@@ -54,5 +54,6 @@ Source Safe -  File Management System
     - [X] `/outbox`
     - [ ] `/search?q=`
     
-- [ ] `/logs`
-    ...
+- [x] `/logs`
+  - [X] `/`
+  - [X] `/{TYPE}`

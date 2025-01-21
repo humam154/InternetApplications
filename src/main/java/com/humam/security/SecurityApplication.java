@@ -2,16 +2,18 @@ package com.humam.security;
 
 import com.humam.security.auth.AuthenticationService;
 import com.humam.security.auth.RegisterRequest;
+import com.humam.security.user.Role;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import java.util.Optional;
 
 import static com.humam.security.user.Role.ADMIN;
 
@@ -31,6 +33,12 @@ public class SecurityApplication {
 			UserRepository userRepository
 	)
 	{
+		Optional<User> exists = userRepository.findAdmin(ADMIN);
+		if (exists.isPresent()) {
+			return args -> {
+
+			};
+		}
 		return args -> {
 			var registerRequest = RegisterRequest.builder()
 					.first_name("admin")

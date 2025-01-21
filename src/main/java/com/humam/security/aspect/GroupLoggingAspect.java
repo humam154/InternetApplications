@@ -45,7 +45,7 @@ public class GroupLoggingAspect {
         sb.append("\ttook: ");
 
         Log log = Log.builder()
-                .action("Operation on groups")
+                .action("Operation: " + joinPoint.getSignature().getName() + "  On Groups")
                 .user(user)
                 .logType(GROUPS)
                 .timestamp(LocalDateTime.now())

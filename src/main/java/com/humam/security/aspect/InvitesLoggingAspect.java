@@ -45,7 +45,7 @@ public class InvitesLoggingAspect {
         sb.append("\ttook: ");
 
         Log log = Log.builder()
-                .action("Operation on invites")
+                .action("Operation: " + joinPoint.getSignature().getName() + " On Invites")
                 .user(user)
                 .logType(INVITES)
                 .timestamp(LocalDateTime.now())

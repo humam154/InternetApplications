@@ -44,7 +44,7 @@ public class FileLoggingAspect {
         sb.append("\ttook: ");
 
         Log log = Log.builder()
-                .action("Operation on files")
+                .action("Operation: " + joinPoint.getSignature().getName() + " On Files")
                 .user(user)
                 .logType(FILES)
                 .timestamp(LocalDateTime.now())

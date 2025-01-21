@@ -3,6 +3,7 @@ package com.humam.security.user;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum Permission {
 
@@ -33,6 +34,5 @@ public enum Permission {
     ;
 
 
-    @Getter
     private final String permission;
 }

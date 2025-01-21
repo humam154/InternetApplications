@@ -75,8 +75,8 @@ const Profile = () => {
                     title="email address"
                 />
             </div>
-            <button onClick={handleProfileUpdate} disabled={!isEditing}>Save</button>
-            <button onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</button>
+            <button className={styles.save} onClick={handleProfileUpdate} disabled={!isEditing}>Save</button>
+            <button className={isEditing? styles.cancel : styles.edit} onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</button>
 
             {error && <div className={styles.error}>{error}</div>}
             </div>

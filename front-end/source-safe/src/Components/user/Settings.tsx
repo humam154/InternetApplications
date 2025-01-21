@@ -48,7 +48,7 @@ const Settings = () => {
     return (
         <div>
             <div>
-                <button onClick={handleLogOut}>
+                <button className={styles.logout} onClick={handleLogOut}>
                     Log Out {<MdLogout />}
                 </button>
 
@@ -87,8 +87,8 @@ const Settings = () => {
                     disabled={!isPasswordEditing}
                 />
             </div>
-            <button onClick={handlePasswordChange} disabled={!isPasswordEditing}>Save</button>
-            <button onClick={() => setIsPasswordEditing(!isPasswordEditing)}>{isPasswordEditing? 'Cancel' : 'Change password'}</button>
+            <button className={styles.save} onClick={handlePasswordChange} disabled={!isPasswordEditing}>Save</button>
+            <button className={isPasswordEditing? styles.cancel : styles.edit} onClick={() => setIsPasswordEditing(!isPasswordEditing)}>{isPasswordEditing? 'Cancel' : 'Change password'}</button>
             {error && <div className={styles.error}>{error}</div>}
                 </div>
             </div>

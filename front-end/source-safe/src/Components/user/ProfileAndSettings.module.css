@@ -53,6 +53,10 @@ input {
     font-size: 16px;
 }
 
+input:disabled {
+    color: #fff;
+}
+
 button {
     font-size: medium;
 }
@@ -62,4 +66,43 @@ button {
     font-weight: normal;
     color: red;
     margin-bottom: 15px;
+}
+.logout {
+    color: #fff;
+    margin: 10px;
+    background: rgb(176, 91, 0);
+}
+
+.save {
+    color: #fff;
+    margin: 10px;
+    background: rgb(32, 103, 169);
+}
+
+.save:hover {
+    background: rgb(37, 117, 192);
+}
+
+.save:disabled {
+    border: none;
+    color: #ccc;
+    background: rgb(40, 54, 67);
+}
+
+.edit {
+    margin: 10px;
+    color: #fff;
+    background: rgb(32, 169, 133);
+}
+.edit:hover {
+    background: rgb(40, 211, 166);
+}
+
+.cancel {
+    margin: 10px;
+    color: #fff;
+    background: rgb(125, 63, 47);
+}
+.cancel:hover {
+    background: rgb(157, 80, 60);
 }

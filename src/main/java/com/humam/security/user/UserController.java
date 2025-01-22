@@ -1,13 +1,18 @@
 package com.humam.security.user;
 
+import com.humam.security.report.ReportService;
 import com.humam.security.utils.GenericResponse;
 
+import com.itextpdf.text.DocumentException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     private final UserService service;
+    private final ReportService reportService;
 
     @GetMapping("/profile")
     public ResponseEntity<GenericResponse<UpdateProfileResponse>> getProfile(
@@ -75,4 +81,29 @@ public class UserController {
         }
     }
 
-}
+    @GetMapping("/most-active-user")
+    public ResponseEntity<byte[]> downloadMostActiveUserReport() throws IOException, DocumentException {
+        byte[] pdfBytes = reportService.generateMostActiveUserReport();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "most_active_user_report.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
+    }
+
+    @GetMapping("/most-active-group")
+    public ResponseEntity<byte[]> generateAndSaveMostActiveGroupReport(
+            @RequestParam(required = false) String filePath) throws IOException, DocumentException {
+        byte[] pdfBytes = reportService.generateMostActiveGroupReport();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "most_active_user_report.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
+    }}

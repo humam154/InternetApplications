@@ -2,7 +2,6 @@ package com.humam.security;
 
 import com.humam.security.auth.AuthenticationService;
 import com.humam.security.auth.RegisterRequest;
-import com.humam.security.user.Role;
 import com.humam.security.user.User;
 import com.humam.security.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Optional;
 
@@ -21,6 +21,7 @@ import static com.humam.security.user.Role.ADMIN;
 @EnableJpaAuditing
 @EnableAsync
 @EnableAspectJAutoProxy()
+@EnableScheduling
 public class SecurityApplication {
 
 	public static void main(String[] args) {

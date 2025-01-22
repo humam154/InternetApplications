@@ -2,7 +2,6 @@ package com.humam.security.aspect;
 
 import com.humam.security.log.Log;
 import com.humam.security.log.LogRepository;
-import com.humam.security.log.LogType;
 import com.humam.security.token.TokenRepository;
 import com.humam.security.user.User;
 import lombok.AllArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 import static com.humam.security.log.LogType.INVITES;
+import static com.humam.security.user.Role.*;
 
 @Aspect
 @Component
@@ -37,6 +37,10 @@ public class InvitesLoggingAspect {
         String token = (String) args[0];
         User user = tokenRepository.findByToken(token.replaceFirst("^Bearer ", ""))
                 .orElseThrow(() -> new IllegalArgumentException("invalid token")).getUser();
+
+        if(user.getRole() == ADMIN) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder("invites Custom Logging:");
         sb.append("[").append(joinPoint.getKind()).append("]'\tfor: ").append(joinPoint.getSignature())

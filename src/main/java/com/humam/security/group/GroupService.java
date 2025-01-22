@@ -105,12 +105,16 @@ public class GroupService {
     }
 
     public String removeMember(String token, Integer gid, Integer memberId){
-        // TODO don't remove group owner >:-(
+
         boolean owner = this.isGroupOwner(token, gid);
         if(owner){
-            GroupMember groupMember = groupMemberRepository.findRecordByGroupIdAndUserId(gid, memberId);
-            groupMemberRepository.delete(groupMember);
-            return "removed successfully";
+            if(gid != memberId) {
+                GroupMember groupMember = groupMemberRepository.findRecordByGroupIdAndUserId(gid, memberId);
+                groupMemberRepository.delete(groupMember);
+                return "removed successfully";
+            } else {
+                throw new IllegalStateException("can't remove the owner");
+            }
         } else {
             throw new IllegalStateException("not group owner");
         }

@@ -48,7 +48,7 @@
 
 .icon {
     position: absolute;
-    left: 18px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -59,7 +59,7 @@
     padding: 0;
     position: absolute;
     right: 20px;
-    transform: translateY(100%);
+    transform: translateY(50%);
 }
 
 .logininput {

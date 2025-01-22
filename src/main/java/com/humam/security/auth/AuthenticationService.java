@@ -74,7 +74,6 @@ public class AuthenticationService {
 
     private void sendValidationEmail(User user) throws MessagingException {
         var activationCode = generateAndSaveActivationCode(user);
-        activationUrl = activationUrl + "?code=" + activationCode;
         emailService.sendEmail(
                 user.getEmail(),
                 user.fullName(),

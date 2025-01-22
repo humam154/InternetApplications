@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -81,6 +82,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/most-active-user")
     public ResponseEntity<byte[]> downloadMostActiveUserReport() throws IOException, DocumentException {
         byte[] pdfBytes = reportService.generateMostActiveUserReport();
@@ -94,6 +96,7 @@ public class UserController {
                 .body(pdfBytes);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/most-active-group")
     public ResponseEntity<byte[]> generateAndSaveMostActiveGroupReport(
             @RequestParam(required = false) String filePath) throws IOException, DocumentException {

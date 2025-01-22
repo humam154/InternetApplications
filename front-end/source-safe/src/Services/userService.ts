@@ -85,3 +85,40 @@ export const changePassword = async (token: string, data: passwordData) => {
     throw error;
   }
 };
+
+export const downloadReport = async (token: string, type: string) => {
+  try {
+    const response = await axios.get(`${apiUrl}/most-active-${type}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+
+      withCredentials: true
+    });
+
+    const contentDisposition = response.headers['content-disposition'];
+    let filename = 'downloaded_file';
+
+    if (contentDisposition && contentDisposition.includes('attachment; filename=')) {
+      const matches = contentDisposition.match(/filename[^;=\n]*=((['"]).*?2|[^;\n]*)/);
+      if (matches != null && matches[1]) {
+        filename = matches[1].replace(/['"]/g, '');
+      }
+    }
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error fetching file:", error);
+    throw error;
+  }
+};
